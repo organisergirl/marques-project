@@ -1,0 +1,3 @@
+[submodule "marques/libraries/lithium"]
+	path = marques/libraries/lithium
+	url = git://github.com/UnionOfRAD/lithium.git
