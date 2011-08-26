@@ -20,6 +20,12 @@ use lithium\net\http\Router;
 use lithium\core\Environment;
 
 /**
+ * add custom routes for the MARQUes system
+ */
+Router::connect('/login', 'Sessions::add');
+Router::connect('/logout', 'Sessions::delete');
+
+/**
  * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
  * its action called `view()`, and we pass a param to select the view file
  * to use (in this case, `/views/pages/home.html.php`; see `app\controllers\PagesController`
