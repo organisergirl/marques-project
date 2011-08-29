@@ -46,6 +46,11 @@ class Users extends \lithium\data\Model {
 			
 			$conditions = array('username' => $value);
 			
+			// if editing the user skip the validation check
+			if(isset($options["values"]["id"])) {
+				$conditions[] = "id != " . $options["values"]["id"];
+			}
+			
 			return !Users::find('first', array('conditions' => $conditions));
 			
 		});

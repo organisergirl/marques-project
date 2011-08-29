@@ -104,6 +104,27 @@ class UsersController extends \lithium\action\Controller {
 */
     	
     } 
+    
+    /**
+     * edit a user record
+     */
+    public function edit($id = null) {
+    
+    	$id = (int)$id;
+    	$user = Users::find($id);
+    	
+    	if(empty($user)) {
+    		return $this->redirect('Users::index');
+    	}
+    	
+    	if($this->request->data){
+    		if($user->save($this->request->data)) {
+    			return $this->redirect('Users::index');
+    		}
+    	}
+    	
+    	return compact('user');
+    }
 }
 
 ?>

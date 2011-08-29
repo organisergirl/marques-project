@@ -11,7 +11,7 @@
   */
 ?>
 
-<h2>Users</h2>
+<h2>List of Users</h2>
 <table>
 	<thead>
 		<tr>
@@ -34,3 +34,4 @@
 		<?php } ?>
 	</tbody>
 </table>
+<?=$this->html->link("Add New User", array("Users::add")); ?>
