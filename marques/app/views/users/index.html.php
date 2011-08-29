@@ -26,7 +26,7 @@
 				<td><?=$this->marquesHtml->mailto($user->email); ?></td>
 				<td>Edit Link</td>
 				<?php if($user->username != "admin") { ?>
-					<td>Delete link</td>
+					<td><?=$this->html->link("Delete", array("Users::delete", "id" => $user->username)); ?></td>
 				<?php } else { ?>
 					<td>&nbsp;</td>
 				<?php } ?>

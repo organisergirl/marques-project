@@ -37,7 +37,6 @@ class UsersController extends \lithium\action\Controller {
 	 * add a new user to the database
 	 */
     public function add() {
-    
     	    
     	// check to confirm the user is logged in
     	// only do this *after* the first user is created
@@ -57,6 +56,54 @@ class UsersController extends \lithium\action\Controller {
         // show the default user creation form
         return compact('user');
     }
+    
+    /**
+     * delete / remove a user by id
+     */
+    public function delete() {
+    
+       	// check to confirm the user is logged in
+    	if (!Auth::check('default')) {
+            return $this->redirect('Sessions::add');
+        }
+    
+		$user = $this->request->id;
+		
+		if(!empty($user)) {
+		
+			// check to ensure we're not trying to delete the admin user
+    		if($user != "admin") {
+    			// delete the specified user and go back to the user list page
+    			Users::remove(array("username" => $user));
+            	return $this->redirect('Users::index');
+    		} else {
+    			// show some sort of error
+    		}
+		} else {
+			// show some sort of error
+		}
+		
+		    
+/*
+    	$path = func_get_args();
+    	
+    	if(count($path) != 1) {
+    		// show some sort of error
+    		
+    	} else {
+    	
+    		// check to ensure we're not trying to delete the admin user
+    		if($path[0] != "admin") {
+    			// delete the specified user and go back to the user list page
+    			Users::remove(array("username" => $path[0]));
+            	return $this->redirect('Users::index');
+    		} else {
+    			// show some sort of error
+    		}
+    	}
+*/
+    	
+    } 
 }
 
 ?>
