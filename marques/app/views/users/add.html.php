@@ -1,31 +1,22 @@
-<!--
+<?php
 /**
- *  This file is part of MARQUes - Maps Answering Research Questions.
+ * MARQUes - Maps Answering Research Questions
  *
- *  MARQUes is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  MARQUes is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with MARQUes.  If not, see <http://www.gnu.org/licenses/>.
+ * @copyright     Copyright 2011, Flinders University (http://www.flinders.edu.au)
+ * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
  
  /**
   * Collect information about a new user 
   */
--->
+?>
 
-<h2>Add user</h2>
+<h2>Add New User</h2>
 <?=$this->form->create($user); ?>
-	<?=$this->form->field('username'); ?>
-	<?=$this->form->field('password', array('type' => 'password')); ?>
-	<?=$this->form->field('email'); ?>
-	<?=$this->form->field('local'); ?>
+	<?=$this->form->field('username', array('label' => 'User Name')); ?>
+	<?=$this->form->field('password', array('label' => 'Password', 'type' => 'password')); ?>
+	<?=$this->form->field('firstname', array('label' => 'First Name')); ?>
+	<?=$this->form->field('lastname', array('label' => 'Last Name')); ?>
+	<?=$this->form->field('email', array('label' => 'Email Address')); ?>
 	<?=$this->form->submit('Create New User'); ?>
 <?=$this->form->end(); ?>
