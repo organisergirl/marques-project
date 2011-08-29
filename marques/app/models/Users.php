@@ -33,12 +33,15 @@ class Users extends \lithium\data\Model {
 	);
 	
 	/**
-	 * extend the __init method to include a custom validator
+	 * extend the __init function to include a custom validator
 	 */
 	public static function __init(array $options = array()) {
 	
+		// call the parent object init function
 		parent::__init($options);
 		
+		// add our own validation method to enforce unique username requirement
+		// *before* the data gets to the database and throws a data related exception
 		Validator::add('isUniqueUser', function ($value, $format, $options) {
 			
 			$conditions = array('username' => $value);
@@ -46,9 +49,15 @@ class Users extends \lithium\data\Model {
 			return !Users::find('first', array('conditions' => $conditions));
 			
 		});
-	
 	}
-
+	
+	/**
+	 * output the users full name
+	 */
+	public function name($record) {
+		return "{$record->firstname} {$record->lastname}";
+	}
+	
 }
 
 ?>

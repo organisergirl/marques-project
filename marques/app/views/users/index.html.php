@@ -12,9 +12,25 @@
 ?>
 
 <h2>Users</h2>
-
-    <ul>
-        <?php foreach ($users as $user) { ?>
-            <li><?=$user->username; ?></li>
-        <?php } ?>
-    </ul>
+<table>
+	<thead>
+		<tr>
+			<th>User Name</th><th>Full Name</th><th>Email Address</th><th>Edit</th><th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($users as $user) {?>
+			<tr>
+				<td><?=$user->username; ?></td>
+				<td><?=$user->name(); ?></td>
+				<td><?=$this->marquesHtml->mailto($user->email); ?></td>
+				<td>Edit Link</td>
+				<?php if($user->username != "admin") { ?>
+					<td>Delete link</td>
+				<?php } else { ?>
+					<td>&nbsp;</td>
+				<?php } ?>
+			</tr>
+		<?php } ?>
+	</tbody>
+</table>
