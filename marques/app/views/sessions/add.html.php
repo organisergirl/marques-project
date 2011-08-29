@@ -11,6 +11,8 @@
   */
 ?>
 
+<?php $this->title('Login'); ?>
+
 <h2>Login to MARQues</h2>
 <?=$this->form->create(null); ?>
     <?=$this->form->field('username'); ?>
