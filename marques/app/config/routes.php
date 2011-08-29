@@ -25,9 +25,6 @@ use lithium\core\Environment;
 Router::connect('/login', 'Sessions::add');
 Router::connect('/logout', 'Sessions::delete');
 
-Router::connect('/users/delete/{:id:\w+}', array('Users::delete'));
-//Router::connect('/users/delete/{:args}', array('Users::delete'));
-
 /**
  * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
  * its action called `view()`, and we pass a param to select the view file

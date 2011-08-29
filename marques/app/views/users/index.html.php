@@ -24,9 +24,9 @@
 				<td><?=$user->username; ?></td>
 				<td><?=$user->name(); ?></td>
 				<td><?=$this->marquesHtml->mailto($user->email); ?></td>
-				<td>Edit Link</td>
-				<?php if($user->username != "admin") { ?>
-					<td><?=$this->html->link("Delete", array("Users::delete", "id" => $user->username)); ?></td>
+				<td><?=$this->html->link("Edit", array("Users::edit", "args" => $user->id)); ?></td>
+				<?php if($user->id != 1) { ?>
+					<td><?=$this->html->link("Delete", array("Users::delete", "args" => $user->id)); ?></td>
 				<?php } else { ?>
 					<td>&nbsp;</td>
 				<?php } ?>

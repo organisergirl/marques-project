@@ -58,51 +58,25 @@ class UsersController extends \lithium\action\Controller {
     }
     
     /**
-     * delete / remove a user by id
+     * delete / remove a user
      */
-    public function delete() {
+    public function delete($id = null) {
     
        	// check to confirm the user is logged in
     	if (!Auth::check('default')) {
             return $this->redirect('Sessions::add');
         }
+        
+        $id = (int)$id;
     
-		$user = $this->request->id;
-		
-		if(!empty($user)) {
-		
-			// check to ensure we're not trying to delete the admin user
-    		if($user != "admin") {
-    			// delete the specified user and go back to the user list page
-    			Users::remove(array("username" => $user));
-            	return $this->redirect('Users::index');
-    		} else {
-    			// show some sort of error
-    		}
+    	// check to ensure we're not trying to delete the admin user
+    	if($id != 1) {
+			// delete the specified user and go back to the user list page
+			Users::remove(array("id" => $id));
+        	return $this->redirect('Users::index');
 		} else {
 			// show some sort of error
-		}
-		
-		    
-/*
-    	$path = func_get_args();
-    	
-    	if(count($path) != 1) {
-    		// show some sort of error
-    		
-    	} else {
-    	
-    		// check to ensure we're not trying to delete the admin user
-    		if($path[0] != "admin") {
-    			// delete the specified user and go back to the user list page
-    			Users::remove(array("username" => $path[0]));
-            	return $this->redirect('Users::index');
-    		} else {
-    			// show some sort of error
-    		}
-    	}
-*/
-    	
+		}    	
     } 
     
     /**
