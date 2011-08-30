@@ -10,7 +10,7 @@
   * List information about users 
   */
 ?>
-
+<?php $this->title('List of Users'); ?>
 <h2>List of Users</h2>
 <table>
 	<thead>

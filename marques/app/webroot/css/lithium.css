@@ -91,6 +91,8 @@ dd {
 	margin-left: 1em;
 }
 /*--- Header ---*/
+/* See marques.css for updated header styles */
+/*
 #header h1 {
 	margin: .1em 0;
 	font-size: 35px;
@@ -102,6 +104,7 @@ dd {
 	font-size: 22px;
 	line-height: 28px;
 }
+*/
 
 /*--- Tables ---*/
 table {

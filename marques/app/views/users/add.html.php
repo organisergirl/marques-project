@@ -10,6 +10,7 @@
   * Collect information about a new user 
   */
 ?>
+<?php $this->title('Add New User'); ?>
 
 <h2>Add New User</h2>
 <?=$this->form->create($user); ?>

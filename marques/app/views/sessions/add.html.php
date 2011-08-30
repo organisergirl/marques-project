@@ -13,9 +13,9 @@
 
 <?php $this->title('Login'); ?>
 
-<h2>Login to MARQues</h2>
+<h2>Login</h2>
 <?=$this->form->create(null); ?>
     <?=$this->form->field('username'); ?>
     <?=$this->form->field('password', array('type' => 'password')); ?>
-    <?=$this->form->submit('Log in'); ?>
+    <?=$this->form->submit('Login'); ?>
 <?=$this->form->end(); ?>
