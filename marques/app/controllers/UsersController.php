@@ -42,7 +42,7 @@ class UsersController extends \lithium\action\Controller {
     	// only do this *after* the first user is created
     	if (!Auth::check('default')) {
             return $this->redirect('Sessions::add');
-        } 
+        }
     
     	// create a new user with the posted data
         $user = Users::create($this->request->data);
@@ -83,6 +83,11 @@ class UsersController extends \lithium\action\Controller {
      * edit a user record
      */
     public function edit($id = null) {
+    
+    	// check to confirm the user is logged in
+    	if (!Auth::check('default')) {
+            return $this->redirect('Sessions::add');
+        }
     
     	$id = (int)$id;
     	$user = Users::find($id);

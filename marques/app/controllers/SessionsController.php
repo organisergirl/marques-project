@@ -22,6 +22,8 @@ class SessionsController extends \lithium\action\Controller {
     public function add() {
         if ($this->request->data && Auth::check('default', $this->request)) {
             return $this->redirect('/users');
+        } else {
+        	
         }
         // Handle failed authentication attempts
     }
