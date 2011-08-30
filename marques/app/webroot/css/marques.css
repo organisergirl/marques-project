@@ -356,7 +356,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus
 	outline: none;
 }
 
-
 /* -- images -- */
 img {
 	padding: 0.7em; 
@@ -373,6 +372,13 @@ img.right   {
 
 /* -- misc -- */
 br  {clear: both;}
+
+#flash-message {
+	margin-bottom: 12px;
+	padding: 5px;
+	text-align: center;
+	color: #660066;
+}
 
 /*--- Shadows ---*/
 table, form, pre > code {

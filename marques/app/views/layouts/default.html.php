@@ -33,7 +33,18 @@
 			-->
 		</div>
 		<div id="body">
-			<?php echo $this->content(); ?>
+			<?php
+				//check for a flash message
+				$session_flash_message = $this->session->message();
+				
+				// output the message if found
+				if($session_flash_message) {
+					echo("<p id=\"flash-message\" class=\"shadow\">$session_flash_message</p>");
+				}
+				
+				// output the page content
+				echo $this->content();
+			?>
 		</div>
 		<div id="tail">
 			<br />

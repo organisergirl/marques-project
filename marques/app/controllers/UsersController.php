@@ -9,6 +9,8 @@
 namespace app\controllers;
 
 use lithium\security\Auth;
+use lithium\storage\Session;
+
 use app\models\Users;
 
 /**
@@ -50,6 +52,7 @@ class UsersController extends \lithium\action\Controller {
 		// check to see if stuff was sent and the save was successful
         if (($this->request->data) && $user->save()) {
         	// redirect back to the main user page
+        	Session::write('message', 'Success: User successfully added');
             return $this->redirect('Users::index');
         }
         
@@ -73,6 +76,7 @@ class UsersController extends \lithium\action\Controller {
     	if($id != 1) {
 			// delete the specified user and go back to the user list page
 			Users::remove(array("id" => $id));
+			Session::write('message', 'Success: User successfully deleted');
         	return $this->redirect('Users::index');
 		} else {
 			// show some sort of error
@@ -98,6 +102,10 @@ class UsersController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($user->save($this->request->data)) {
+    			Session::write('message', 'Success: User successfully updated');
+    			return $this->redirect('Users::index');
+    		} else {
+    			Session::write('message', 'Error: An error occurred please try again.');
     			return $this->redirect('Users::index');
     		}
     	}

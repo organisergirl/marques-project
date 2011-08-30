@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 use lithium\security\Auth;
+use lithium\storage\Session;
 
 /**
  * Manage authentication actions
@@ -20,12 +21,17 @@ class SessionsController extends \lithium\action\Controller {
 	 * authenticate the user
 	 */
     public function add() {
-        if ($this->request->data && Auth::check('default', $this->request)) {
-            return $this->redirect('/users');
-        } else {
-        	
-        }
-        // Handle failed authentication attempts
+    	// validate the authentication request
+        if ($this->request->data) {
+        	if( Auth::check('default', $this->request)) {
+		        // authentication was successful
+		        return $this->redirect('/users');
+		    } else {
+		    	// authentication failed
+		    	Session::write('message', 'Error: Login failed. Check your username and password and try again');
+		    	return $this->redirect('Sessions::add');
+		    }
+		}
     }
 
     /**
@@ -33,7 +39,10 @@ class SessionsController extends \lithium\action\Controller {
      */
     public function delete() {
         Auth::clear('default');
-        return $this->redirect('/');
+        
+        // authentication failed
+    	Session::write('message', 'You have successfully logged out of the MARQUes system');
+    	return $this->redirect('Sessions::add');
     }
 }
 
