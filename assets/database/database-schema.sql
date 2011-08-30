@@ -16,25 +16,25 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `basicmarker`
+-- Table structure for table `basic_markers`
 --
 
-DROP TABLE IF EXISTS `basicmarker`;
+DROP TABLE IF EXISTS `basic_markers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `basicmarker` (
+CREATE TABLE `basic_markers` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'the unique id for this marker',
   `title` varchar(255) NOT NULL COMMENT 'title of the marker',
   `description` text NOT NULL COMMENT 'the description for the marker',
-  `latitude` decimal(10,0) NOT NULL COMMENT 'the latitude geographic coordinate',
-  `longitude` decimal(10,0) NOT NULL COMMENT 'the longitude geographic coordinate',
+  `latitude` float NOT NULL COMMENT 'the latitude geographic coordinate',
+  `longitude` float NOT NULL COMMENT 'the longitude geographic coordinate',
   `created` datetime NOT NULL COMMENT 'the date and time this marker was created',
   `updated` datetime DEFAULT NULL COMMENT 'the date and time that this marker was updated',
   PRIMARY KEY (`id`),
   KEY `index_title` (`title`),
   FULLTEXT KEY `index_description` (`description`),
   FULLTEXT KEY `index_title_description` (`title`,`description`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='A table that represents a simple marker';
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COMMENT='A table that represents a simple marker';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `users` (
   `email` varchar(512) NOT NULL COMMENT 'email address of the user',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 COMMENT='store details of users in the MARQues system';
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COMMENT='store details of users in the MARQues system';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -65,4 +65,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-08-30 14:42:02
+-- Dump completed on 2011-08-30 17:04:33
