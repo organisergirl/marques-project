@@ -7,14 +7,12 @@
  */
 
 use lithium\security\Password;
-
-use app\models\Users;
-use app\models\BasicMarkers;
+use lithium\util\collection\Filters;
 
 /**
  * ensure that the password field for users is securely hashed
  */
-Users::applyFilter('save', function($self, $params, $chain) {
+Filters::apply('app\models\Users', 'save', function($self, $params, $chain) {
 
     if ($params['data']) {
         $params['entity']->set($params['data']);
@@ -29,7 +27,7 @@ Users::applyFilter('save', function($self, $params, $chain) {
 /**
  * adjust the created and updated fields of basic markers as appropriate
  */
-BasicMarkers::applyFilter('save', function($self, $params, $chain) {
+Filters::apply('app\models\BasicMarkers', 'save', function($self, $params, $chain) {
 
 	if ($params['data']) {
         $params['entity']->set($params['data']);
