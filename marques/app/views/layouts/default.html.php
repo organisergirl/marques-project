@@ -7,6 +7,9 @@
  *
  * Original Template Design by Jason Cole (http://jasoncole.ca/) and released into the Public Domain
  */
+ 
+use lithium\security\Auth;
+
 ?>
 <!doctype html>
 <html>
@@ -20,17 +23,13 @@
 	<div id="container">
 		<div id="head">
 			<h1>MARQues</h1>
-			<!--
+			<?php if(Auth::check('default')) {?>
 			<ul class="toplinks">
-				<li><a href="index.html">Blue</a></li>
-				<li><a href="index2.html">Red</a></li>
-				<li><a href="index3.html">Orange</a></li>
-				<li><a href="index4.html">Green</a></li>
-				<li><a href="index5.html">Aqua</a></li>
-				<li><a href="index6.html">Pink</a></li>
-				<li><a href="index7.html">Purple</a></li>
+				<li><?=$this->html->link("Control Panel", array("Admin::index")); ?></li>
+				<li><?=$this->html->link("Manage Users", array("Users::index")); ?></li>
+				<li><?=$this->html->link("Logout", array("Sessions::delete")); ?></li>
 			</ul>
-			-->
+			<?php } ?>
 		</div>
 		<div id="body">
 			<?php

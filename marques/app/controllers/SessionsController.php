@@ -25,7 +25,7 @@ class SessionsController extends \lithium\action\Controller {
         if ($this->request->data) {
         	if( Auth::check('default', $this->request)) {
 		        // authentication was successful
-		        return $this->redirect('/users');
+		        return $this->redirect('Admin::index');
 		    } else {
 		    	// authentication failed
 		    	Session::write('message', 'Error: Login failed. Check your username and password and try again');
