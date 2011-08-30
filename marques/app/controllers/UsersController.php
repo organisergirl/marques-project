@@ -80,6 +80,8 @@ class UsersController extends \lithium\action\Controller {
         	return $this->redirect('Users::index');
 		} else {
 			// show some sort of error
+			Session::write('message', 'Error: You can not delete the admin user');
+        	return $this->redirect('Users::index');
 		}    	
     } 
     
