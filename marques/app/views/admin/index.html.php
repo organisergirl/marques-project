@@ -13,3 +13,6 @@
 <?php $this->title('Control Panel'); ?>
 <h2>MARQues Control Panel</h2>
 <p>Interesting admin type stuff to go here over time.</p>
+<ul>
+	<li><?=$this->html->link("Manage Basic Markers", array("BasicMarkers::index"));?></li>
+</ul>

@@ -5,14 +5,17 @@
  * @copyright     Copyright 2011, Flinders University (http://www.flinders.edu.au)
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
- 
-use app\models\Users;
+
 use lithium\security\Password;
 
+use app\models\Users;
+use app\models\BasicMarkers;
+
 /**
- * Ensure that the password field for users is securely hashed
+ * ensure that the password field for users is securely hashed
  */
 Users::applyFilter('save', function($self, $params, $chain) {
+
     if ($params['data']) {
         $params['entity']->set($params['data']);
         $params['data'] = array();
@@ -21,6 +24,27 @@ Users::applyFilter('save', function($self, $params, $chain) {
     $params['entity']->password = Password::hash($params['entity']->password);
     
     return $chain->next($self, $params, $chain);
+});
+
+/**
+ * adjust the created and updated fields of basic markers as appropriate
+ */
+BasicMarkers::applyFilter('save', function($self, $params, $chain) {
+
+	if ($params['data']) {
+        $params['entity']->set($params['data']);
+        $params['data'] = array();
+    }
+	
+	if (!$params['entity']->id) {
+		// add the create date
+		$params['entity']->created = date('Y-m-d H:i:s');
+	} else {
+		// add // update the modified date
+		$params['entity']->updated = date('Y-m-d H:i:s');
+	}
+	
+	return $chain->next($self, $params, $chain);
 });
 
 
