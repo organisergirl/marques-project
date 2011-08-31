@@ -29,6 +29,7 @@ Router::connect('/logout', 'Sessions::delete');
 
 // connect / to the admin page
 Router::connect('/', 'Admin::index');
+Router::connect('/marques', 'Admin::index');
 
 /**
  * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
