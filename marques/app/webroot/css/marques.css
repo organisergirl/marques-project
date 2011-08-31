@@ -133,60 +133,6 @@ a:visited:hover {
 	color: #220022;
 }
 
-
-/* -- paragraphs -- */
-/*
-p { 
-	font-size: 100%; 
-	line-height: 1.4em; 
-	margin: 0 0.7em 1.4em; 
-	padding: 0; 
-	text-indent: 1.4em;
-}
-*/
-/* -- headings -- */
-/*
-h1,h2,h3,h4,h5,h6   {
-	border-bottom: 1px solid #808080; 
-	clear: both; 
-	font-family: Georgia, serif; 
-	font-weight: normal; 
-	line-height: 1em; 
-	margin: 0; 
-	padding: 0;
-}
-
-h1  {
-	border-bottom: 0; 
-	color: #ffffff; 
-	font-size: 200%; 
-	line-height: 1.2em; 
-	margin: 0 0 0 0.466em; 
-	padding:  1.7em 0 0;
-}
-
-h2  {
-	font-size: 150%;
-}
-
-h3  {
-	font-size: 100%;
-}
-
-/*
-h4  {
-	font-size: 200%;
-}
-
-h5  {
-	font-size: 175%;
-}
-
-h6  {
-	font-size: 150%;
-}
-*/
-
 /* -- lists -- */
 ul,ol {
 	font-size: 100%; 
@@ -222,31 +168,6 @@ ul.toplinks li a:hover  {
 	color: #ffffff;
 }
 
-/* -- tables -- */
-/*
-table {
-	border-collapse: collapse; 
-	border-spacing: 0; 
-	font-size: 1.0em; 
-	margin: 0 0.7em 1.4em; 
-	padding: 0; 
-	width: 97%;
-}
-    
-th,td   {
-	border: 1px solid #888; 
-	color: #222222; 
-	line-height: 1.4em; 
-	margin: 0; 
-	text-align: left; 
-	padding: 0.35em;
-}
-
-th  {
-	font-family: Georgia, serif; 
-	font-weight: normal;
-}
-*/
 /*--- Tables ---*/
 table {
 	clear: both;
@@ -257,6 +178,7 @@ table {
 	background: #fafafa;
 	margin: 12px 0;
 }
+
 td, th {
 	padding: .25em 1em;
 	border: 1px solid #e6e6e6;
@@ -266,9 +188,11 @@ td, th {
 	color: #666;
 	font-size: 0.85em;
 }
+
 tr:nth-child(even) {
 	background: #fff;
 }
+
 thead th, tfoot td {
 	background: #f3f3f3;
 	color: #333;
@@ -277,6 +201,7 @@ thead th, tfoot td {
 	font-weight: bold;
 	padding: .5em .75em;
 }
+
 /*--- Forms ---*/
 form {
 	display: block;
@@ -285,23 +210,27 @@ form {
 	padding: 1em 2em 2em 2em;
 	border: 1px solid #e6e6e6;
 }
+
 fieldset {
 	padding: 2em;
 	margin: 0 0 1em 0;
 	border: 1px solid #e6e6e6;
 	background: #f3f3f3;
 }
+
 legend {
 	padding: .5em 1em;
 	border: 1px solid #e6e6e6;
 	background: #fff;
 	font-size: 22px;
 }
+
 label {
 	padding: 0 1em 0 0;
 	color: #454545;
 	font-weight: normal;
 }
+
 input, textarea, button {
 	font-family: Helvetica, Arial, sans-serif;
 	padding: 2px 4px;
@@ -310,17 +239,20 @@ input, textarea, button {
 	font-size: 1em;
 	line-height: 1.25em;
 }
+
 input[type=text], input[type=password], input[type=submit], textarea {
 	clear: both;
 	display: block;
 	padding: .25em .5em;
 }
+
 input[type=text], input[type=password], textarea {
 	width: 97%;
 	max-width: 950px;
 	margin: .5em 0 1em 0;
 	padding:.5em;
 }
+
 input[type=submit], input[type=button], input[type=reset], input[type=file], button {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -332,18 +264,22 @@ input[type=submit], input[type=button], input[type=reset], input[type=file], but
 	border: 1px solid #e5e5e5 !important;
 	cursor: pointer;
 }
+
 select {
 	clear: both;
 	display: block;
 	margin: .5em 0 1em 0;
 }
+
 div.checkbox {
 	clear: both;
 	padding: 1em 0;
 }
+
 .checkbox label {
 	display: inline;
 }
+
 input[type=submit] {
 	margin: 1em inherit;
 	border: none;
@@ -351,9 +287,15 @@ input[type=submit] {
 	font-size: 16px;
 	font-weight: bold;
 }
+
 input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus {
 	border-color: #00a8e6;
 	outline: none;
+}
+
+div.error {
+	margin-bottom: 1em; 
+	color: #660066;
 }
 
 /* -- images -- */
