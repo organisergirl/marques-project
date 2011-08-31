@@ -19,7 +19,9 @@ Filters::apply('app\models\Users', 'save', function($self, $params, $chain) {
         $params['data'] = array();
     }
     
-    $params['entity']->password = Password::hash($params['entity']->password);
+    if(!empty($params['entity']->password)) {
+    	$params['entity']->password = Password::hash($params['entity']->password);
+    }
     
     return $chain->next($self, $params, $chain);
 });
