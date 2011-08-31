@@ -11,6 +11,8 @@ namespace app\controllers;
 use lithium\security\Auth;
 use lithium\storage\Session;
 
+use app\models\Users;
+
 /**
  * central spot for admin tasks
  */
@@ -21,13 +23,18 @@ class AdminController extends \lithium\action\Controller {
 	 */
     public function index() {
     
-    	// check to confirm the user is logged in
-    	// only do this *after* the first user is created
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        } 
-        
+    	// check to confirm the user is logged in_array
+    	$auth_user = Auth::check('default');
     	
+    	if (!$auth_user) {
+            return $this->redirect('Sessions::add');
+        }
+        
+        // get a count of the number of users
+        $user_count = Users::find("count");
+        
+        $data = array('user_count' => $user_count, 'auth_user' => $auth_user);
+        return compact('data');
     }
 
 

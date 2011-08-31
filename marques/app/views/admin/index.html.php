@@ -12,7 +12,10 @@
 ?>
 <?php $this->title('Control Panel'); ?>
 <h2>MARQues Control Panel</h2>
-<p>Interesting admin type stuff to go here over time.</p>
+<p>Welcome: <?=$data['auth_user']['firstname'] . ' ' . $data['auth_user']['lastname']?></p>
+<h3>Manage Users</h3>
 <ul>
-	<li><?=$this->html->link("Manage Basic Markers", array("BasicMarkers::index"));?></li>
+	<li>Registered Users: <?=$data["user_count"];?></li>
+	<li><?=$this->html->link("List Users", array("Users::index")); ?></li>
+	<li><?=$this->html->link("Add New User", array("Users::add")); ?></li>
 </ul>

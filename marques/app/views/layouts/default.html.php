@@ -26,7 +26,6 @@ use lithium\security\Auth;
 			<?php if(Auth::check('default')) {?>
 			<ul class="toplinks">
 				<li><?=$this->html->link("Control Panel", array("Admin::index")); ?></li>
-				<li><?=$this->html->link("Manage Users", array("Users::index")); ?></li>
 				<li><?=$this->html->link("Logout", array("Sessions::delete")); ?></li>
 			</ul>
 			<?php } ?>
