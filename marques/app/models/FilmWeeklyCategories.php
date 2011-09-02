@@ -1,0 +1,58 @@
+<?php
+/**
+ * MARQUes - Maps Answering Research Questions
+ *
+ * @copyright     Copyright 2011, Flinders University (http://www.flinders.edu.au)
+ * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ */
+
+namespace app\models;
+
+use \lithium\util\Validator;
+
+/**
+ * Model used to manage the Film Weekly Categories ie. "1948 - 1949" etc.
+ */
+class FilmWeeklyCategories extends \lithium\data\Model {
+
+	/**
+	 * add validation rules for the users model
+	 */
+	public $validates = array(
+		'id' => array(
+			array('notEmpty',   'message' => 'A unique id is required'),
+			array('isUniqueId', 'message' => 'That unique id is already in use'),
+			array('numeric',    'message' => 'The unique id must be numeric')
+		),
+		'description' => array(
+			array('notEmpty', 'message' => 'A description for this category is required'),
+			array('lengthBetween', 'message' => 'A description cannot be longer than 20 characters',
+								   'min' => 1,
+								   'max' => 20)
+		)	
+	);
+	
+	/**
+	 * extend the __init function to include a custom validator
+	 */
+	public static function __init(array $options = array()) {
+	
+		// call the parent object init function
+		parent::__init($options);
+		
+		// add our own validation method to enforce unique username requirement
+		// *before* the data gets to the database and throws a data related exception
+		Validator::add('isUniqueId', function ($value, $format, $options) {
+			
+			$conditions = array('id' => $value);
+			
+			// if editing the category skip the validation check
+			if(isset($options['values']['edit'])) {
+				$conditions[] = 'id != ' . $options['values']['id'];
+			}
+			
+			return !FilmWeeklyCategories::find('first', array('conditions' => $conditions));
+			
+		});
+	}
+}

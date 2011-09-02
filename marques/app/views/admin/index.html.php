@@ -19,3 +19,7 @@
 	<li><?=$this->html->link("List Users", array("Users::index")); ?></li>
 	<li><?=$this->html->link("Add New User", array("Users::add")); ?></li>
 </ul>
+<h3>Manage Film Weekly Data</h3>
+<ul>
+	<li><?=$this->html->link('Manage Categories', array('FilmWeeklyCategories::index')); ?></li>
+</ul>
