@@ -60,31 +60,7 @@ class UsersController extends \lithium\action\Controller {
         return compact('user');
     }
     
-    /**
-     * delete / remove a user
-     */
-    public function delete($id = null) {
-    
-       	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
-        $id = (int)$id;
-    
-    	// check to ensure we're not trying to delete the admin user
-    	if($id != 1) {
-			// delete the specified user and go back to the user list page
-			Users::remove(array("id" => $id));
-			Session::write('message', 'Success: User successfully deleted');
-        	return $this->redirect('Users::index');
-		} else {
-			// show some sort of error
-			Session::write('message', 'Error: You can not delete the admin user');
-        	return $this->redirect('Users::index');
-		}    	
-    } 
-    
     /**
      * edit a user record
      */
@@ -114,6 +90,32 @@ class UsersController extends \lithium\action\Controller {
     	
     	return compact('user');
     }
+    
+    
+    /**
+     * delete / remove a user
+     */
+    public function delete($id = null) {
+    
+       	// check to confirm the user is logged in
+    	if (!Auth::check('default')) {
+            return $this->redirect('Sessions::add');
+        }
+        
+        $id = (int)$id;
+    
+    	// check to ensure we're not trying to delete the admin user
+    	if($id != 1) {
+			// delete the specified user and go back to the user list page
+			Users::remove(array("id" => $id));
+			Session::write('message', 'Success: User successfully deleted');
+        	return $this->redirect('Users::index');
+		} else {
+			// show some sort of error
+			Session::write('message', 'Error: You can not delete the admin user');
+        	return $this->redirect('Users::index');
+		}    	
+    } 
 }
 
 ?>
