@@ -40,13 +40,13 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 		// call the parent object init function
 		parent::__init($options);
 		
-		// add our own validation method to enforce unique username requirement
+		// add our own validation method to enforce unique id requirement
 		// *before* the data gets to the database and throws a data related exception
 		Validator::add('isUniqueFwCategoryId', function ($value, $format, $options) {
 			
 			$conditions = array('id' => $value);
 			
-			// if editing the category skip the validation check
+			// if editing the record skip the validation check
 			if(isset($options['values']['edit'])) {
 				$conditions[] = 'id != ' . $options['values']['id'];
 			}
