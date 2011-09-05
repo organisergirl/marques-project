@@ -16,7 +16,7 @@ use \lithium\util\Validator;
 class FilmWeeklyCinemaTypes extends \lithium\data\Model {
 
 	/**
-	 * add validation rules for the users model
+	 * add validation rules for the model
 	 */
 	public $validates = array(
 		'id' => array(
