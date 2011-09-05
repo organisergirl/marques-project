@@ -117,5 +117,4 @@ class UsersController extends \lithium\action\Controller {
 		}    	
     } 
 }
-
 ?>

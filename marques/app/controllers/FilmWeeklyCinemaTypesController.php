@@ -104,3 +104,4 @@ class FilmWeeklyCinemaTypesController extends \lithium\action\Controller {
         return $this->redirect('FilmWeeklyCinemaTypes::index');    
     }
 }
+?>

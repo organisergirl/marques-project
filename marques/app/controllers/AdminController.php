@@ -38,3 +38,4 @@ class AdminController extends \lithium\action\Controller {
     }
 
 }
+?>
