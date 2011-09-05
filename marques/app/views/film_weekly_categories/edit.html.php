@@ -7,10 +7,10 @@
  */
  
  /**
-  * edit information about an existing user 
+  * edit information about an existing record
   */
 ?>
-
+<?php $this->title('List of Film Weekly Categories'); ?>
 <h2>Edit Existing Category</h2>
 <?=$this->form->create($category); ?>
 	<?=$this->form->hidden('edit', array('value' => 'true'))?>
