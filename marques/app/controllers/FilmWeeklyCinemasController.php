@@ -32,7 +32,12 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         } 
         
         // get the list of categories
-        $data = FilmWeeklyCinemas::all(array('order' => array('id' => 'ASC')));
+        $data = FilmWeeklyCinemas::all(
+        	array(
+        		'order' => array('id' => 'ASC'),
+        		'with'  => array('AustralianStates')
+        	)
+        );
         return compact('data');
     }
     

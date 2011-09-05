@@ -18,7 +18,32 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 	/**
 	 * define relationships
 	 */
-	public $belongsTo = array('AustralianStates', 'FilmWeeklyCinemaTypes', 'LocalityTypes');
+	public $belongsTo = array(
+		'AustralianStates' => array(
+			'class' => 'AustralianStates',
+			'key'   => 'australian_states_id',
+			'conditions' => array(),
+			'fields' => array(),
+			'order' => null,
+			'limit' => null
+			),
+		'FilmWeeklyCinemaTypes' => array(
+			'class' => 'FilmWeeklyCinemaTypes',
+			'key'   => 'film_weekly_cinema_types_id',
+			'conditions' => array(),
+			'fields' => array(),
+			'order' => null,
+			'limit' => null
+			), 
+		'LocalityTypes' => array(
+			'class' => 'LocalityTypes',
+			'key'   => 'locality_types_id',
+			'conditions' => array(),
+			'fields' => array(),
+			'order' => null,
+			'limit' => null
+			)
+	);
 	
 	/**
 	 * add validation rules for the model

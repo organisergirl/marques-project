@@ -15,7 +15,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>ID</th><th>Theatre Name</th><th>Edit</th><th>Delete</th>
+			<th>ID</th><th>Theatre Name</th><th>Street</th><th>Suburb</th><th>State</th></th><th>Edit</th><th>Delete</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,6 +23,9 @@
 			<tr>
 				<td><?=$datum->id; ?></td>
 				<td><?=$datum->cinema_name; ?></td>
+				<td><?=$datum->street; ?></td>
+				<td><?=$datum->suburb; ?></td>
+				<td><?=$datum->australian_state->shortname; ?></td>
 				<td><?=$this->html->link('Edit', array('FilmWeeklyCinemas::edit', 'args' => $datum->id)); ?></td>
 				<td><?=$this->html->link('Delete', array('FilmWeeklyCinemas::delete', 'args' => $datum->id)); ?></td>
 			</tr>
