@@ -16,6 +16,11 @@ use \lithium\util\Validator;
 class LocalityTypes extends \lithium\data\Model {
 
 	/**
+	 * add relationships to the model
+	 */
+	public $hasMany = array('FlimWeeklyCinemas');
+
+	/**
 	 * add validation rules for the model
 	 */
 	public $validates = array(
