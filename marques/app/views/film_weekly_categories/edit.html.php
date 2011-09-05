@@ -14,7 +14,6 @@
 <h2>Edit Existing Category</h2>
 <?=$this->form->create($category); ?>
 	<?=$this->form->hidden('edit', array('value' => 'true'))?>
-	<?=$this->form->field('id', array('label' => 'Unique ID Number')); ?>
 	<?=$this->form->field('description', array('label' => 'Category Description')); ?>
 	<?=$this->form->submit('Update Category'); ?>
 <?=$this->form->end(); ?>

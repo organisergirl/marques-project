@@ -21,5 +21,6 @@
 </ul>
 <h3>Manage Film Weekly Data</h3>
 <ul>
+	<li><?=$this->html->link('Manage Australian States', array('AustralianStates::index')); ?></li>
 	<li><?=$this->html->link('Manage Categories', array('FilmWeeklyCategories::index')); ?></li>
 </ul>

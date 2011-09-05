@@ -27,24 +27,25 @@ Filters::apply('app\models\Users', 'save', function($self, $params, $chain) {
 });
 
 /**
- * adjust the created and updated fields of basic markers as appropriate
+ * ensure state short names are always upper case
  */
-Filters::apply('app\models\BasicMarkers', 'save', function($self, $params, $chain) {
+Filters::apply('app\models\AustralianStates', 'save', function($self, $params, $chain) {
 
 	if ($params['data']) {
         $params['entity']->set($params['data']);
         $params['data'] = array();
     }
-	
-	if (!$params['entity']->id) {
-		// add the create date
-		$params['entity']->created = date('Y-m-d H:i:s');
-	} else {
-		// add // update the modified date
-		$params['entity']->updated = date('Y-m-d H:i:s');
-	}
-	
-	return $chain->next($self, $params, $chain);
+    
+    if(!empty($params['entity']->shortname)) {
+    	$params['entity']->shortname = strtoupper($params['entity']->shortname);
+    }
+    
+    if(!empty($params['entity']->longname)) {
+    	$params['entity']->longname = ucwords(strtolower($params['entity']->longname));
+    }
+    
+    return $chain->next($self, $params, $chain);
+
 });
 
 

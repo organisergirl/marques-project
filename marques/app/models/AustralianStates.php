@@ -11,9 +11,9 @@ namespace app\models;
 use \lithium\util\Validator;
 
 /**
- * Model used to manage the Film Weekly Categories ie. "1948 - 1949" etc.
+ * Model used to manage Australian State records
  */
-class FilmWeeklyCategories extends \lithium\data\Model {
+class AustralianStates extends \lithium\data\Model {
 
 	/**
 	 * add validation rules for the users model
@@ -21,14 +21,20 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 	public $validates = array(
 		'id' => array(
 			array('notEmpty',   'message' => 'A unique id is required'),
-			array('isUniqueFwCategoryId', 'message' => 'That unique id is already in use'),
+			array('isUniqueAusStateId', 'message' => 'That unique id is already in use'),
 			array('numeric',    'message' => 'The unique id must be numeric')
 		),
-		'description' => array(
-			array('notEmpty', 'message' => 'A description for this category is required'),
-			array('lengthBetween', 'message' => 'A description cannot be longer than 20 characters',
+		'shortname' => array(
+			array('notEmpty', 'message' => 'A short name for the state is required'),
+			array('lengthBetween', 'message' => 'A short name cannot be longer than 3 characters',
 								   'min' => 1,
-								   'max' => 20)
+								   'max' => 3)
+		),
+		'longname' => array(
+			array('notEmpty', 'message' => 'A long name for the state is required'),
+			array('lengthBetween', 'message' => 'A long name cannot be longer than 30 characters',
+								   'min' => 1,
+								   'max' => 30)
 		)	
 	);
 	
@@ -42,7 +48,7 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 		
 		// add our own validation method to enforce unique username requirement
 		// *before* the data gets to the database and throws a data related exception
-		Validator::add('isUniqueFwCategoryId', function ($value, $format, $options) {
+		Validator::add('isUniqueAusStateId', function ($value, $format, $options) {
 			
 			$conditions = array('id' => $value);
 			
@@ -51,8 +57,10 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 				$conditions[] = 'id != ' . $options['values']['id'];
 			}
 			
-			return !FilmWeeklyCategories::find('first', array('conditions' => $conditions));
+			return !AustralianStates::find('first', array('conditions' => $conditions));
 			
 		});
 	}
 }
+
+?>
