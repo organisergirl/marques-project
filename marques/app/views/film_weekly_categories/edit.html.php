@@ -17,4 +17,3 @@
 	<?=$this->form->field('description', array('label' => 'Category Description')); ?>
 	<?=$this->form->submit('Update Category'); ?>
 <?=$this->form->end(); ?>
-Australian Capital Territory
