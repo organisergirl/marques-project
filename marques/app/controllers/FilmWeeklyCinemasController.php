@@ -53,7 +53,7 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         
         if(!$this->request->data) {
         	
-        	$data = $this->get_add_form_data();
+        	$data = $this->get_extra_form_data();
         	$form_data = FilmWeeklyCinemas::create();
         	$data['form'] = $form_data;
 			$this->set(compact('data'));
@@ -68,7 +68,7 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
 	    		return $this->redirect('FilmWeeklyCinemas::index');
 			} else {
 				// get the rest of the form data and show errors
-        		$data = $this->get_add_form_data();
+        		$data = $this->get_extra_form_data();
 	        	$data['form'] = $form_data;
 				return(compact('data'));
 			}
@@ -76,7 +76,7 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
     }
     
     // get the data to build the form
-    private function get_add_form_data() {
+    private function get_extra_form_data() {
     
     	// build a list of states
 		$records = AustralianStates::all(array('order' => array('longname' => 'ASC')));
@@ -108,11 +108,11 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
 		
 		return $data;
     }
-/*
+
     
-    **
+    /**
      * edit an existing record
-     *
+     */
     public function edit($id = null) {
     
     	// check to confirm the user is logged in
@@ -121,25 +121,33 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         }
     
     	$id = (int)$id;
-    	$category = FilmWeeklyCategories::find($id);
     	
-    	if(empty($category)) {
-    		return $this->redirect('FilmWeeklyCategories::index');
+    	// get the cinema data
+    	$cinema = FilmWeeklyCinemas::find($id);
+    	
+    	if(empty($cinema)) {
+    		return $this->redirect('FilmWeeklyCinemas::index');
     	}
     	
-    	if($this->request->data){
-    		if($category->save($this->request->data)) {
-    			Session::write('message', 'Success: Category successfully updated');
-    			return $this->redirect('FilmWeeklyCategories::index');
+    	if($this->request->data) {
+    	
+    		if($cinema->save($this->request->data)) {
+    			Session::write('message', 'Success: Record successfully updated');
+    			return $this->redirect('FilmWeeklyCinemas::index');
     		} else {
     			Session::write('message', 'Error: An error occurred please try again.');
-    			return $this->redirect('FilmWeeklyCategories::index');
+    			return $this->redirect('FilmWeeklyCinemas::index');
     		}
-    	}
+
+    	} else {
     	
-    	return compact('category');
+    		// get the other data
+	    	$data = $this->get_extra_form_data();
+	    	$data['form'] = $cinema;
+			return(compact('data'));
+    	}
     }
-    
+/*    
     **
      * delete an existing category
      *
