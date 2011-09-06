@@ -33,4 +33,10 @@
 		<?php } ?>
 	</tbody>
 </table>
+<p>
 <?=$this->html->link('Add New Record', array('FilmWeeklyCinemas::add')); ?>
+</p>
+<p>
+<?=$this->Paginator->paginate(); ?>
+</p>
+

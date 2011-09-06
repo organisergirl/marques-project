@@ -29,7 +29,13 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
     	// check to confirm the user is logged in
     	if (!Auth::check('default')) {
             return $this->redirect('Sessions::add');
-        } 
+        }
+        
+        // add the pagination control variables
+        $limit = 10;
+		$page = $this->request->page ?: 1;
+		$total = FilmWeeklyCinemas::count();
+         
         
         // get the list of categories
         $data = FilmWeeklyCinemas::all(
@@ -38,7 +44,8 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         		'with'  => array('AustralianStates')
         	)
         );
-        return compact('data');
+        
+        return compact('data', 'total', 'page', 'limit');
     }
     
     /**

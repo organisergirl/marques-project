@@ -31,6 +31,9 @@ Router::connect('/logout', 'Sessions::delete');
 Router::connect('/', 'Admin::index');
 Router::connect('/marques', 'Admin::index');
 
+// add a route for the pagination helper
+Router::connect('/{:controller}/{:action}/page:{:page:[0-9]+}');
+
 /**
  * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
  * its action called `view()`, and we pass a param to select the view file

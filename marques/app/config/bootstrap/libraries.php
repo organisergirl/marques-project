@@ -122,4 +122,7 @@ Libraries::add('app', array('default' => true));
  */
 // Libraries::add('li3_docs');
 
+// add the pagination helper
+Libraries::add('li3_paginate');
+
 ?>
