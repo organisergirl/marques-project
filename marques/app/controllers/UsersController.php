@@ -52,7 +52,7 @@ class UsersController extends \lithium\action\Controller {
 		// check to see if stuff was sent and the save was successful
         if (($this->request->data) && $user->save()) {
         	// redirect back to the main user page
-        	Session::write('message', 'Success: User successfully added');
+        	Session::write('message', 'Success: Record created');
             return $this->redirect('Users::index');
         }
         
@@ -80,7 +80,7 @@ class UsersController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($user->save($this->request->data)) {
-    			Session::write('message', 'Success: User successfully updated');
+    			Session::write('message', 'Success: Record updated');
     			return $this->redirect('Users::index');
     		} else {
     			Session::write('message', 'Error: An error occurred please try again.');
@@ -108,11 +108,11 @@ class UsersController extends \lithium\action\Controller {
     	if($id != 1) {
 			// delete the specified user and go back to the user list page
 			Users::remove(array("id" => $id));
-			Session::write('message', 'Success: User successfully deleted');
+			Session::write('message', 'Success: Record deleted');
         	return $this->redirect('Users::index');
 		} else {
 			// show some sort of error
-			Session::write('message', 'Error: You can not delete the admin user');
+			Session::write('message', 'Error: You can not delete the primary admin user');
         	return $this->redirect('Users::index');
 		}    	
     } 

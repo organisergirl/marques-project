@@ -49,7 +49,7 @@ class AustralianStatesController extends \lithium\action\Controller {
     	// check to see if data as send and the save was successful
     	if(($this->request->data) && $data->save()) {
     		// redirect back to the index page
-    		Session::write('message', 'Success: New record successfully created');
+    		Session::write('message', 'Success: New record created');
     		return $this->redirect('AustralianStates::index');
     	}
     	
@@ -77,7 +77,7 @@ class AustralianStatesController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($data->save($this->request->data)) {
-    			Session::write('message', 'Success: Record successfully updated');
+    			Session::write('message', 'Success: Record updated');
     			return $this->redirect('AustralianStates::index');
     		} else {
     			Session::write('message', 'Error: An error occurred please try again.');
@@ -100,7 +100,7 @@ class AustralianStatesController extends \lithium\action\Controller {
         $id = (int)$id;
         
         AustralianStates::remove(array('id' => $id));
-        Session::write('message', 'Success: Record successfully deleted');
+        Session::write('message', 'Success: Record deleted');
         return $this->redirect('AustralianStates::index');    
     }
 

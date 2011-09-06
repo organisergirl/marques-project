@@ -64,7 +64,7 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
 		
 			if($form_data->save()) {				
 				// redirect back to the index page
-	    		Session::write('message', 'Success: Record successfully created');
+	    		Session::write('message', 'Success: Record created');
 	    		return $this->redirect('FilmWeeklyCinemas::index');
 			} else {
 				// get the rest of the form data and show errors
@@ -132,7 +132,7 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
     	if($this->request->data) {
     	
     		if($cinema->save($this->request->data)) {
-    			Session::write('message', 'Success: Record successfully updated');
+    			Session::write('message', 'Success: Record updated');
     			return $this->redirect('FilmWeeklyCinemas::index');
     		} else {
     			Session::write('message', 'Error: An error occurred please try again.');
@@ -160,7 +160,7 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         $id = (int)$id;
         
         FilmWeeklyCinemas::remove(array('id' => $id));
-        Session::write('message', 'Success: Record successfully deleted');
+        Session::write('message', 'Success: Record deleted');
         return $this->redirect('FilmWeeklyCinemas::index');    
     }
 }
