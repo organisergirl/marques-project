@@ -147,10 +147,10 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
 			return(compact('data'));
     	}
     }
-/*    
-    **
+        
+    /**
      * delete an existing category
-     *
+     */
     public function delete($id = null) {
     
     	if (!Auth::check('default')) {
@@ -159,10 +159,9 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         
         $id = (int)$id;
         
-        FilmWeeklyCategories::remove(array('id' => $id));
-        Session::write('message', 'Success: Category successfully deleted');
-        return $this->redirect('FilmWeeklyCategories::index');    
+        FilmWeeklyCinemas::remove(array('id' => $id));
+        Session::write('message', 'Success: Record successfully deleted');
+        return $this->redirect('FilmWeeklyCinemas::index');    
     }
-*/
 }
 ?>
