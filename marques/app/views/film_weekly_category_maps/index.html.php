@@ -14,10 +14,10 @@
 <h2>List of Film Weekly Categories</h2>
 <p>
 	List of categories for:<br/>
-	<?=$data['cinema']->cinema_name; ?>
+	<?=$cinema->cinema_name; ?>
 </p>
 <ul>
-	<?php foreach($data['categories'] as $category) { ?>
+	<?php foreach($categories as $category) { ?>
 		<li>
 			<?=$category->film_weekly_category->description; ?>
 			(<?=$this->html->link('Delete', array('FilmWeeklyCategoryMaps::delete', 'args' => $category->id)); ?>)
@@ -25,7 +25,7 @@
 	<?php } ?>
 </ul>
 <p>
-<?=$this->html->link('Link to a Category', array('FilmWeeklyCategoryMaps::add', 'args' => $data['cinema']->id)); ?>
+<?=$this->html->link('Link cinema to a category', array('FilmWeeklyCategoryMaps::add', 'args' => $cinema->id)); ?>
 </p>
 <p>
 <?=$this->html->link('Back to Cinema List', array('FilmWeeklyCinemas::index')); ?>

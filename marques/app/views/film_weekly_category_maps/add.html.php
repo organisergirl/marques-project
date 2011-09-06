@@ -11,7 +11,6 @@
   */
 ?>
 <?php $this->title('Create New Film Weekly Cinema - Category Map'); ?>
-
 <h2>Create New Film Weekly Cinema - Category Map</h2>
 <p>
 	Create new category map for the cinema:<br/>
@@ -23,5 +22,6 @@
 		<?=$this->form->label('FilmWeeklyCategoriesId', 'Film Weekly Category'); ?>
 		<?=$this->form->select('film_weekly_categories_id', $data['categories']); ?>
 	</div>
-	<?=$this->form->submit('Create New Category Map'); ?>
+	<?=$this->form->submit('Create New Category Map Record'); ?>
 <?=$this->form->end(); ?>
+<?=$this->html->link('Back to Cinema List', array('FilmWeeklyCinemas::index')); ?>

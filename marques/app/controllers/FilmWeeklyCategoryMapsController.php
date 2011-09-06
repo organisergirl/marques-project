@@ -46,12 +46,7 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 			)
 		);
 		
-		$data = array(
-			'cinema' => $cinema,
-			'categories' => $categories
-		);
-		
-		$this->set(compact('data'));
+		$this->set(compact('cinema', 'categories'));
 	}
 
 
@@ -94,17 +89,35 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 	private function get_cinema_data($id) {
 	
 		$cinema  = FilmWeeklyCinemas::find($id);
+		
+		$records = FilmWeeklyCategoryMaps::all(
+			array (
+				'conditions' => array('film_weekly_cinemas_id' => $id)
+			)
+		);
+		
+		$excludes = array();
+		
+		foreach($records as $record) {
+			$excludes[] = $record->film_weekly_categories_id;
+		}
+		
+		
     	$records = FilmWeeklyCategories::all(array('order' => array('description' => 'ASC')));
+    	
     	$categories = array();
     	
     	foreach($records as $record) {
-    		$categories[$record->id] = $record->description;
+    	
+    		if(!in_array($record->id, $excludes)) {
+	    		$categories[$record->id] = $record->description;
+	    	}
     	}
     	
     	$data = array(
     		'cinema' => $cinema,
     		'categories' => $categories,
-    		'form' => FilmWeeklyCategoryMaps::create()
+    		'form' => FilmWeeklyCategoryMaps::create(),
     	);
 
 		return $data;
