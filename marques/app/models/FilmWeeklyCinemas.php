@@ -26,7 +26,7 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 			'fields' => array(),
 			'order' => null,
 			'limit' => null
-			),
+		),
 		'FilmWeeklyCinemaTypes' => array(
 			'class' => 'FilmWeeklyCinemaTypes',
 			'key'   => 'film_weekly_cinema_types_id',
@@ -34,7 +34,7 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 			'fields' => array(),
 			'order' => null,
 			'limit' => null
-			), 
+		), 
 		'LocalityTypes' => array(
 			'class' => 'LocalityTypes',
 			'key'   => 'locality_types_id',
@@ -42,7 +42,7 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 			'fields' => array(),
 			'order' => null,
 			'limit' => null
-			)
+		)
 	);
 	
 	/**

@@ -15,7 +15,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>ID</th><th>Theatre Name</th><th>Street</th><th>Suburb</th><th>State</th></th><th>Edit</th><th>Delete</th>
+			<th>ID</th><th>Theatre Name</th><th>Street</th><th>Suburb</th><th>State</th></th><th>Edit</th><th>Delete</th><th>Categories</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,6 +28,7 @@
 				<td><?=$datum->australian_state->shortname; ?></td>
 				<td><?=$this->html->link('Edit', array('FilmWeeklyCinemas::edit', 'args' => $datum->id)); ?></td>
 				<td><?=$this->html->link('Delete', array('FilmWeeklyCinemas::delete', 'args' => $datum->id)); ?></td>
+				<td><?=$this->html->link('Categories', array('FilmWeeklyCategoryMaps::index', 'args' => $datum->id)); ?></td>
 			</tr>
 		<?php } ?>
 	</tbody>

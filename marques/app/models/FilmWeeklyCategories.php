@@ -16,6 +16,11 @@ use \lithium\util\Validator;
 class FilmWeeklyCategories extends \lithium\data\Model {
 
 	/**
+	 * define relationships
+	 */
+	public $hasMany = array('FilmWeeklyCategoryMaps');
+
+	/**
 	 * add validation rules for the model
 	 */
 	public $validates = array(
