@@ -13,14 +13,20 @@
 <?php $this->title('List of Film Weekly Categories'); ?>
 <h2>List of Film Weekly Categories</h2>
 <p>
-	List of categories for the cinema:<br/>
+	List of categories for:<br/>
 	<?=$data['cinema']->cinema_name; ?>
 </p>
 <ul>
 	<?php foreach($data['categories'] as $category) { ?>
 		<li>
 			<?=$category->film_weekly_category->description; ?>
+			(<?=$this->html->link('Delete', array('FilmWeeklyCategoryMaps::delete', 'args' => $category->id)); ?>)
 		</li>
 	<?php } ?>
 </ul>
-<?=$this->html->link('Link to Another Category', array('FilmWeeklyCategoryMaps::add', 'args' => $data['cinema']->id)); ?>
+<p>
+<?=$this->html->link('Link to a Category', array('FilmWeeklyCategoryMaps::add', 'args' => $data['cinema']->id)); ?>
+</p>
+<p>
+<?=$this->html->link('Back to Cinema List', array('FilmWeeklyCinemas::index')); ?>
+</p>

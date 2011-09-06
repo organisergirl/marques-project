@@ -25,6 +25,14 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 	 */
 	public function index($id = null) {
 	
+		if($id == null) {
+				
+			// redirect back to the index page
+    		Session::write('message', 'Error: Select a Cinema Before Viewing Categories');
+    		return $this->redirect(array('FilmWeeklyCinemas::index'));
+		
+		}
+	
 		$cinema = FilmWeeklyCinemas::first(
 			array (
 				'conditions' => array('id' => $id)
@@ -101,6 +109,29 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 
 		return $data;
 	}
-
+	
+	/**
+	 * delete a category map
+	 */
+	public function delete($id = null) {
+	
+		if (!Auth::check('default')) {
+            return $this->redirect('Sessions::add');
+        }
+        
+        $id = (int)$id;
+        
+        $record = FilmWeeklyCategoryMaps::first(
+        	array(
+        		'conditions' => array('id' => $id)
+        	)
+        );
+        
+        $cinema = $record->film_weekly_cinemas_id;
+        
+      	FilmWeeklyCategoryMaps::remove(array('id' => $id));
+        Session::write('message', 'Success: Record deleted');
+        return $this->redirect(array('FilmWeeklyCategoryMaps::index', 'args' => $cinema));
+	}
 }
 ?>
