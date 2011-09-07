@@ -45,6 +45,17 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 		)
 	);
 	
+	public $hasMany = array(
+		'FilmWeeklyArchaeology' => array(
+			'class' => 'FilmWeeklyArchaeology',
+			'key'   => array('id' => 'film_weekly_cinemas_id'),
+			'conditions' => array(),
+			'fields' => array(),
+			'order' => null,
+			'limit' => null
+		)
+	);
+	
 	/**
 	 * add validation rules for the model
 	 */
