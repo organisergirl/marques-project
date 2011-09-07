@@ -63,6 +63,16 @@ body {
 	text-indent: 1.4em;
 }
 
+#left-panel {
+	float: left;
+	width: 50%;
+}
+
+#right-panel {
+	float: right;
+	width: 50%;
+}
+
 /* -- basics -- */
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;

@@ -12,6 +12,7 @@ use lithium\security\Auth;
 use lithium\storage\Session;
 
 use app\models\Users;
+use app\models\FilmWeeklyCinemas;
 
 /**
  * central spot for admin tasks
@@ -31,9 +32,14 @@ class AdminController extends \lithium\action\Controller {
         }
         
         // get a count of the number of users
-        $user_count = Users::find("count");
+        $user_count = Users::find('count');
+        $fw_cinema_count = FilmWeeklyCinemas::find('count');
         
-        $data = array('user_count' => $user_count, 'auth_user' => $auth_user);
+        $data = array(
+        	'user_count' => $user_count, 
+        	'auth_user' => $auth_user,
+        	'fw_cinema_count' => $fw_cinema_count
+        );
         return compact('data');
     }
 
