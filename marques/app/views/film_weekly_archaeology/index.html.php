@@ -19,26 +19,29 @@
 <table>
 	<thead>
 		<tr>
-			<th>Category</th><th>Theatre Name</th><th>Exhibitor Name</th><th>Capacity</th>
+			<th>Category</th><th>Theatre Name</th><th>Exhibitor Name</th><th>Capacity</th><th>Delete</th>
 		</tr>
 	</thead>
 	<tbody>
 	<?php foreach($cinema->film_weekly_archaeologies as $archaeology) { ?>
-		<tr>
-			<td><?=$archaeology->film_weekly_categories_id; ?></td>
-			<td><?=$archaeology->cinema_name; ?></td>
-			<td><?=$archaeology->exhibitor_name; ?></td>
-			<?php if($archaeology->capacity > 0) { ?>
-				<td><?=$archaeology->capacity; ?></td>
-			<?php } else { ?>
-				<td>&nbsp;</td>
-			<?php } ?>
-		</tr>
+		<?php if(!empty($archaeology->film_weekly_categories_id)) { ?>
+			<tr>
+				<td><?=$archaeology->film_weekly_categories_id; ?></td>
+				<td><?=$archaeology->cinema_name; ?></td>
+				<td><?=$archaeology->exhibitor_name; ?></td>
+				<?php if($archaeology->capacity > 0) { ?>
+					<td><?=$archaeology->capacity; ?></td>
+				<?php } else { ?>
+					<td>&nbsp;</td>
+				<?php } ?>
+				<td><?=$this->html->link('Delete', array('FilmWeeklyArchaeology::delete', 'args' => $archaeology->archaeology_id)); ?></td>
+			</tr>
+		<?php } ?>
 	<?php } ?>
 	</tbody>
 </table>
 <p>
-<?=$this->html->link('Add new Archeology Record', array('FilmWeeklyArchaeology::add', 'args' => $cinema->id)); ?>
+<?=$this->html->link('Add new Archaeology Record', array('FilmWeeklyArchaeology::add', 'args' => $cinema->id)); ?>
 </p>
 <p>
 <?=$this->html->link('Back to Cinema List', array('FilmWeeklyCinemas::index')); ?>

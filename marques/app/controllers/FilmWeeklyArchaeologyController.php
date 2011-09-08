@@ -28,7 +28,7 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
 		if($id == null) {
 				
 			// redirect back to the index page
-    		Session::write('message', 'Error: Select a Cinema Before Viewing Categories');
+    		Session::write('message', 'Error: Select a Cinema Before Adding Archaeology Records');
     		return $this->redirect(array('FilmWeeklyCinemas::index'));
 		
 		}
@@ -60,71 +60,43 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
             return $this->redirect('Sessions::add');
         }
         
-        if(!$this->request->data) {
-        	
-        	$data = $this->get_cinema_data($id);
-        	
-			$this->set(compact('data'));
-			
-		} else {
-		
-			$map = FilmWeeklyCategoryMaps::create($this->request->data);
-		
-			if($map->save()) {				
-				// redirect back to the index page
-	    		Session::write('message', 'Success: Record created');
-	    		return $this->redirect(array('FilmWeeklyCategoryMaps::index', 'args' => $id));
-			} else {
-				// get the rest of the form data and show errors
-        		$data = $this->get_cinema_data($id);
-	        	$data['form'] = $map;
-				return(compact('data'));
-			}	
-    	}
-    }
-
-	/**
-	 * get the data to fill in the form
-	 */
-	private function get_cinema_data($id) {
-	
-		$cinema  = FilmWeeklyCinemas::find($id);
-		
-		$records = FilmWeeklyCategoryMaps::all(
+         $cinema = FilmWeeklyCinemas::first(
 			array (
-				'conditions' => array('film_weekly_cinemas_id' => $id)
+				'conditions' => array('id' => $id),
 			)
 		);
 		
-		$excludes = array();
-		
-		foreach($records as $record) {
-			$excludes[] = $record->film_weekly_categories_id;
-		}
-		
-		
-    	$records = FilmWeeklyCategories::all(array('order' => array('description' => 'ASC')));
+		$records = FilmWeeklyCategories::all(array('order' => array('description' => 'ASC')));
     	
     	$categories = array();
     	
     	foreach($records as $record) {
     	
-    		if(!in_array($record->id, $excludes)) {
-	    		$categories[$record->id] = $record->description;
-	    	}
+	    	$categories[$record->id] = $record->description;
     	}
-    	
-    	$data = array(
-    		'cinema' => $cinema,
-    		'categories' => $categories,
-    		'form' => FilmWeeklyCategoryMaps::create(),
-    	);
-
-		return $data;
-	}
+    
+        if(!$this->request->data) {
+	    	
+	    	$archaeology = FilmWeeklyArchaeology::create();
+			
+			$this->set(compact('cinema', 'categories', 'archaeology'));
+		} else {
+		
+			$archaeology = FilmWeeklyArchaeology::create($this->request->data);
+			
+			if($archaeology->save()) {
+			
+				Session::write('message', 'Success: Record Created');
+        		return $this->redirect(array('FilmWeeklyArchaeology::index', 'args' => $id));
+			
+			} else {
+				$this->set(compact('cinema', 'categories', 'archaeology'));
+			}
+		}
+   }
 	
 	/**
-	 * delete a category map
+	 * delete a record
 	 */
 	public function delete($id = null) {
 	
@@ -134,17 +106,17 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
         
         $id = (int)$id;
         
-        $record = FilmWeeklyCategoryMaps::first(
+        $record = FilmWeeklyArchaeology::first(
         	array(
-        		'conditions' => array('id' => $id)
+        		'conditions' => array('archaeology_id' => $id)
         	)
         );
         
-        $cinema = $record->film_weekly_cinemas_id;
-        
-      	FilmWeeklyCategoryMaps::remove(array('id' => $id));
+        $cinema_id = $record->film_weekly_cinemas_id;
+                
+      	FilmWeeklyArchaeology::remove(array('archaeology_id' => $id));
         Session::write('message', 'Success: Record deleted');
-        return $this->redirect(array('FilmWeeklyCategoryMaps::index', 'args' => $cinema));
+        return $this->redirect(array('FilmWeeklyArchaeology::index', 'args' => $cinema_id));
 	}
 }
 ?>

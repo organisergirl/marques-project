@@ -10,18 +10,21 @@
   * Collect information about a new user 
   */
 ?>
-<?php $this->title('Create New Film Weekly Cinema - Category Map'); ?>
+<?php $this->title('Create New Film Weekly Cinema Archaeology Record'); ?>
 <h2>Create New Film Weekly Cinema - Category Map</h2>
 <p>
 	Create new category map for the cinema:<br/>
-	<?=$data['cinema']->cinema_name;?>
+	<?=$cinema->cinema_name;?>
 </p>
-<?=$this->form->create($data['form']); ?>
-	<?=$this->form->hidden('film_weekly_cinemas_id', array('value' => $data['cinema']->id)); ?>
+<?=$this->form->create($archaeology); ?>
+	<?=$this->form->hidden('film_weekly_cinemas_id', array('value' => $cinema->id)); ?>
 	<div>
 		<?=$this->form->label('FilmWeeklyCategoriesId', 'Film Weekly Category'); ?>
-		<?=$this->form->select('film_weekly_categories_id', $data['categories']); ?>
+		<?=$this->form->select('film_weekly_categories_id', $categories); ?>
 	</div>
-	<?=$this->form->submit('Create New Category Map Record'); ?>
+	<?=$this->form->field('cinema_name', array('label' => 'Theatre Name')); ?>
+	<?=$this->form->field('exhibitor_name', array('label' => 'Exhibitor Name')); ?>
+	<?=$this->form->field('capacity', array('label' => 'Capacity')); ?>
+	<?=$this->form->submit('Create New Record'); ?>
 <?=$this->form->end(); ?>
-<?=$this->html->link('Back to Cinema List', array('FilmWeeklyCinemas::index')); ?>
+<?=$this->html->link('Back to Archaeology Record List', array('FilmWeeklyArchaeology::index', 'args' => array($cinema->id))); ?>
