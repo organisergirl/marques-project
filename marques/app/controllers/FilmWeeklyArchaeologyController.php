@@ -40,11 +40,14 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
 			)
 		);
 		
-		$categories = FilmWeeklyCategories::all(
-			array (
-				'order' => array('description', 'ASC')
-			)
-		);
+		$records = FilmWeeklyCategories::all(array('order' => array('description' => 'ASC')));
+		
+		$categories = array();
+    	
+    	foreach($records as $record) {
+    	
+	    	$categories[$record->id] = $record->description;
+    	}
 		
 		$this->set(compact('cinema', 'categories'));
 	}

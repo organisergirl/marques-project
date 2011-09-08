@@ -26,7 +26,7 @@
 	<?php foreach($cinema->film_weekly_archaeologies as $archaeology) { ?>
 		<?php if(!empty($archaeology->film_weekly_categories_id)) { ?>
 			<tr>
-				<td><?=$archaeology->film_weekly_categories_id; ?></td>
+				<td><?=$categories[$archaeology->film_weekly_categories_id]; ?></td>
 				<td><?=$archaeology->cinema_name; ?></td>
 				<td><?=$archaeology->exhibitor_name; ?></td>
 				<?php if($archaeology->capacity > 0) { ?>
