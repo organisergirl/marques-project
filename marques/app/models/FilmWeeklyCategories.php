@@ -26,7 +26,7 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 	public $validates = array(
 		'id' => array(
 			array('notEmpty',   'message' => 'A unique id is required'),
-			array('isUniqueFwCategoryId', 'message' => 'That unique id is already in use'),
+			//array('isUniqueFwCategoryId', 'message' => 'That unique id is already in use'),
 			array('numeric',    'message' => 'The unique id must be numeric')
 		),
 		'description' => array(
@@ -39,11 +39,12 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 	
 	/**
 	 * extend the __init function to include a custom validator
-	 */
 	public static function __init(array $options = array()) {
 	
 		// call the parent object init function
 		parent::__init($options);
+		
+		//TODO work out why this validation function fails
 		
 		// add our own validation method to enforce unique id requirement
 		// *before* the data gets to the database and throws a data related exception
@@ -60,4 +61,5 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 			
 		});
 	}
+	 */
 }
