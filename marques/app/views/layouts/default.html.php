@@ -32,13 +32,8 @@ use lithium\security\Auth;
 		</div>
 		<div id="body">
 			<?php
-				//check for a flash message
-				$session_flash_message = $this->session->message();
-				
-				// output the message if found
-				if($session_flash_message) {
-					echo("<p id=\"flash-message\" class=\"shadow\">$session_flash_message</p>");
-				}
+				// output any flash message
+				echo $this->flash->output();
 				
 				// output the page content
 				echo $this->content();

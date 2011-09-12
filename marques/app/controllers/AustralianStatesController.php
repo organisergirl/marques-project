@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use lithium\security\Auth;
 use lithium\storage\Session;
+use li3_flash\extensions\storage\Flash;
 
 use app\models\AustralianStates;
 
@@ -39,7 +40,7 @@ class AustralianStatesController extends \lithium\action\Controller {
     	// check to see if data as send and the save was successful
     	if(($this->request->data) && $data->save()) {
     		// redirect back to the index page
-    		Session::write('message', 'Success: New record created');
+    		Flash::write('Success: New record created');
     		return $this->redirect('AustralianStates::index');
     	}
     	
@@ -62,10 +63,10 @@ class AustralianStatesController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($data->save($this->request->data)) {
-    			Session::write('message', 'Success: Record updated');
+    			Flash::write('Success: Record updated');
     			return $this->redirect('AustralianStates::index');
     		} else {
-    			Session::write('message', 'Error: An error occurred please try again.');
+    			Flash::write('Error: An error occurred please try again.');
     			return $this->redirect('AustralianStates::index');
     		}
     	}
@@ -81,7 +82,7 @@ class AustralianStatesController extends \lithium\action\Controller {
         $id = (int)$id;
         
         AustralianStates::remove(array('id' => $id));
-        Session::write('message', 'Success: Record deleted');
+        Flash::write('Success: Record deleted');
         return $this->redirect('AustralianStates::index');    
     }
 

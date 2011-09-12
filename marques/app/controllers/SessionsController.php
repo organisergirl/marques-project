@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use lithium\security\Auth;
 use lithium\storage\Session;
+use li3_flash\extensions\storage\Flash;
 
 /**
  * Manage authentication actions
@@ -31,7 +32,7 @@ class SessionsController extends \lithium\action\Controller {
 		        return $this->redirect('Admin::index');
 		    } else {
 		    	// authentication failed
-		    	Session::write('message', 'Error: Login failed. Check your username and password and try again');
+		    	Flash::write('Error: Login failed. Check your username and password and try again');
 		    	return $this->redirect('Sessions::add');
 		    }
 		}
@@ -44,7 +45,7 @@ class SessionsController extends \lithium\action\Controller {
         Auth::clear('default');
         
         // authentication failed
-    	Session::write('message', 'You have successfully logged out of the MARQUes system');
+    	Flash::write('You have successfully logged out of the MARQUes system');
     	return $this->redirect('Sessions::add');
     }
 }

@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use lithium\security\Auth;
 use lithium\storage\Session;
+use li3_flash\extensions\storage\Flash;
 
 use app\models\Users;
 
@@ -40,7 +41,7 @@ class UsersController extends \lithium\action\Controller {
 		// check to see if stuff was sent and the save was successful
         if (($this->request->data) && $user->save()) {
         	// redirect back to the main user page
-        	Session::write('message', 'Success: Record created');
+        	Flash::write('Success: Record created');
             return $this->redirect('Users::index');
         }
         
@@ -63,10 +64,10 @@ class UsersController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($user->save($this->request->data)) {
-    			Session::write('message', 'Success: Record updated');
+    			Flash::write('Success: Record updated');
     			return $this->redirect('Users::index');
     		} else {
-    			Session::write('message', 'Error: An error occurred please try again.');
+    			Flash::write('Error: An error occurred please try again.');
     			return $this->redirect('Users::index');
     		}
     	}
@@ -86,11 +87,11 @@ class UsersController extends \lithium\action\Controller {
     	if($id != 1) {
 			// delete the specified user and go back to the user list page
 			Users::remove(array("id" => $id));
-			Session::write('message', 'Success: Record deleted');
+			Flash::write('Success: Record deleted');
         	return $this->redirect('Users::index');
 		} else {
 			// show some sort of error
-			Session::write('message', 'Error: You can not delete the primary admin user');
+			Flash::write('Error: You can not delete the primary admin user');
         	return $this->redirect('Users::index');
 		}    	
     } 

@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use lithium\security\Auth;
 use lithium\storage\Session;
+use li3_flash\extensions\storage\Flash;
 
 use app\models\FilmWeeklyCinemas;
 use app\models\FilmWeeklyCategories;
@@ -28,7 +29,7 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 		if($id == null) {
 				
 			// redirect back to the index page
-    		Session::write('message', 'Error: Select a Cinema Before Viewing Categories');
+    		Flash::write('Error: Select a Cinema Before Viewing Categories');
     		return $this->redirect(array('FilmWeeklyCinemas::index'));
 		
 		}
@@ -67,7 +68,7 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 		
 			if($map->save()) {				
 				// redirect back to the index page
-	    		Session::write('message', 'Success: Record created');
+	    		Flash::write('Success: Record created');
 	    		return $this->redirect(array('FilmWeeklyCategoryMaps::index', 'args' => $id));
 			} else {
 				// get the rest of the form data and show errors
@@ -134,7 +135,7 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
         $cinema = $record->film_weekly_cinemas_id;
         
       	FilmWeeklyCategoryMaps::remove(array('id' => $id));
-        Session::write('message', 'Success: Record deleted');
+        Flash::write('Success: Record deleted');
         return $this->redirect(array('FilmWeeklyCategoryMaps::index', 'args' => $cinema));
 	}
 }

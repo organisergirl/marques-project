@@ -39,7 +39,7 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
     	// check to see if data as send and the save was successful
     	if(($this->request->data) && $category->save()) {
     		// redirect back to the main category page
-    		Session::write('message', 'Success: New record created');
+    		Flash::write('message', 'Success: New record created');
     		return $this->redirect('FilmWeeklyCategories::index');
     	}
     	
@@ -62,10 +62,10 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($category->save($this->request->data)) {
-    			Session::write('message', 'Success: Record updated');
+    			Flash::write('message', 'Success: Record updated');
     			return $this->redirect('FilmWeeklyCategories::index');
     		} else {
-    			Session::write('message', 'Error: An error occurred please try again.');
+    			Flash::write('message', 'Error: An error occurred please try again.');
     			return $this->redirect('FilmWeeklyCategories::index');
     		}
     	}
@@ -81,7 +81,7 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
         $id = (int)$id;
         
         FilmWeeklyCategories::remove(array('id' => $id));
-        Session::write('message', 'Success: Record deleted');
+        Flash::write('message', 'Success: Record deleted');
         return $this->redirect('FilmWeeklyCategories::index');    
     }
 }

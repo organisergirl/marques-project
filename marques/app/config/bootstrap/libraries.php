@@ -124,5 +124,6 @@ Libraries::add('app', array('default' => true));
 
 // add the pagination helper
 Libraries::add('li3_paginate');
+Libraries::add('li3_flash');
 
 ?>

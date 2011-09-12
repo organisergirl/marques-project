@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use lithium\security\Auth;
 use lithium\storage\Session;
+use li3_flash\extensions\storage\Flash;
 
 use app\models\FilmWeeklyArchaeology;
 use app\models\FilmWeeklyCinemas;
@@ -28,7 +29,7 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
 		if($id == null) {
 				
 			// redirect back to the index page
-    		Session::write('message', 'Error: Select a Cinema Before Adding Archaeology Records');
+    		Flash::write('Error: Select a Cinema Before Adding Archaeology Records');
     		return $this->redirect(array('FilmWeeklyCinemas::index'));
 		
 		}
@@ -84,7 +85,7 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
 			
 			if($archaeology->save()) {
 			
-				Session::write('message', 'Success: Record Created');
+				Flash::write('Success: Record Created');
         		return $this->redirect(array('FilmWeeklyArchaeology::index', 'args' => $id));
 			
 			} else {
@@ -109,7 +110,7 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
         $cinema_id = $record->film_weekly_cinemas_id;
                 
       	FilmWeeklyArchaeology::remove(array('archaeology_id' => $id));
-        Session::write('message', 'Success: Record deleted');
+        Flash::write('Success: Record deleted');
         return $this->redirect(array('FilmWeeklyArchaeology::index', 'args' => $cinema_id));
 	}
 }
