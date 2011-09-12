@@ -15,7 +15,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>ID</th><th>Description</th><th>Edit</th><th>Delete</th>
+			<th>ID</th><th>Description</th><th>Cinemas</th><th>Edit</th><th>Delete</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,6 +23,7 @@
 			<tr>
 				<td><?=$category->id; ?></td>
 				<td><?=$category->description; ?></td>
+				<td><?=count($category->film_weekly_category_maps);?></td>
 				<td><?=$this->html->link("Edit", array("FilmWeeklyCategories::edit", "args" => $category->id)); ?></td>
 				<td><?=$this->html->link("Delete", array("FilmWeeklyCategories::delete", "args" => $category->id)); ?></td>
 			</tr>

@@ -24,7 +24,12 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
     public function index() {
         
         // get the list of categories
-        $categories = FilmWeeklyCategories::all(array('order' => array('id' => 'ASC')));
+        $categories = FilmWeeklyCategories::all(
+        	array(
+        		'order' => array('id' => 'ASC'),
+        		'with'  => array('FilmWeeklyCategoryMaps')
+        	)
+        );
         return compact('categories');
     }
     

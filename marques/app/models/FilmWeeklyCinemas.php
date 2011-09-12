@@ -53,6 +53,14 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 			'fields' => array(),
 			'order' => null,
 			'limit' => null
+		),
+		'FilmWeeklyCategoryMaps' => array(
+			'class' => 'FilmWeeklyCategoryMaps',
+			'key'   => array('id' => 'film_weekly_cinemas_id'),
+			'conditions' => array(),
+			'fields' => array(),
+			'order' => null,
+			'limit' => null
 		)
 	);
 	

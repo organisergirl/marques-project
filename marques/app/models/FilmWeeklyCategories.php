@@ -18,7 +18,15 @@ class FilmWeeklyCategories extends \lithium\data\Model {
 	/**
 	 * define relationships
 	 */
-	public $hasMany = array('FilmWeeklyCategoryMaps');
+	public $hasMany = array(
+		'FilmWeeklyCategoryMaps' => array(
+		'class' => 'FilmWeeklyCategoryMaps',
+		'key'   => array('id' => 'film_weekly_categories_id'),
+		'conditions' => array(),
+		'fields' => array(),
+		'order' => null,
+		'limit' => null
+	));
 
 	/**
 	 * add validation rules for the model
