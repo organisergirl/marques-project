@@ -12,7 +12,6 @@
 ?>
 <?php $this->title('Control Panel'); ?>
 <h2>MARQues Control Panel</h2>
-<p>Welcome: <?=$data['auth_user']['firstname'] . ' ' . $data['auth_user']['lastname']?></p>
 <div>
 	<div id="left-panel">
 		<h3>Manage Users</h3>
@@ -32,8 +31,8 @@
 	<div id="right-panel">
 		<h3>Site Statistics</h3>
 		<ul>
-			<li>Registered Users: <?=$data['user_count']; ?></li>
-			<li>Film Weekly Cinemas: <?=$data['fw_cinema_count']; ?></li>
+			<li>Registered Users: <?=$user_count; ?></li>
+			<li>Film Weekly Cinemas: <?=$fw_cinema_count; ?></li>
 		</ul>
 	</div>
 </div>

@@ -23,12 +23,6 @@ class UsersController extends \lithium\action\Controller {
 	 * find all of the users for the default index page
 	 */
     public function index() {
-    
-    	// check to confirm the user is logged in
-    	// only do this *after* the first user is created
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        } 
         
     	// sort the list of users by user name
     	$users = Users::all(array('order' => array('username' => 'ASC')));
@@ -39,12 +33,6 @@ class UsersController extends \lithium\action\Controller {
 	 * add a new user to the database
 	 */
     public function add() {
-    	    
-    	// check to confirm the user is logged in
-    	// only do this *after* the first user is created
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
     
     	// create a new user with the posted data
         $user = Users::create($this->request->data);
@@ -65,11 +53,6 @@ class UsersController extends \lithium\action\Controller {
      * edit a user record
      */
     public function edit($id = null) {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
     
     	$id = (int)$id;
     	$user = Users::find($id);
@@ -96,11 +79,6 @@ class UsersController extends \lithium\action\Controller {
      * delete / remove a user
      */
     public function delete($id = null) {
-    
-       	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         $id = (int)$id;
     

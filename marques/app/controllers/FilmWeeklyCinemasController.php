@@ -25,11 +25,6 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
 	 * list all of the cinema records
 	 */
     public function index() {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         // add the pagination control variables
         $limit = 10;
@@ -52,11 +47,6 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
      * add a new record to the database
      */
     public function add() {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         if(!$this->request->data) {
         	
@@ -122,11 +112,6 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
      */
     public function edit($id = null) {
     
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
-    
     	$id = (int)$id;
     	
     	// get the cinema data
@@ -159,10 +144,6 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
      * delete an existing category
      */
     public function delete($id = null) {
-    
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         $id = (int)$id;
         

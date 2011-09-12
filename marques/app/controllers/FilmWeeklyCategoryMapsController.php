@@ -54,11 +54,6 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
      * add a new record to the database
      */
     public function add($id = null) {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         if(!$this->request->data) {
         	
@@ -127,10 +122,6 @@ class FilmWeeklyCategoryMapsController extends \lithium\action\Controller {
 	 * delete a category map
 	 */
 	public function delete($id = null) {
-	
-		if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         $id = (int)$id;
         

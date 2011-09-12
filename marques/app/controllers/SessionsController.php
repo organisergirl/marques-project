@@ -17,6 +17,9 @@ use lithium\storage\Session;
 
 class SessionsController extends \lithium\action\Controller {
 
+	// list actions that can be undertaken without authentication
+	public $publicActions = array('add');
+
 	/**
 	 * authenticate the user
 	 */

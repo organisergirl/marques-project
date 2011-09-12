@@ -22,11 +22,6 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
 	 * list all of the categories
 	 */
     public function index() {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        } 
         
         // get the list of categories
         $categories = FilmWeeklyCategories::all(array('order' => array('id' => 'ASC')));
@@ -37,11 +32,6 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
      * add a new category to the database
      */
     public function add() {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
     
     	// create a new category with the posted data
     	$category = FilmWeeklyCategories::create($this->request->data);
@@ -62,11 +52,6 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
      * edit an existing category
      */
     public function edit($id = null) {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
     
     	$id = (int)$id;
     	$category = FilmWeeklyCategories::find($id);
@@ -92,10 +77,6 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
      * delete an existing category
      */
     public function delete($id = null) {
-    
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         $id = (int)$id;
         

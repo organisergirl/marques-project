@@ -22,11 +22,6 @@ class LocalityTypesController extends \lithium\action\Controller {
 	 * list all of the records
 	 */
     public function index() {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        } 
         
         // get the list of records
         $data = LocalityTypes::all(array('order' => array('id' => 'ASC')));
@@ -37,11 +32,6 @@ class LocalityTypesController extends \lithium\action\Controller {
      * add a new record
      */
     public function add() {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
     
     	// create a new record with the posted data
     	$data = LocalityTypes::create($this->request->data);
@@ -62,11 +52,6 @@ class LocalityTypesController extends \lithium\action\Controller {
      * edit an existing record
      */
     public function edit($id = null) {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
     
     	$id = (int)$id;
     	$data = LocalityTypes::find($id);
@@ -92,10 +77,6 @@ class LocalityTypesController extends \lithium\action\Controller {
      * delete an existing record
      */
     public function delete($id = null) {
-    
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         $id = (int)$id;
         

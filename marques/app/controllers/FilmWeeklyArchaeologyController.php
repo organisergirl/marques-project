@@ -57,13 +57,8 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
      * add a new record to the database
      */
     public function add($id = null) {
-    
-    	// check to confirm the user is logged in
-    	if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
-         $cinema = FilmWeeklyCinemas::first(
+        $cinema = FilmWeeklyCinemas::first(
 			array (
 				'conditions' => array('id' => $id),
 			)
@@ -102,10 +97,6 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
 	 * delete a record
 	 */
 	public function delete($id = null) {
-	
-		if (!Auth::check('default')) {
-            return $this->redirect('Sessions::add');
-        }
         
         $id = (int)$id;
         
