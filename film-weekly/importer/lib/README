@@ -9,6 +9,19 @@ The Film Weekly Import requires the following Java Libraries
 - Apache Commons Configuration - version 1.7
   http://commons.apache.org/configuration/
 
+- Apache Commons Lang - version 2.6
+  http://commons.apache.org/lang/
+
 - opencsv - version 2.3
   http://opencsv.sourceforge.net/
 
+- SLF4J - version 1.6.2
+  http://slf4j.org/
+
+- Techxplorer's Java Utils Library
+  http://techxplorer.com/projects/java-utils-lib/
+
+-= Recommended =-
+
+- Apache log4j - version 1.2.16
+  http://logging.apache.org/log4j
