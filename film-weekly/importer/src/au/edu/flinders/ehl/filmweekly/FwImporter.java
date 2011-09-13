@@ -26,6 +26,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import au.edu.flinders.ehl.filmweekly.debug.JsonList;
 import au.edu.flinders.ehl.filmweekly.debug.CoordList;
 
 import com.techxplorer.java.utils.FileUtils;
@@ -152,6 +153,30 @@ public class FwImporter {
 				System.exit(0);
 			}
 		}
+		
+		if(cmd.hasOption("debug_json_list") == true) {
+			
+			// output debug info
+			logger.debug("undertaking the debug-json-list task");
+			
+			// undertake the debug coordinate list task
+			if(FileUtils.doesFileExist(cmd.getOptionValue("debug_json_list")) == true) {
+				printCliHelp("the debug-coord-list file already exists");
+			} else {
+				JsonList list = new JsonList(inputPath, cmd.getOptionValue("debug_json_list"));
+				
+				try {
+					list.openFiles();
+					list.doTask();
+				} catch (IOException e) {
+					logger.error("unable to undertake the debug_json_list task", e);
+					errorExit();
+				}
+				
+				System.out.println("Task completed");
+				System.exit(0);
+			}
+		}
 	
 		
 
@@ -203,8 +228,14 @@ public class FwImporter {
 		OptionBuilder.withArgName("path");
 		OptionBuilder.hasArg(true);
 		OptionBuilder.withDescription("path to the coordinate list file");
-		OptionBuilder.isRequired(true);
+		OptionBuilder.isRequired(false);
 		options.addOption(OptionBuilder.create("debug_coord_list"));
+		
+		OptionBuilder.withArgName("path");
+		OptionBuilder.hasArg(true);
+		OptionBuilder.withDescription("path to the json list file");
+		OptionBuilder.isRequired(false);
+		options.addOption(OptionBuilder.create("debug_json_list"));
 
 		return options;
 	}
