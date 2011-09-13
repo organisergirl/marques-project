@@ -6,11 +6,17 @@ The Film Weekly Import requires the following Java Libraries
 - Apache Commons CLI - version 1.2
   http://commons.apache.org/cli/
 
+- Apache Commons Collections - version 3.2.1
+  http://commons.apache.org/collections/
+
 - Apache Commons Configuration - version 1.7
   http://commons.apache.org/configuration/
 
 - Apache Commons Lang - version 2.6
   http://commons.apache.org/lang/
+
+- Apache Commons Logging - version 1.1.1
+  http://commons.apache.org/logging/
 
 - Apache log4j - version 1.2.16
   http://logging.apache.org/log4j
