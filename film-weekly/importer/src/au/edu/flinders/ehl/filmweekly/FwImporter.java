@@ -12,6 +12,8 @@
 
 package au.edu.flinders.ehl.filmweekly;
 
+import java.io.IOException;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -19,7 +21,12 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import au.edu.flinders.ehl.filmweekly.debug.CoordList;
 
 import com.techxplorer.java.utils.FileUtils;
 
@@ -56,6 +63,10 @@ public class FwImporter {
 	
 	// private class variables
 	private static final String[] APP_HEADER = {APP_NAME + " - " + APP_VERSION, APP_COPYRIGHT, APP_LICENSE, APP_MORE_INFO};
+	
+	private static final String[] REQD_PROPERTIES = {"db-host", "db-user", "db-password", "db-name"};
+	
+	private static Logger logger = Logger.getLogger(FwImporter.class.getName());
 
 	/**
 	 * Main method for the class
@@ -80,36 +91,92 @@ public class FwImporter {
 			printCliHelp("Error in parsing options:\n" + e.getMessage());
 		}
 		
-		// get an check on the properties path option
+		// get and check on the log4j properties path option if required
+		if(cmd.hasOption("log4j") == true) {
+			String log4jPath = cmd.getOptionValue("log4j");
+			if(FileUtils.isAccessible(log4jPath) == false) {
+				printCliHelp("Unable to access the specified log4j properties file\n   " + log4jPath);
+			}
+			
+			// configure the log4j framework
+			PropertyConfigurator.configure(log4jPath);
+		}
+		
+		// get and check on the properties path option
 		String propertiesPath = cmd.getOptionValue("properties");
 		if(FileUtils.isAccessible(propertiesPath) == false) {
-			printCliHelp("Unable to access the specified properties file");
+			printCliHelp("Unable to access the specified properties file\n   " + propertiesPath);
 		}
 		
 		// get and check on the input file path option
 		String inputPath = cmd.getOptionValue("input");
-		if(FileUtils.isAccessible(propertiesPath) == false) {
+		if(FileUtils.isAccessible(inputPath) == false) {
 			printCliHelp("Unable to access the specified input file");
 		}
 		
 		// open the properties file
-		Configuration config = new PropertiesConfiguration(propertiesPath);
-				 
+		Configuration config = null;
+		try {
+			config = new PropertiesConfiguration(propertiesPath);
+		} catch (ConfigurationException e) {
+			printCliHelp("Unable to read the properties file file: \n" + e.getMessage());
+		}
+		
+		// check to make sure all of the required configuration properties are present
+		for(int i = 0; i < REQD_PROPERTIES.length; i++ ) {
+			if(config.containsKey(REQD_PROPERTIES[i]) == false) {
+				printCliHelp("Unable to find the required property: " + REQD_PROPERTIES[i]);
+			}
+		}
+		
+		if(cmd.hasOption("debug_coord_list") == true) {
+			
+			// output debug info
+			logger.debug("undertaking the debug-coord-list task");
+			
+			// undertake the debug coordinate list task
+			if(FileUtils.doesFileExist(cmd.getOptionValue("debug_coord_list")) == true) {
+				printCliHelp("the debug-coord-list file already exists");
+			} else {
+				CoordList list = new CoordList(inputPath, cmd.getOptionValue("debug_coord_list"));
+				
+				try {
+					list.openFiles();
+					list.doTask();
+				} catch (IOException e) {
+					logger.error("unable to undertake the debug-coord-list task", e);
+					errorExit();
+				}
+				
+				System.out.println("Task completed");
+				System.exit(0);
+			}
+		}
+	
+		
 
+	}
+	
+	/*
+	 * private method to exit the app
+	 */
+	private static void errorExit() {
+		System.out.println("Error: the task was aborted, see log for details");
+		System.exit(-1);
 	}
 	
 	/*
 	 * private method to output the command line options help
 	 */
 	private static void printCliHelp(String message) {
-		System.out.println(message);
+		System.out.println("Error: " + message);
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp("java -jar FwImporter.jar", createOptions());
 		System.exit(-1);
 	}
 
 	/*
-	 * private method to create the command line options used by the app
+	 * private method to create the list of command line options
 	 */
 	private static Options createOptions() {
 
@@ -123,9 +190,21 @@ public class FwImporter {
 		
 		OptionBuilder.withArgName("path");
 		OptionBuilder.hasArg(true);
+		OptionBuilder.withDescription("optional path to the log4j properties file");
+		OptionBuilder.isRequired(false);
+		options.addOption(OptionBuilder.create("log4j"));
+		
+		OptionBuilder.withArgName("path");
+		OptionBuilder.hasArg(true);
 		OptionBuilder.withDescription("path to the input file");
 		OptionBuilder.isRequired(true);
 		options.addOption(OptionBuilder.create("input"));
+		
+		OptionBuilder.withArgName("path");
+		OptionBuilder.hasArg(true);
+		OptionBuilder.withDescription("path to the coordinate list file");
+		OptionBuilder.isRequired(true);
+		options.addOption(OptionBuilder.create("debug_coord_list"));
 
 		return options;
 	}
