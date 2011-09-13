@@ -26,3 +26,6 @@ The Film Weekly Import requires the following Java Libraries
 
 - Techxplorer's Java Utils Library
   http://techxplorer.com/projects/java-utils-lib/
+
+- Google Gson - version 1.7.1
+  http://code.google.com/p/google-gson/
