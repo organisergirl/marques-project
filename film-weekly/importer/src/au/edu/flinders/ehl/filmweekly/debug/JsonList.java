@@ -130,7 +130,7 @@ public class JsonList {
 				
 				if(coordList.contains(coordinate) == false) {
 					
-					marker = new Marker(Double.parseDouble(dataElems[3]), Double.parseDouble(dataElems[4]), dataElems[2], dataElems[1]);
+					marker = new Marker(Double.parseDouble(dataElems[3]), Double.parseDouble(dataElems[4]), dataElems[2].trim(), dataElems[1].trim());
 					markerList.add(marker);
 					
 					coordList.add(coordinate);

@@ -137,7 +137,7 @@ public class FwImporter {
 			
 			// undertake the debug coordinate list task
 			if(FileUtils.doesFileExist(cmd.getOptionValue("debug_coord_list")) == true) {
-				printCliHelp("the debug-coord-list file already exists");
+				printCliHelp("the debug_coord_list file already exists");
 			} else {
 				CoordList list = new CoordList(inputPath, cmd.getOptionValue("debug_coord_list"));
 				
@@ -161,7 +161,7 @@ public class FwImporter {
 			
 			// undertake the debug coordinate list task
 			if(FileUtils.doesFileExist(cmd.getOptionValue("debug_json_list")) == true) {
-				printCliHelp("the debug-coord-list file already exists");
+				printCliHelp("the debug_json_list file already exists");
 			} else {
 				JsonList list = new JsonList(inputPath, cmd.getOptionValue("debug_json_list"));
 				
