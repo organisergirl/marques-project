@@ -29,17 +29,14 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         
         // add the pagination control variables
         $limit = 10;
-		$page = $this->request->page ?: 1;
+		$page  = $this->request->page ?: 1;
+		$order = array('id' => 'ASC');
 		$total = FilmWeeklyCinemas::count();
+		$with  = array('AustralianStates');
          
         
         // get the list of categories
-        $data = FilmWeeklyCinemas::all(
-        	array(
-        		'order' => array('id' => 'ASC'),
-        		'with'  => array('AustralianStates')
-        	)
-        );
+        $data = FilmWeeklyCinemas::all(compact('order', 'limit', 'page', 'with'));
         
         return compact('data', 'total', 'page', 'limit');
     }
