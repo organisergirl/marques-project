@@ -23,7 +23,7 @@
 			<tr>
 				<td><?=$category->id; ?></td>
 				<td><?=$category->description; ?></td>
-				<td><?=count($category->film_weekly_category_maps);?></td>
+				<td><?=count($category->film_weekly_category_maps) - 1;?></td>
 				<td><?=$this->html->link("Edit", array("FilmWeeklyCategories::edit", "args" => $category->id)); ?></td>
 				<td><?=$this->html->link("Delete", array("FilmWeeklyCategories::delete", "args" => $category->id)); ?></td>
 			</tr>
