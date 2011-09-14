@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use lithium\security\Auth;
 use lithium\storage\Session;
+use li3_flash\extensions\storage\Flash;
 
 use app\models\FilmWeeklyCategories;
 
@@ -44,7 +45,7 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
     	// check to see if data as send and the save was successful
     	if(($this->request->data) && $category->save()) {
     		// redirect back to the main category page
-    		Flash::write('message', 'Success: New record created');
+    		Flash::write('Success: New record created');
     		return $this->redirect('FilmWeeklyCategories::index');
     	}
     	
@@ -67,10 +68,10 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
     	
     	if($this->request->data){
     		if($category->save($this->request->data)) {
-    			Flash::write('message', 'Success: Record updated');
+    			Flash::write('Success: Record updated');
     			return $this->redirect('FilmWeeklyCategories::index');
     		} else {
-    			Flash::write('message', 'Error: An error occurred please try again.');
+    			Flash::write('Error: An error occurred please try again.');
     			return $this->redirect('FilmWeeklyCategories::index');
     		}
     	}
@@ -86,7 +87,7 @@ class FilmWeeklyCategoriesController extends \lithium\action\Controller {
         $id = (int)$id;
         
         FilmWeeklyCategories::remove(array('id' => $id));
-        Flash::write('message', 'Success: Record deleted');
+        Flash::write('Success: Record deleted');
         return $this->redirect('FilmWeeklyCategories::index');    
     }
 }
