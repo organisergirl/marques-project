@@ -13,6 +13,9 @@
 package au.edu.flinders.ehl.filmweekly;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -65,7 +68,7 @@ public class FwImporter {
 	// private class variables
 	private static final String[] APP_HEADER = {APP_NAME + " - " + APP_VERSION, APP_COPYRIGHT, APP_LICENSE, APP_MORE_INFO};
 	
-	private static final String[] REQD_PROPERTIES = {"db-host", "db-user", "db-password", "db-name"};
+	private static final String[] REQD_PROPERTIES = {"db-host", "db-name", "db-user", "db-password"};
 	
 	private static Logger logger = Logger.getLogger(FwImporter.class.getName());
 
@@ -177,9 +180,57 @@ public class FwImporter {
 				System.exit(0);
 			}
 		}
-	
 		
-
+		// if no debug options present assume import
+		System.out.println("Importing data into the database.");
+		System.out.println("*Note* if this input file has been processed before duplicate records *will* be created.");
+		
+		// get a connection to the database
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (Exception e) {
+			logger.error("unable to load the MySQL database classes", e);
+			errorExit();
+		}
+		
+		Connection database = null;
+		
+		//private static final String[] REQD_PROPERTIES = {"db-host", "db-user", "db-password", "db-name"};
+		
+		String connectionString = "jdbc:mysql://" + config.getString(REQD_PROPERTIES[0])
+		                        + "/" + config.getString(REQD_PROPERTIES[1])
+		                        + "?user=" + config.getString(REQD_PROPERTIES[2])
+		                        + "&password=" + config.getString(REQD_PROPERTIES[3]);
+		
+		try {
+			database = DriverManager.getConnection(connectionString);
+		}catch (SQLException e) {
+			logger.error("unable to connect to the MySQL database", e);
+			errorExit();
+		}
+		
+		// do the import
+		DataImporter importer = new DataImporter(database, inputPath);
+		
+		try {
+			importer.openFiles();
+			importer.doTask();
+			
+			System.out.println("Task completed");
+			System.exit(0);
+		} catch (IOException e) {
+			logger.error("unable to complete the import", e);
+			errorExit();
+		} catch (ImportException e) {
+			logger.error("unable to complete the import", e);
+			errorExit();
+		} finally {
+			// play nice and tidy up
+			try {
+				database.close();
+			} catch (SQLException e) {}
+			
+		}
 	}
 	
 	/*
