@@ -144,7 +144,7 @@ public class DataImporter {
 		try {
 			categoryStmt = database.prepareStatement("INSERT INTO film_weekly_category_maps " +
 					"(film_weekly_cinemas_id, film_weekly_categories_id) " + 
-					"VALUES (?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+					"VALUES (?,?)");
 		} catch (SQLException e) {
 			logger.error("Unable to prepare the category map sql insert statement", e);
 			throw new ImportException("Unable to prepare the category map sql insert statement", e);
