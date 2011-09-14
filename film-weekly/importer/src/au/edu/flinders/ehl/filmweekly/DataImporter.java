@@ -243,7 +243,7 @@ public class DataImporter {
 		return states;
 	}
 	
-	// private method to build the Localites map
+	// private method to build the Localities map
 	private HashMap<String, String> getLocalityTypesMap() {
 		
 		HashMap<String, String> localities = new HashMap<String, String>();
