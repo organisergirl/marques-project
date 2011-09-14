@@ -219,10 +219,10 @@ public class FwImporter {
 			System.out.println("Task completed");
 			System.exit(0);
 		} catch (IOException e) {
-			logger.error("unable to complete the import", e);
+			logger.error("unable to complete the import");
 			errorExit();
 		} catch (ImportException e) {
-			logger.error("unable to complete the import", e);
+			logger.error("unable to complete the import");
 			errorExit();
 		} finally {
 			// play nice and tidy up

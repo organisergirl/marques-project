@@ -122,18 +122,32 @@ public class DataImporter {
 		String capacity   = null;
 		int    id;
 		
-		PreparedStatement statement = null;
-		ResultSet         resultSet = null;
+		PreparedStatement cinemaStmt   = null;
+		PreparedStatement categoryStmt = null;
+		ResultSet         resultSet    = null;
 		
 		int lineCount = 1;
 		
+		final int CATEGORY_START  = 11;
+		final int CATEGORY_END    = 32;
+		final int CATEGORY_OFFSET = 10;
+		
 		try {
-			statement = database.prepareStatement("INSERT INTO film_weekly_cinemas " +
+			cinemaStmt = database.prepareStatement("INSERT INTO film_weekly_cinemas " +
 					"(latitude, longitude, australian_states_id, locality_types_id, film_weekly_cinema_types_id, street, suburb, postcode, cinema_name, exhibitor_name, capacity) " +
 					"VALUES (?,?,?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
 		} catch (SQLException e) {
-			logger.error("Unable to prepare the sql insert statement", e);
-			throw new ImportException("Unable to prepare the sql insert statement", e);
+			logger.error("Unable to prepare the cinema sql insert statement", e);
+			throw new ImportException("Unable to prepare the cinema sql insert statement", e);
+		}
+		
+		try {
+			categoryStmt = database.prepareStatement("INSERT INTO film_weekly_category_maps " +
+					"(film_weekly_cinemas_id, film_weekly_categories_id) " + 
+					"VALUES (?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+		} catch (SQLException e) {
+			logger.error("Unable to prepare the category map sql insert statement", e);
+			throw new ImportException("Unable to prepare the category map sql insert statement", e);
 		}
 		
 		// loop through the file processing each line
@@ -171,16 +185,16 @@ public class DataImporter {
 					
 					// add the values to the statement
 					try {
-						statement.setString(1, dataElems[3]); // latitude
-						statement.setString(2, dataElems[4]); // longitude
-						statement.setString(3, state); // australian_states_id
-						statement.setString(4, locality); // locality_types_id
-						statement.setString(5, cinemaType); // film_weekly_cinema_types_id
-						statement.setString(6, dataElems[5]); // street
-						statement.setString(7, dataElems[7]); // suburb
-						statement.setString(8, dataElems[6]); // postcode
-						statement.setString(9, tidyString(dataElems[8])); // cinema_name
-						statement.setString(10, tidyString(dataElems[9])); // exhibitor_name
+						cinemaStmt.setString(1, dataElems[3]); // latitude
+						cinemaStmt.setString(2, dataElems[4]); // longitude
+						cinemaStmt.setString(3, state); // australian_states_id
+						cinemaStmt.setString(4, locality); // locality_types_id
+						cinemaStmt.setString(5, cinemaType); // film_weekly_cinema_types_id
+						cinemaStmt.setString(6, dataElems[5]); // street
+						cinemaStmt.setString(7, dataElems[7]); // suburb
+						cinemaStmt.setString(8, dataElems[6]); // postcode
+						cinemaStmt.setString(9, tidyString(dataElems[8])); // cinema_name
+						cinemaStmt.setString(10, tidyString(dataElems[9])); // exhibitor_name
 						
 						try {
 							Integer.parseInt(dataElems[10]);
@@ -191,7 +205,7 @@ public class DataImporter {
 						
 						logger.info("adding record for: " + coordinate);
 
-						statement.setString(11, capacity); // capacity
+						cinemaStmt.setString(11, capacity); // capacity
 						
 					} catch (SQLException e) {
 						logger.error("error preparing sql statement", e);
@@ -200,13 +214,14 @@ public class DataImporter {
 					
 					// execute the statement
 					try {
-						statement.executeUpdate();
+						cinemaStmt.executeUpdate();
 						
-						resultSet = statement.getGeneratedKeys();
+						resultSet = cinemaStmt.getGeneratedKeys();
 						
 						if(resultSet.next()){
 							id = resultSet.getInt(1);
 							recordMap.put(coordinate,id);
+							logger.debug(id);
 						} else {
 							logger.error("error retrieving record id");
 							throw new ImportException("error retrieving record id");
@@ -215,6 +230,28 @@ public class DataImporter {
 					} catch (SQLException e) {
 						logger.error("error executing sql statement", e);
 						throw new ImportException("error executing sql statement", e);
+					}
+					
+					// add the categories
+					try {
+						for(int i = CATEGORY_START; i < CATEGORY_END ; i++) {
+							if(dataElems[i].equals("") == false) {
+								categoryStmt.setString(1, Integer.toString(id));
+								categoryStmt.setString(2, Integer.toString(i - CATEGORY_OFFSET));
+								
+								logger.debug("" + Integer.toString(id) + " " + Integer.toString(i - 10));
+								
+								try {
+									categoryStmt.executeUpdate();
+								} catch (SQLException e) {
+									logger.error("error executing category insert statement", e);
+									throw new ImportException("error executing category insert statement", e);
+								}
+							}
+						}
+					} catch (SQLException e) {
+						logger.error("error preparing category insert statement", e);
+						throw new ImportException("error preparing category insert statement", e);
 					}
 				}
 				
