@@ -137,7 +137,7 @@ public class DataImporter {
 		
 		String maxCinemaId = getMaxCinemaId();
 		
-		logger.info("Current maximum cinema record id:" + maxCinemaId);
+		logger.info("Current maximum cinema record id: " + maxCinemaId);
 		
 		try {
 			cinemaStmt = database.prepareStatement("INSERT INTO film_weekly_cinemas " +
