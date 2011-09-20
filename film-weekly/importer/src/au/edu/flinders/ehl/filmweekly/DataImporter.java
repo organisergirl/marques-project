@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -134,6 +135,10 @@ public class DataImporter {
 		
 		RecordDetails currentRecord = null;
 		
+		String maxCinemaId = getMaxCinemaId();
+		
+		logger.info("Current maximum cinema record id:" + maxCinemaId);
+		
 		try {
 			cinemaStmt = database.prepareStatement("INSERT INTO film_weekly_cinemas " +
 					"(latitude, longitude, australian_states_id, locality_types_id, film_weekly_cinema_types_id, street, suburb, postcode, cinema_name, exhibitor_name, capacity) " +
@@ -187,8 +192,84 @@ public class DataImporter {
 		} catch (IOException e) {
 			logger.error("Unable to read from the input file", e);
 			throw new ImportException("Unable to read from the input file", e);
+		} catch (ImportException e) {
+			logger.info("tidying up database following an error");
+			tidyDatabase(maxCinemaId);
+			throw e;
+		}
+		finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				logger.error("Unable to close the input file", e);
+			}
 		}
 		
+		String newCinemaId = getMaxCinemaId();
+	
+		logger.info("New maximum cinema record id: " + newCinemaId);
+		logger.info("Number of new records added: " + (Integer.parseInt(newCinemaId) - Integer.parseInt(maxCinemaId)));
+		
+	}
+	
+	// private method to tidy the database if something bad happens
+	private void tidyDatabase(String maxCinemaId) throws ImportException{
+		
+		Statement sqlStmt = null;
+		
+		try {
+			
+			sqlStmt = database.createStatement();
+			
+			sqlStmt.execute("DELETE FROM film_weekly_category_maps WHERE film_weekly_cinemas_id > " + maxCinemaId);
+			
+			sqlStmt.execute("DELETE FROM film_weekly_archaeologies WHERE film_weekly_cinemas_id > " + maxCinemaId);
+			
+			sqlStmt.execute("DELETE FROM film_weekly_cinemas WHERE id > " + maxCinemaId);
+			
+		}catch (SQLException e) {
+			logger.error("Unable to tidy up the database following a failure", e);
+			throw new ImportException("Unable to tidy up the database following a failure", e);
+		} finally {
+			try {
+				if(sqlStmt != null) {
+					sqlStmt.close();
+				}
+			} catch (SQLException e) {
+				logger.error("unable to tidy up database objects", e);
+			}
+		}
+		
+	}
+	
+	// private method to get the maximum cinema id
+	private String getMaxCinemaId() throws ImportException{
+		
+		Statement sqlStmt = null;
+		ResultSet resultSet = null;
+		
+		try {
+			sqlStmt = database.createStatement();
+			resultSet = sqlStmt.executeQuery("SELECT MAX(id) FROM film_weekly_cinemas");
+			
+			if(resultSet.next()){
+				return resultSet.getString(1);
+			} else {
+				return "0";
+			}
+		} catch (SQLException e) {
+			logger.error("Unable to select the maximum cinema record id", e);
+			throw new ImportException("Unable to select the maximum cinema record id", e);
+		} finally {
+			try {
+				if(sqlStmt != null) {
+					resultSet.close();
+					sqlStmt.close();
+				}
+			} catch (SQLException e) {
+				logger.error("unable to tidy up database objects", e);
+			}
+		}
 	}
 	
 	// private method to add a new record 
@@ -268,9 +349,8 @@ public class DataImporter {
 			if(resultSet.next()){
 				id = resultSet.getInt(1);
 				
-				if(logger.isDebugEnabled()) {
-					logger.debug("New record id: " + id);
-				}
+				logger.info("New record has id: " + id);
+				
 			} else {
 				logger.error("error retrieving record id");
 				throw new ImportException("error retrieving record id");
@@ -403,7 +483,7 @@ public class DataImporter {
 						}
 						
 						if(logger.isDebugEnabled()) {
-							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New cinema name archaeology record");
+							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New exhibitor name archaeology record");
 						}
 						
 						try {
@@ -432,7 +512,7 @@ public class DataImporter {
 						}
 						
 						if(logger.isDebugEnabled()) {
-							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New cinema name archaeology record");
+							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New capacity archaeology record");
 						}
 						
 						try {

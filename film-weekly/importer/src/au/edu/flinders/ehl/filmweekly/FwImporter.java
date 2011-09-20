@@ -228,7 +228,9 @@ public class FwImporter {
 			// play nice and tidy up
 			try {
 				database.close();
-			} catch (SQLException e) {}
+			} catch (SQLException e) {
+				logger.error("Unable to close the database connection: ", e);
+			}
 			
 		}
 	}
