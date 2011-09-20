@@ -253,7 +253,11 @@ public class DataImporter {
 			resultSet = sqlStmt.executeQuery("SELECT MAX(id) FROM film_weekly_cinemas");
 			
 			if(resultSet.next()){
-				return resultSet.getString(1);
+				if (resultSet.getString(1) != null) {
+					return resultSet.getString(1);
+				} else {
+					return "0";
+				}
 			} else {
 				return "0";
 			}
