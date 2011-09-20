@@ -128,8 +128,9 @@ public class DataImporter {
 		
 		HashMap<String, Integer> recordMap = new HashMap<String, Integer>();
 		
-		PreparedStatement cinemaStmt   = null;
-		PreparedStatement categoryStmt = null;
+		PreparedStatement cinemaStmt      = null;
+		PreparedStatement categoryStmt    = null;
+		PreparedStatement archaeologyStmt = null;
 		
 		RecordDetails currentRecord = null;
 		
@@ -151,6 +152,16 @@ public class DataImporter {
 			throw new ImportException("Unable to prepare the category map sql insert statement", e);
 		}
 		
+		try {
+			archaeologyStmt = database.prepareStatement("INSERT INTO film_weekly_archaeologies " +
+					"(film_weekly_cinemas_id, film_weekly_categories_id, cinema_name, exhibitor_name, capacity) " +
+					"VALUES (?,?,?,?,?)"
+					);
+		} catch (SQLException e) {
+			logger.error("Unable to prepare the archaeology sql insert statement", e);
+			throw new ImportException("Unable to prepare the archaeology sql insert statement", e);
+		}
+		
 		// loop through the file processing each line
 		try {
 			
@@ -161,12 +172,15 @@ public class DataImporter {
 				coordinate = dataElems[3] + "," + dataElems[4];
 				
 				if(recordMap.containsKey(coordinate) == false) {
+					
 					// new record
 					currentRecord = addNewRecord(dataElems, cinemaStmt, categoryStmt);
 					recordMap.put(coordinate, currentRecord.getRecordId());
+					currentRecord.setCoordinates(coordinate);
 					
 				} else {
 					// seen this record before
+					addArchaeologyRecord(currentRecord, dataElems, archaeologyStmt, categoryStmt);
 				}
 				
 			}
@@ -291,7 +305,152 @@ public class DataImporter {
 			throw new ImportException("error preparing category insert statement", e);
 		}
 		
+		// play nice and tidy up
+		try {
+			resultSet.close();
+		} catch (SQLException e) {
+			logger.error("error in close resultSet", e);
+		}
+		
 		return new RecordDetails(id, cinemaName, exhibitorName, capacity);
+		
+	}
+
+	// private method to add a
+	private void addArchaeologyRecord(RecordDetails currentRecord, String[] dataElems, PreparedStatement archaeologyStmt, PreparedStatement categoryStmt ) throws ImportException {
+		
+		String cinemaName    = tidyString(dataElems[8]);
+		String exhibitorName = tidyString(dataElems[9]);
+		String capacity;
+		
+		try {
+			Integer.parseInt(dataElems[10]);
+			capacity = dataElems[10];
+		} catch (NumberFormatException e) {
+			capacity = "";
+		}
+		
+		if(cinemaName == null) {
+			cinemaName = "";
+		}
+		
+		if(exhibitorName == null) {
+			exhibitorName = "";
+		}
+		
+		// add the categories
+		try {
+			for(int i = categoryStart; i < categoryEnd ; i++) {
+				if(dataElems[i].equals("") == false) {
+					
+					// add the base record category map links
+					categoryStmt.setString(1, Integer.toString(currentRecord.getRecordId()));
+					categoryStmt.setString(2, Integer.toString(i - categoryOffset));
+					
+					if(logger.isDebugEnabled()) {
+						logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10));
+					}
+					
+					try {
+						categoryStmt.executeUpdate();
+					} catch (SQLException e) {
+						logger.warn("possible data corruption detected for cinema at: '" + currentRecord.getCoordinates() + "' duplicate year entry found");
+					}
+					
+					// add an archaeology record if required
+					if((cinemaName.equals(currentRecord.getCinemaName()) == false) && cinemaName.equals("") == false) {
+						
+						try {
+							
+							archaeologyStmt.setString(1, Integer.toString(currentRecord.getRecordId()));
+							archaeologyStmt.setString(2, Integer.toString(i - categoryOffset));
+							archaeologyStmt.setString(3, cinemaName);
+							archaeologyStmt.setString(4, null);
+							archaeologyStmt.setString(5, null);
+							
+						} catch (SQLException e) {
+							logger.error("error preparing archaeology insert statement", e);
+							throw new ImportException("error preparing archaeology insert statement", e);
+						}
+						
+						if(logger.isDebugEnabled()) {
+							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New cinema name archaeology record");
+						}
+						
+						try {
+							archaeologyStmt.executeUpdate();
+						} catch (SQLException e) {
+							logger.error("Unable to insert new archaeology record", e);
+							throw new ImportException("Unable to insert new archaeology record", e);
+						}
+						
+						currentRecord.setCinemaName(cinemaName);
+					}
+					
+					if((exhibitorName.equals(currentRecord.getExhibitorName()) == false) && exhibitorName.equals("") == false) {
+						
+						try {
+							
+							archaeologyStmt.setString(1, Integer.toString(currentRecord.getRecordId()));
+							archaeologyStmt.setString(2, Integer.toString(i - categoryOffset));
+							archaeologyStmt.setString(3, null);
+							archaeologyStmt.setString(4, exhibitorName);
+							archaeologyStmt.setString(5, null);
+							
+						} catch (SQLException e) {
+							logger.error("error preparing archaeology insert statement", e);
+							throw new ImportException("error preparing archaeology insert statement", e);
+						}
+						
+						if(logger.isDebugEnabled()) {
+							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New cinema name archaeology record");
+						}
+						
+						try {
+							archaeologyStmt.executeUpdate();
+						} catch (SQLException e) {
+							logger.error("Unable to insert new archaeology record", e);
+							throw new ImportException("Unable to insert new archaeology record", e);
+						}
+						
+						currentRecord.setExhibitorName(exhibitorName);
+					}
+				
+					if((capacity.equals(currentRecord.getCapacity()) == false) && capacity.equals("") == false) {
+						
+						try {
+							
+							archaeologyStmt.setString(1, Integer.toString(currentRecord.getRecordId()));
+							archaeologyStmt.setString(2, Integer.toString(i - categoryOffset));
+							archaeologyStmt.setString(3, null);
+							archaeologyStmt.setString(4, null);
+							archaeologyStmt.setString(5, capacity);
+							
+						} catch (SQLException e) {
+							logger.error("error preparing archaeology insert statement", e);
+							throw new ImportException("error preparing archaeology insert statement", e);
+						}
+						
+						if(logger.isDebugEnabled()) {
+							logger.debug("Record Id: " + Integer.toString(currentRecord.getRecordId()) + " Category Id: " + Integer.toString(i - 10) + " New cinema name archaeology record");
+						}
+						
+						try {
+							archaeologyStmt.executeUpdate();
+						} catch (SQLException e) {
+							logger.error("Unable to insert new archaeology record", e);
+							throw new ImportException("Unable to insert new archaeology record", e);
+						}
+						
+						currentRecord.setCapacity(capacity);
+					}	
+					
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("error preparing category insert statement", e);
+			throw new ImportException("error preparing category insert statement", e);
+		}
 		
 	}
 	
@@ -357,13 +516,14 @@ public class DataImporter {
 		
 		private int recordId;
 		private String cinemaName;
-		private String exibitorName;
+		private String exhibitorName;
 		private String capacity;
+		private String coordinates;
 		
-		public RecordDetails(int recordId, String cinemaName, String exibitorName, String capacity) {
+		public RecordDetails(int recordId, String cinemaName, String exhibitorName, String capacity) {
 			this.recordId = recordId;
 			this.cinemaName = cinemaName;
-			this.exibitorName = exibitorName;
+			this.exhibitorName = exhibitorName;
 			this.capacity = capacity;
 		}
 
@@ -383,12 +543,12 @@ public class DataImporter {
 			this.cinemaName = cinemaName;
 		}
 
-		public String getExibitorName() {
-			return exibitorName;
+		public String getExhibitorName() {
+			return exhibitorName;
 		}
 
-		public void setExibitorName(String exibitorName) {
-			this.exibitorName = exibitorName;
+		public void setExhibitorName(String exhibitorName) {
+			this.exhibitorName = exhibitorName;
 		}
 
 		public String getCapacity() {
@@ -397,6 +557,14 @@ public class DataImporter {
 
 		public void setCapacity(String capacity) {
 			this.capacity = capacity;
+		}
+		
+		public String getCoordinates() {
+			return coordinates;
+		}
+		
+		public void setCoordinates(String coordinates) {
+			this.coordinates = coordinates;
 		}
 	}
 
