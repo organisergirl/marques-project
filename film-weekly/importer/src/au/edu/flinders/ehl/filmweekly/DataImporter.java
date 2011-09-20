@@ -39,6 +39,17 @@ public class DataImporter {
 	
 	private BufferedReader inputFile = null;
 	
+	// build helper lists
+	private final HashMap<String, String> australianStates = getAustralianStateMap();
+	private final HashMap<String, String> localityTypes    = getLocalityTypesMap();
+	private final HashMap<String, String> cinemaTypes      = getCinemaTypesMap();
+	
+	private int lineCount = 1;
+	
+	private final int categoryStart  = 11;
+	private final int categoryEnd    = 32;
+	private final int categoryOffset = 10;
+	
 	/**
 	 * construct a new Data Importer object
 	 * 
@@ -73,7 +84,9 @@ public class DataImporter {
 		this.database = database;
 		this.inputPath = inputPath;
 		
-		logger.debug("DataImporter class successfully instantiated");
+		if(logger.isDebugEnabled()) {
+			logger.debug("DataImporter class successfully instantiated");
+		}
 	}
 	
 	/**
@@ -83,7 +96,9 @@ public class DataImporter {
 	 */
 	public void openFiles() throws IOException {
 		
-		logger.debug("opening input file for reading");
+		if(logger.isDebugEnabled()) {
+			logger.debug("opening input file for reading");
+		}
 		
 		try{
 			inputFile = FileUtils.openFileForReading(inputPath);
@@ -100,7 +115,9 @@ public class DataImporter {
 	 */
 	public void doTask() throws ImportException {
 		
-		logger.debug("undertaking the task");
+		if(logger.isDebugEnabled()) {
+			logger.debug("undertaking the task");
+		}
 		
 		// create the CSVReader objects
 		CSVReader reader = new CSVReader(inputFile, ',', '"', 1);
@@ -111,26 +128,10 @@ public class DataImporter {
 		
 		HashMap<String, Integer> recordMap = new HashMap<String, Integer>();
 		
-		// build helper lists
-		HashMap<String, String> australianStates = getAustralianStateMap();
-		HashMap<String, String> localityTypes    = getLocalityTypesMap();
-		HashMap<String, String> cinemaTypes      = getCinemaTypesMap();
-		
-		String state      = null;
-		String locality   = null;
-		String cinemaType = null;
-		String capacity   = null;
-		int    id;
-		
 		PreparedStatement cinemaStmt   = null;
 		PreparedStatement categoryStmt = null;
-		ResultSet         resultSet    = null;
 		
-		int lineCount = 1;
-		
-		final int CATEGORY_START  = 11;
-		final int CATEGORY_END    = 32;
-		final int CATEGORY_OFFSET = 10;
+		RecordDetails currentRecord = null;
 		
 		try {
 			cinemaStmt = database.prepareStatement("INSERT INTO film_weekly_cinemas " +
@@ -161,98 +162,11 @@ public class DataImporter {
 				
 				if(recordMap.containsKey(coordinate) == false) {
 					// new record
+					currentRecord = addNewRecord(dataElems, cinemaStmt, categoryStmt);
+					recordMap.put(coordinate, currentRecord.getRecordId());
 					
-					state = australianStates.get(dataElems[0].trim());
-					
-					if(state == null) {
-						logger.error("Unknown state detected: " + dataElems[0].trim() + "on line: " + lineCount);
-						throw new ImportException("Unknown state detected: " + dataElems[0].trim() + "on line: " + lineCount);
-					}
-					
-					locality = localityTypes.get(dataElems[1].trim());
-					
-					if(locality == null) {
-						logger.error("Unknown locality detected: " + dataElems[1].trim() + "on line: " + lineCount);
-						throw new ImportException("Unknown locality detected: " + dataElems[1].trim() + "on line: " + lineCount);
-					}
-					
-					cinemaType = cinemaTypes.get(dataElems[2].trim());
-					
-					if(cinemaType == null) {
-						logger.error("Unknown cinemaType detected: " + dataElems[2].trim() + "on line: " + lineCount);
-						throw new ImportException("Unknown cinemaType detected: " + dataElems[2].trim() + "on line: " + lineCount);
-					}
-					
-					// add the values to the statement
-					try {
-						cinemaStmt.setString(1, dataElems[3]); // latitude
-						cinemaStmt.setString(2, dataElems[4]); // longitude
-						cinemaStmt.setString(3, state); // australian_states_id
-						cinemaStmt.setString(4, locality); // locality_types_id
-						cinemaStmt.setString(5, cinemaType); // film_weekly_cinema_types_id
-						cinemaStmt.setString(6, dataElems[5]); // street
-						cinemaStmt.setString(7, dataElems[7]); // suburb
-						cinemaStmt.setString(8, dataElems[6]); // postcode
-						cinemaStmt.setString(9, tidyString(dataElems[8])); // cinema_name
-						cinemaStmt.setString(10, tidyString(dataElems[9])); // exhibitor_name
-						
-						try {
-							Integer.parseInt(dataElems[10]);
-							capacity = dataElems[10];
-						} catch (NumberFormatException e) {
-							capacity = null;
-						}
-						
-						logger.info("adding record for: " + coordinate);
-
-						cinemaStmt.setString(11, capacity); // capacity
-						
-					} catch (SQLException e) {
-						logger.error("error preparing sql statement", e);
-						throw new ImportException("error preparing sql statement", e);
-					}
-					
-					// execute the statement
-					try {
-						cinemaStmt.executeUpdate();
-						
-						resultSet = cinemaStmt.getGeneratedKeys();
-						
-						if(resultSet.next()){
-							id = resultSet.getInt(1);
-							recordMap.put(coordinate,id);
-							logger.debug(id);
-						} else {
-							logger.error("error retrieving record id");
-							throw new ImportException("error retrieving record id");
-						}
-						
-					} catch (SQLException e) {
-						logger.error("error executing sql statement", e);
-						throw new ImportException("error executing sql statement", e);
-					}
-					
-					// add the categories
-					try {
-						for(int i = CATEGORY_START; i < CATEGORY_END ; i++) {
-							if(dataElems[i].equals("") == false) {
-								categoryStmt.setString(1, Integer.toString(id));
-								categoryStmt.setString(2, Integer.toString(i - CATEGORY_OFFSET));
-								
-								logger.debug("" + Integer.toString(id) + " " + Integer.toString(i - 10));
-								
-								try {
-									categoryStmt.executeUpdate();
-								} catch (SQLException e) {
-									logger.error("error executing category insert statement", e);
-									throw new ImportException("error executing category insert statement", e);
-								}
-							}
-						}
-					} catch (SQLException e) {
-						logger.error("error preparing category insert statement", e);
-						throw new ImportException("error preparing category insert statement", e);
-					}
+				} else {
+					// seen this record before
 				}
 				
 			}
@@ -260,6 +174,124 @@ public class DataImporter {
 			logger.error("Unable to read from the input file", e);
 			throw new ImportException("Unable to read from the input file", e);
 		}
+		
+	}
+	
+	// private method to add a new record 
+	private RecordDetails addNewRecord(String[] dataElems, PreparedStatement cinemaStmt, PreparedStatement categoryStmt) throws ImportException {
+		
+		String state         = null;
+		String locality      = null;
+		String cinemaType    = null;
+		String cinemaName    = null;
+		String exhibitorName = null;
+		String capacity      = null;
+		String coordinate    = dataElems[3] + "," + dataElems[4];
+		int    id;
+		
+		ResultSet resultSet    = null;
+		
+		state = australianStates.get(dataElems[0].trim());
+		
+		if(state == null) {
+			logger.error("Unknown state detected: " + dataElems[0].trim() + "on line: " + lineCount);
+			throw new ImportException("Unknown state detected: " + dataElems[0].trim() + "on line: " + lineCount);
+		}
+		
+		locality = localityTypes.get(dataElems[1].trim());
+		
+		if(locality == null) {
+			logger.error("Unknown locality detected: " + dataElems[1].trim() + "on line: " + lineCount);
+			throw new ImportException("Unknown locality detected: " + dataElems[1].trim() + "on line: " + lineCount);
+		}
+		
+		cinemaType = cinemaTypes.get(dataElems[2].trim());
+		
+		if(cinemaType == null) {
+			logger.error("Unknown cinemaType detected: " + dataElems[2].trim() + "on line: " + lineCount);
+			throw new ImportException("Unknown cinemaType detected: " + dataElems[2].trim() + "on line: " + lineCount);
+		}
+		
+		// add the values to the statement
+		try {
+			cinemaStmt.setString(1, dataElems[3]); // latitude
+			cinemaStmt.setString(2, dataElems[4]); // longitude
+			cinemaStmt.setString(3, state); // australian_states_id
+			cinemaStmt.setString(4, locality); // locality_types_id
+			cinemaStmt.setString(5, cinemaType); // film_weekly_cinema_types_id
+			cinemaStmt.setString(6, dataElems[5]); // street
+			cinemaStmt.setString(7, dataElems[7]); // suburb
+			cinemaStmt.setString(8, dataElems[6]); // postcode
+			cinemaStmt.setString(9, tidyString(dataElems[8])); // cinema_name
+			cinemaStmt.setString(10, tidyString(dataElems[9])); // exhibitor_name
+			
+			try {
+				Integer.parseInt(dataElems[10]);
+				capacity = dataElems[10];
+			} catch (NumberFormatException e) {
+				capacity = null;
+			}
+			
+			logger.info("adding record for: " + coordinate);
+
+			cinemaStmt.setString(11, capacity); // capacity
+			
+			// store other values for later
+			cinemaName    = tidyString(dataElems[8]);
+			exhibitorName = tidyString(dataElems[9]);
+			
+		} catch (SQLException e) {
+			logger.error("error preparing sql statement", e);
+			throw new ImportException("error preparing sql statement", e);
+		}
+		
+		// execute the statement
+		try {
+			cinemaStmt.executeUpdate();
+			
+			resultSet = cinemaStmt.getGeneratedKeys();
+			
+			if(resultSet.next()){
+				id = resultSet.getInt(1);
+				
+				if(logger.isDebugEnabled()) {
+					logger.debug("New record id: " + id);
+				}
+			} else {
+				logger.error("error retrieving record id");
+				throw new ImportException("error retrieving record id");
+			}
+			
+		} catch (SQLException e) {
+			logger.error("error executing sql statement", e);
+			throw new ImportException("error executing sql statement", e);
+		}
+		
+		// add the categories
+		try {
+			for(int i = categoryStart; i < categoryEnd ; i++) {
+				if(dataElems[i].equals("") == false) {
+					categoryStmt.setString(1, Integer.toString(id));
+					categoryStmt.setString(2, Integer.toString(i - categoryOffset));
+					
+					if(logger.isDebugEnabled()) {
+						logger.debug("Record Id: " + Integer.toString(id) + " Category Id: " + Integer.toString(i - 10));
+					}
+					
+					try {
+						categoryStmt.executeUpdate();
+					} catch (SQLException e) {
+						logger.error("error executing category insert statement", e);
+						throw new ImportException("error executing category insert statement", e);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("error preparing category insert statement", e);
+			throw new ImportException("error preparing category insert statement", e);
+		}
+		
+		return new RecordDetails(id, cinemaName, exhibitorName, capacity);
 		
 	}
 	
@@ -316,6 +348,55 @@ public class DataImporter {
 			return null;
 		} else {
 			return newValue;
+		}
+	}
+	
+	// private class to represent record details
+	@SuppressWarnings("unused")
+	private class RecordDetails {
+		
+		private int recordId;
+		private String cinemaName;
+		private String exibitorName;
+		private String capacity;
+		
+		public RecordDetails(int recordId, String cinemaName, String exibitorName, String capacity) {
+			this.recordId = recordId;
+			this.cinemaName = cinemaName;
+			this.exibitorName = exibitorName;
+			this.capacity = capacity;
+		}
+
+		public int getRecordId() {
+			return recordId;
+		}
+
+		public void setRecordId(int recordId) {
+			this.recordId = recordId;
+		}
+
+		public String getCinemaName() {
+			return cinemaName;
+		}
+
+		public void setCinemaName(String cinemaName) {
+			this.cinemaName = cinemaName;
+		}
+
+		public String getExibitorName() {
+			return exibitorName;
+		}
+
+		public void setExibitorName(String exibitorName) {
+			this.exibitorName = exibitorName;
+		}
+
+		public String getCapacity() {
+			return capacity;
+		}
+
+		public void setCapacity(String capacity) {
+			this.capacity = capacity;
 		}
 	}
 
