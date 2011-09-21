@@ -48,7 +48,7 @@ public class DataImporter {
 	private int lineCount = 1;
 	
 	private final int categoryStart  = 11;
-	private final int categoryEnd    = 32;
+	private final int categoryEnd    = 33;
 	private final int categoryOffset = 10;
 	
 	/**
