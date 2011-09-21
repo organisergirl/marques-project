@@ -49,7 +49,7 @@ CREATE TABLE `film_weekly_archaeologies` (
   KEY `film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=782 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `film_weekly_category_maps` (
   KEY `idx_film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories_id_map` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id_map` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3719 DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,17 +109,17 @@ DROP TABLE IF EXISTS `film_weekly_cinemas`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `film_weekly_cinemas` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'unique identifier for each film weekly cinema',
-  `latitude` float DEFAULT NULL COMMENT 'the latitude geographic coordinate in decimal degrees',
-  `longitude` float DEFAULT NULL,
-  `australian_states_id` int(11) DEFAULT NULL COMMENT 'the identifier for the state',
-  `locality_types_id` int(11) DEFAULT NULL COMMENT 'the identifier for the locality',
-  `film_weekly_cinema_types_id` int(11) DEFAULT NULL COMMENT 'the type of cinema',
-  `street` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the street address for the cinema',
-  `suburb` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'suburb or town name',
-  `postcode` varchar(4) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the postcode',
-  `cinema_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the name of the cinema',
-  `exhibitor_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the name of the exhibitor',
-  `capacity` smallint(6) DEFAULT NULL COMMENT 'the capacity of the theatre',
+  `latitude` double NOT NULL COMMENT 'the latitude geographic coordinate in decimal degrees',
+  `longitude` double NOT NULL COMMENT 'the longitude geographic coordinate in decimal degrees',
+  `australian_states_id` int(11) NOT NULL COMMENT 'the id of an australian_states record',
+  `locality_types_id` int(11) NOT NULL COMMENT 'the id of a locality_types record',
+  `film_weekly_cinema_types_id` int(11) NOT NULL COMMENT 'the id of a film_weekly_cinema_types record',
+  `street` varchar(512) DEFAULT NULL COMMENT 'the street address for the cinema',
+  `suburb` varchar(512) NOT NULL COMMENT 'suburb or town name',
+  `postcode` varchar(4) NOT NULL COMMENT 'the australian post code for the suburb',
+  `cinema_name` varchar(512) NOT NULL COMMENT 'the name of the theatre / cinema',
+  `exhibitor_name` varchar(512) DEFAULT NULL COMMENT 'the name of the exhibitor',
+  `capacity` smallint(6) DEFAULT NULL COMMENT 'the capacity of the cinema / theatre',
   PRIMARY KEY (`id`),
   KEY `idx_australian_states_id` (`australian_states_id`) USING BTREE,
   KEY `idx_locality_type_id` (`locality_types_id`) USING BTREE,
@@ -127,7 +127,7 @@ CREATE TABLE `film_weekly_cinemas` (
   CONSTRAINT `fk_australian_states` FOREIGN KEY (`australian_states_id`) REFERENCES `australian_states` (`id`),
   CONSTRAINT `fk_film_weekly_cinema_types` FOREIGN KEY (`film_weekly_cinema_types_id`) REFERENCES `film_weekly_cinema_types` (`id`),
   CONSTRAINT `fk_locality_types` FOREIGN KEY (`locality_types_id`) REFERENCES `locality_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ DROP TABLE IF EXISTS `locality_types`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `locality_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'unique identifier for the locality type',
-  `description` varchar(50) CHARACTER SET latin1 NOT NULL COMMENT 'description of the locality',
+  `description` varchar(50) NOT NULL COMMENT 'description of the locality',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='store details of the different types of localities';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -153,11 +153,11 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'unique primary id for the user',
-  `username` varchar(25) CHARACTER SET latin1 NOT NULL COMMENT 'username for the user',
-  `password` varchar(255) CHARACTER SET latin1 NOT NULL COMMENT 'password for the user',
-  `firstname` varchar(50) CHARACTER SET latin1 NOT NULL COMMENT 'first name of the user',
-  `lastname` varchar(50) CHARACTER SET latin1 NOT NULL COMMENT 'last name of the user',
-  `email` varchar(512) CHARACTER SET latin1 NOT NULL COMMENT 'email address of the user',
+  `username` varchar(25) NOT NULL COMMENT 'username for the user',
+  `password` varchar(255) NOT NULL COMMENT 'password for the user',
+  `firstname` varchar(50) NOT NULL COMMENT 'first name of the user',
+  `lastname` varchar(50) NOT NULL COMMENT 'last name of the user',
+  `email` varchar(512) NOT NULL COMMENT 'email address of the user',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='store details of users';
@@ -172,4 +172,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-20 13:07:00
+-- Dump completed on 2011-09-21  9:53:38
