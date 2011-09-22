@@ -12,9 +12,22 @@
  */
 use lithium\storage\Session;
 
+// in production we must change the secret below to something else
 Session::config(array(
 	// 'cookie' => array('adapter' => 'Cookie'),
-	'default' => array('adapter' => 'Php')
+	/*
+	'default' => array(
+		'adapter' => 'Cookie',
+		'strategies' => array(
+			'Encrypt' => array(
+				'secret' => 'topSecretSalt'
+			)
+		)
+	)
+	*/
+	'default' => array(
+		'adapter' => 'Php'
+	)
 ));
 
 /**
