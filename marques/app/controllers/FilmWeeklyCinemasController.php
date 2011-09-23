@@ -16,6 +16,8 @@ use app\models\FilmWeeklyCinemas;
 use app\models\AustralianStates;
 use app\models\FilmWeeklyCinemaTypes;
 use app\models\LocalityTypes;
+use app\models\FilmWeeklyCategoryMaps;
+use app\models\FilmWeeklyArchaeology;
 
 /**
  * Manage the Film Weekly Cinemas in the database
@@ -145,7 +147,25 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         
         $id = (int)$id;
         
-        FilmWeeklyCinemas::remove(array('id' => $id));
+        // delete any other existing data
+        FilmWeeklyArchaeology::remove(
+        	array(
+        		'film_weekly_cinemas_id' => $id
+        	)
+        );
+        
+        FilmWeeklyCategoryMaps::remove(
+        	array(
+        		'film_weekly_cinemas_id' => $id
+        	)
+        );
+        
+        FilmWeeklyCinemas::remove(
+        	array(
+        		'id' => $id
+        	)
+        );
+        
         Flash::write('Success: Record deleted');
         return $this->redirect('FilmWeeklyCinemas::index');    
     }
