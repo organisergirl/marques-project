@@ -34,7 +34,7 @@
 				<?php } else { ?>
 					<td>&nbsp;</td>
 				<?php } ?>
-				<td><?=$this->html->link('Delete', array('FilmWeeklyArchaeology::delete', 'args' => $archaeology->archaeology_id)); ?></td>
+				<td><?=$this->html->link('Delete', array('FilmWeeklyArchaeology::delete', 'args' => $archaeology->id)); ?></td>
 			</tr>
 		<?php } ?>
 	<?php } ?>

@@ -36,7 +36,7 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
 	
 		$cinema = FilmWeeklyCinemas::first(
 			array (
-				'conditions' => array('id' => $id),
+				'conditions' => array('FilmWeeklyCinemas.id' => $id),
 				'with'       => array('FilmWeeklyArchaeology')
 			)
 		);
@@ -103,13 +103,13 @@ class FilmWeeklyArchaeologyController extends \lithium\action\Controller {
         
         $record = FilmWeeklyArchaeology::first(
         	array(
-        		'conditions' => array('archaeology_id' => $id)
+        		'conditions' => array('id' => $id)
         	)
         );
         
         $cinema_id = $record->film_weekly_cinemas_id;
                 
-      	FilmWeeklyArchaeology::remove(array('archaeology_id' => $id));
+      	FilmWeeklyArchaeology::remove(array('id' => $id));
         Flash::write('Success: Record deleted');
         return $this->redirect(array('FilmWeeklyArchaeology::index', 'args' => $cinema_id));
 	}

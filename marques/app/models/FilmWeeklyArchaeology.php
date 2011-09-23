@@ -16,19 +16,12 @@ use \lithium\util\Validator;
 class FilmWeeklyArchaeology extends \lithium\data\Model {
 
 	/**
-	 * override default id column
-	 */
-	protected $_meta = array(
-		'key' => 'archaeology_id'
-	);
-
-	/**
 	 * add relationships to the model
 	 */
 	public $hasOne = array(
 		'FilmWeeklyCinemas' => array(
 			'class'      => 'FilmWeeklyCinemas',
-			'key'        => 'film_weekly_cinemas_id',
+			'key'        => array('film_weekly_cinemas_id' => 'id'),
 			'conditions' => array(),
 			'fields'     => array(),
 			'order'      => null,
@@ -36,7 +29,7 @@ class FilmWeeklyArchaeology extends \lithium\data\Model {
 		),
 		'FilmWeeklyCategories' => array(
 			'class'      => 'FilmWeeklyCategories',
-			'key'        => 'film_weekly_categories_id',
+			'key'        => array('film_weekly_categories_id' => 'id'),
 			'conditions' => array(),
 			'fields'     => array(),
 			'order'      => null,
