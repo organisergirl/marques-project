@@ -38,19 +38,80 @@ DROP TABLE IF EXISTS `film_weekly_archaeologies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `film_weekly_archaeologies` (
-  `archaeology_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `film_weekly_cinemas_id` int(11) NOT NULL COMMENT 'the unique identifier of a film weekly cinema id',
   `film_weekly_categories_id` int(11) NOT NULL COMMENT 'the unique identifier for a film weekly category',
   `cinema_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the name of the cinema',
   `exhibitor_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the name of the exhibitor',
   `capacity` smallint(6) DEFAULT NULL COMMENT 'the capacity of the theatre',
-  PRIMARY KEY (`archaeology_id`),
+  PRIMARY KEY (`id`),
   KEY `film_weekly_cinemas_id` (`film_weekly_cinemas_id`),
   KEY `film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=852 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `insert_fwa_search` AFTER INSERT ON `film_weekly_archaeologies` FOR EACH ROW IF NEW.cinema_name IS NOT NULL OR NEW.exhibitor_name IS NOT NULL THEN
+
+INSERT INTO film_weekly_searches (film_weekly_archaeologies_id, fwa_cinema_name, fwa_exhibitor_name) 
+VALUES (NEW.id, NEW.cinema_name, NEW.exhibitor_name);
+
+END IF */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `update_fwa_search` AFTER UPDATE ON `film_weekly_archaeologies` FOR EACH ROW IF NEW.cinema_name IS NOT NULL OR NEW.exhibitor_name IS NOT NULL THEN
+
+UPDATE film_weekly_searches
+SET fwa_cinema_name = NEW.cinema_name, fwa_exhibitor_name = NEW.exhibitor_name
+WHERE film_weekly_archaeologies_id = OLD.id;
+
+END IF */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `delete_fwa_search` AFTER DELETE ON `film_weekly_archaeologies` FOR EACH ROW IF OLD.cinema_name IS NOT NULL OR OLD.exhibitor_name IS NOT NULL THEN
+
+DELETE FROM film_weekly_searches
+WHERE film_weekly_archaeologies_id = OLD.id;
+
+END IF */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `film_weekly_categories`
@@ -83,7 +144,7 @@ CREATE TABLE `film_weekly_category_maps` (
   KEY `idx_film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories_id_map` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id_map` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
+) ENGINE=InnoDB AUTO_INCREMENT=3832 DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +188,78 @@ CREATE TABLE `film_weekly_cinemas` (
   CONSTRAINT `fk_australian_states` FOREIGN KEY (`australian_states_id`) REFERENCES `australian_states` (`id`),
   CONSTRAINT `fk_film_weekly_cinema_types` FOREIGN KEY (`film_weekly_cinema_types_id`) REFERENCES `film_weekly_cinema_types` (`id`),
   CONSTRAINT `fk_locality_types` FOREIGN KEY (`locality_types_id`) REFERENCES `locality_types` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
+) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `insert_fwc_search` AFTER INSERT ON `film_weekly_cinemas` FOR EACH ROW INSERT INTO film_weekly_searches (film_weekly_archaeologies_id, fwc_street, fwc_suburb, fwc_cinema_name, fwc_exhibitor_name) 
+VALUES (NEW.id, NEW.street, NEW.suburb, NEW.cinema_name, NEW.exhibitor_name) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `update_fwc_search` AFTER UPDATE ON `film_weekly_cinemas` FOR EACH ROW UPDATE film_weekly_searches
+SET fwc_street = NEW.street, fwc_suburb = NEW.suburb, fwc_cinema_name = NEW.cinema_name, fwc_exhibitor_name = NEW.exhibitor_name
+WHERE film_weekly_archaeologies_id = OLD.id */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `delete_fwc_search` AFTER DELETE ON `film_weekly_cinemas` FOR EACH ROW DELETE FROM film_weekly_searches
+WHERE film_weekly_cinemas_id = OLD.id */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `film_weekly_searches`
+--
+
+DROP TABLE IF EXISTS `film_weekly_searches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `film_weekly_searches` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'unique identifier for the row',
+  `film_weekly_cinemas_id` int(11) NOT NULL COMMENT 'unique identifier for the film_weekly_cinemas record',
+  `film_weekly_archaeologies_id` int(11) NOT NULL COMMENT 'unique id from the film_weekly_archaeologies table',
+  `fwc_street` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_cinemas table',
+  `fwc_suburb` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_cinemas table',
+  `fwc_cinema_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_cinemas table',
+  `fwc_exhibitor_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_cinemas table',
+  `fwa_cinema_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_archaeologies table',
+  `fwa_exhibitor_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_archaeologies table',
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY `film_weekly_full_text_search` (`fwc_street`,`fwc_suburb`,`fwc_cinema_name`,`fwc_exhibitor_name`,`fwa_cinema_name`,`fwa_exhibitor_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=816 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,4 +304,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-21  9:53:38
+-- Dump completed on 2011-09-23 16:11:19
