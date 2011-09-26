@@ -199,7 +199,7 @@ CREATE TABLE `film_weekly_cinemas` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `insert_fwc_search` AFTER INSERT ON `film_weekly_cinemas` FOR EACH ROW INSERT INTO film_weekly_searches (film_weekly_archaeologies_id, fwc_street, fwc_suburb, fwc_cinema_name, fwc_exhibitor_name) 
+/*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `insert_fwc_search` AFTER INSERT ON `film_weekly_cinemas` FOR EACH ROW INSERT INTO film_weekly_searches (film_weekly_cinemas_id, fwc_street, fwc_suburb, fwc_cinema_name, fwc_exhibitor_name) 
 VALUES (NEW.id, NEW.street, NEW.suburb, NEW.cinema_name, NEW.exhibitor_name) */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -217,7 +217,7 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`marques`@`%`*/ /*!50003 TRIGGER `update_fwc_search` AFTER UPDATE ON `film_weekly_cinemas` FOR EACH ROW UPDATE film_weekly_searches
 SET fwc_street = NEW.street, fwc_suburb = NEW.suburb, fwc_cinema_name = NEW.cinema_name, fwc_exhibitor_name = NEW.exhibitor_name
-WHERE film_weekly_archaeologies_id = OLD.id */;;
+WHERE film_weekly_cinemas_id = OLD.id */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -304,4 +304,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-23 16:11:19
+-- Dump completed on 2011-09-26 13:59:02
