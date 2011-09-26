@@ -127,6 +127,15 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 				'upper' => 180)
 		)
 	);
+	
+	
+	/**
+	 * output the search result
+	 */
+	public function search_result($record) {
+		return "{$record->cinema_name} ({$record->exhibitor_name}), {$record->street}, {$record->suburb}, {$record->state}";
+	}
+
 }
 
 ?>
