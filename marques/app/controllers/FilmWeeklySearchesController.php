@@ -79,7 +79,8 @@ class FilmWeeklySearchesController extends \lithium\action\Controller {
         	
         	// loop through getting all of the cinemas one at a time
         	// TODO: yes I know this is inefficient, need to revisit this if it becomes an issue
-        	//$records = array();
+        	
+        	$records = array();
         	
         	foreach($cinemas as $cinema) {
         	
