@@ -1,0 +1,111 @@
+/**
+ * Mapping the Movies
+ *
+ * @copyright     Copyright 2011, Flinders Institute for Research in the Humanities - Flinders University (http://www.flinders.edu.au)
+ * @license       All Rights Reserved
+ */
+html {
+	height: 100%;
+	margin: 0;
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	height: 100%;
+	margin: 0; 
+	padding: 0;
+	background-color: #fff; 
+	color: #000; 
+	font-family: Helvetica, Arial, sans-serif; 
+	font-size: 75%; 
+}
+
+#container {
+	height: 100%;
+	position: relative;
+}
+
+header {
+	background-color: #002f60;
+	color:  #fff;
+	padding-bottom: 1px;
+	height: 65px;
+	background-image: url('images/flinders-logo.png');
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+hgroup {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+nav {
+	background-color: #002f60;
+	color: #fff;
+	padding-bottom: 5px;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-color: #ffd300;
+}
+
+nav p {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+#map_container {
+
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	clear: both;
+	overflow: auto;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+}
+
+footer {
+	background-color: #002f60;
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	height: 30px; 
+	width: 100%;
+	padding-top: 5px;
+	border-top-style: solid;
+	border-top-width: 2px;
+	border-color: #ffd300;
+}
+
+footer p.left {
+	float:left;
+	margin-left: 1em;
+	margin-top: 0.5em;
+}
+
+footer p.right {
+	float: right;
+	margin-top: 0.5em;
+	margin-right: 1em;
+}
+
+footer a { 
+	text-decoration: underline;
+	color: #fff;
+}
+
+footer a:hover {
+	color: #fff;
+}	
+
+footer a:visited:hover {
+	color: #fff;
+}
