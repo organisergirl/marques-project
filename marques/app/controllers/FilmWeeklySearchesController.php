@@ -83,7 +83,13 @@ class FilmWeeklySearchesController extends \lithium\action\Controller {
         	
         	foreach($cinemas as $cinema) {
         	
-        		$record = FilmWeeklyCinemas::find($cinema);
+        		$record = FilmWeeklyCinemas::find(
+        			'first',
+        			array(
+        				'with' => 'AustralianStates',
+        				'conditions' => array('FilmWeeklyCinemas.id' => $cinema)
+        			)
+        		);
         		
         		$records[] = $record;;
         	

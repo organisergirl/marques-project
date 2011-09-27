@@ -133,7 +133,27 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 	 * output the search result
 	 */
 	public function search_result($record) {
-		return "{$record->cinema_name} ({$record->exhibitor_name}), {$record->street}, {$record->suburb}, {$record->state}";
+	
+		// build the search result text
+		$street         = $record->street;
+		$suburb         = $record->suburb;
+		$state          = $record->australian_state->shortname;
+		
+		$address = '';
+		
+		if(!empty($street)) {
+			$address = $street . ', ';
+		}
+		
+		$address .= $suburb . ', ' . $state;
+		
+		return array(
+			'cinema_name'    => $record->cinema_name,
+			'exhibitor_name' => $record->exhibitor_name,
+			'address'        => $address
+		);
+		//return "{$record->cinema_name} ({$record->exhibitor_name}), {$record->street}, {$record->suburb}, {$record->australian_state->shortname}";
+		//return '<pre>' . print_r($record, true) . '</pre>';
 	}
 
 }

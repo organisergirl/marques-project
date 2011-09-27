@@ -13,19 +13,27 @@
 <?php $this->title('Search Film Weekly Cinemas'); ?>
 <h2>Search for Film Weekly Cinemas</h2>
 <?=$this->form->create(null); ?>
-    <?=$this->form->field('search', array('value' => $search)); ?>
+
+	<?php if(!empty($search)) { ?>
+		<?=$this->form->field('search', array('value' => $search)); ?>
+	<?php } else { ?>
+		<?=$this->form->field('search'); ?>
+	<?php } ?>
+    
     <?=$this->form->submit('Search'); ?>
 <?=$this->form->end(); ?>
 <?php if(!empty($records)) { ?>
 	<h2>Search Results</h2>
-	<?php foreach($records as $record) {
-		echo("<p> {$record->search_result()}</p>");
-/*
-		echo('<pre>');
-		print_r($record);
-		echo('</pre>');
-*/
-	} ?>
+	<?php foreach($records as $record) { 
+		$result = $record->search_result();
+	?>
+	<p>
+		<?=$this->html->link($result['cinema_name'], array('FilmWeeklyCinemas::edit', 'args' => $record->id)); ?>
+		<?=$result['exhibitor_name']?>,
+		<?=$result['address']?>
+	</p>	
+
+	<?php } ?>
 <?php } ?>
 	
 <!--
