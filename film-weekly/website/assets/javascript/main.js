@@ -8,6 +8,9 @@
 //populate the page
 $(document).ready(function() {
 
+	// initalise the ui elements
+	$('button').button();
+	
 	var latlng = new google.maps.LatLng(-34.397, 150.644);
     var myOptions = {
       zoom: 8,

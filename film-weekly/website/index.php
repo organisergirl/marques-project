@@ -12,8 +12,10 @@
 	<meta charset="utf-8"/>
 	<title>Mapping the Movies</title>
 	<link rel="stylesheet" type="text/css" href="assets/main-style.css"/>
+	<link rel="stylesheet" type="text/css" href="assets/jquery-ui.css"/>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript" src="assets/javascript/libraries/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
 	
 </head>
@@ -27,7 +29,7 @@
 	</header>
 	<nav>
 		<p>
-			navigation to go here
+			<button class="fw-button ui-state-default ui-corner-all">Search</button><button class="fw-button ui-state-default ui-corner-all">Browse</button><button class="fw-button ui-state-default ui-corner-all">Controls</button><button class="fw-button ui-state-default ui-corner-all">Help</button>
 		</p>
 	</nav>
 	<div id="map_container"><div id="map"></div></div>

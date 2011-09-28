@@ -109,3 +109,8 @@ footer a:hover {
 footer a:visited:hover {
 	color: #fff;
 }
+
+/* ui elements */
+.fw-button {
+	margin-right: 1.0em !important;
+}
