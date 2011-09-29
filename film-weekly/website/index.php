@@ -20,7 +20,6 @@
 	
 </head>
 <body>
-<div id="container">
 	<header>
 		<hgroup>
 			<h1>Mapping the Movies</h1>
@@ -32,11 +31,13 @@
 			<button class="fw-button ui-state-default ui-corner-all">Search</button><button class="fw-button ui-state-default ui-corner-all">Browse</button><button class="fw-button ui-state-default ui-corner-all">Controls</button><button class="fw-button ui-state-default ui-corner-all">Help</button>
 		</p>
 	</nav>
-	<div id="map_container"><div id="map"></div></div>
-	<footer>
+	<div id="map_container">
+		<div id="map">
+		</div>
+	</div>
+	<footer id="footer">
 		<p class="left"> &#169; 2011 Flinders Institute for Research in the Humanities</p>
 		<p class="right">Powered by <a href="http://code.google.com/p/marques-project/" title="More information about MARQues">MARQues</a></p>
 	</footer>
-</div>
 </body>
 </html>
