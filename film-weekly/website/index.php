@@ -16,7 +16,11 @@
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="assets/javascript/libraries/jquery-validate-1.8.1.min.js"></script>
+	<script type="text/javascript" src="assets/javascript/libraries/jquery-form-2.85.js"></script>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
+	<!-- use some of the MARQues scripts -->
+	<script type="text/javascript" src="/marques/js/marques-map-helper.js"></script>
 	
 </head>
 <body>
@@ -28,7 +32,7 @@
 	</header>
 	<nav>
 		<p>
-			<button class="fw-button ui-state-default ui-corner-all">Search</button><button class="fw-button ui-state-default ui-corner-all">Browse</button><button class="fw-button ui-state-default ui-corner-all">Controls</button><button class="fw-button ui-state-default ui-corner-all">Help</button>
+			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
 		</p>
 	</nav>
 	<div id="map_container">
@@ -39,5 +43,20 @@
 		<p class="left"> &#169; 2011 Flinders Institute for Research in the Humanities</p>
 		<p class="right">Powered by <a href="http://code.google.com/p/marques-project/" title="More information about MARQues">MARQues</a></p>
 	</footer>
+	<!-- dialogs go here -->
+	<div id="search_dialog" class="fw-dialog js" title="Search Film Weekly Data">
+		<form id="search_form" method="post" action="marques/film_weekly_searches.ajax">
+			<input name="search" size="50" type="search">
+			<input type="submit" value="Search" class="fw-button ui-state-default ui-corner-all">
+		</form>
+		<div id="search_message_box" class="ui-state-error ui-corner-all">
+			<p>
+				<span class="ui-icon ui-icon-alert"></span><span id="search_message"></span>
+			</p>
+		</div>
+		<h1>Search Results</h1>
+		<div id="search_results_box">
+		</div>
+	</div>
 </body>
 </html>

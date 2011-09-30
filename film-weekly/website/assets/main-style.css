@@ -116,3 +116,12 @@ footer a:visited:hover {
 .fw-button {
 	margin-right: 1.0em !important;
 }
+
+.fw-dialog h1 {
+	font-size: 1.1em;
+}
+
+/* prevent fouc */
+.js {
+	display: none;
+}
