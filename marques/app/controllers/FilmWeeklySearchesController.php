@@ -19,6 +19,15 @@ use app\models\FilmWeeklyCinemas;
  */
 class FilmWeeklySearchesController extends \lithium\action\Controller {
 
+	// list actions that can be undertaken without authentication
+	public $publicActions = array('index');
+	
+	// enable content negotiation so AJAX data can be returned
+	protected function _init() {
+        $this->_render['negotiate'] = true;
+        parent::_init();
+    }
+
 	/**
 	 * list all of the records
 	 */
