@@ -34,6 +34,10 @@ Router::connect('/marques', 'Admin::index');
 // add a route for the pagination helper
 Router::connect('/{:controller}/{:action}/page:{:page:[0-9]+}');
 
+// add routes that include content negotiation
+Router::connect('/{:controller}/{:action}/{:id:[0-9]+}.{:type}', array('id' => null));
+Router::connect('/{:controller}/{:action}.{:type}');
+
 /**
  * Here, we are connecting `'/'` (the base path) to controller called `'Pages'`,
  * its action called `view()`, and we pass a param to select the view file

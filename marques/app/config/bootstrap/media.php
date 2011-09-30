@@ -22,6 +22,7 @@
  * }}}
  */
 use lithium\util\Collection;
+use lithium\net\http\Media;
 
 Collection::formats('lithium\net\http\Media');
 
@@ -34,6 +35,7 @@ Collection::formats('lithium\net\http\Media');
  * plugin's `webroot` directory into your main application's `webroot` directory, or adding routing
  * rules in your web server's configuration.
  */
+/*
 use lithium\action\Dispatcher;
 use lithium\action\Response;
 use lithium\net\http\Media;
@@ -55,5 +57,20 @@ Dispatcher::applyFilter('_callable', function($self, $params, $chain) {
 	}
 	return $chain->next($self, $params, $chain);
 });
+*/
 
+/**
+ * add an ajax media type
+ */
+Media::type('ajax', array('application/xhtml+xml', 'text/html'), array(
+    'view' => 'lithium\template\View',
+    'paths' => array(
+        'template' => array(
+            '{:library}/views/{:controller}/{:template}.ajax.php',
+            '{:library}/views/{:controller}/{:template}.html.php'
+        ),
+        'layout' => '{:library}/views/layouts/default.ajax.php'
+    ),
+    'conditions' => array('ajax' => true)
+));
 ?>
