@@ -49,6 +49,13 @@ function initUI() {
 		$('#search_dialog').dialog('open');
 	});
 	
+	// initialise the add to map links
+	$('.add-to-map').live('click', function() {
+	
+		addToMap(this);
+	
+	});
+	
 	// initialise the dialogs
 	initDialogs();
 
@@ -125,6 +132,7 @@ function doBasicSearch(data) {
 	var exhibitor;
 	var address;
 	var entry = '';
+	var para;
 
 	// empty any existing search results
 	results.empty();
@@ -133,33 +141,47 @@ function doBasicSearch(data) {
 		// loop through all of the items
 		$.each(data.results, function(index, value) {
 		
-			entry += '<p class="fw-search-result">' + value.result + ' (<span id="' + value.type + "-" + value.id + '" class="add-to-map fw-clickable">Add to Map</span>)</p>';
+			entry = '<p class="fw-search-result">' + value.result + ' </p>';
+		
+			para = $(entry);
+			
+			entry = '<span id="' + value.type + "-" + value.id + '" class="add-to-map fw-clickable">Add to Map</span>';
+			
+			entry = $(entry);
+			
+			entry.data('result', value);
+			
+			para.append(entry);
+			
+			results.append(para);
 		
 		});
 			
 	} else {
 		entry = '<p>No Search Results Found</p>';
 	}
-	
-	
-
-	/*
-//loop through all of the items
-	$(responseXML).find("item").each(function () {
-	
-		// get the id and type
-		id     = $(this).attr('id');
-		type   = $(this).attr('type');
-		result = $(this).find('result').text();
 		
-		// build an entry
-		entry += '<p class="fw-search-result">' + result + ' (<span id="' + type + "-" + id + '" class="add-to-map fw-clickable">Add to Map</span>)</p>';
-		//entry += '<p id="' + type + "-" + id + '" class="search-result">' + result + '</p>';
-	});
-*/
-	
 	// append the new data
-	results.append(entry);
+	//results.append(paras);
+
+}
+
+// function to add an item to the map
+function addToMap(item) {
+
+	var data = $(item).data('result');
+	console.log(data);
+	
+	var coords = data.coords.split(',');
+	
+	var latlng = new google.maps.LatLng(coords[0], coords[1]);
+	var marker = new google.maps.Marker({
+		position: latlng,
+		map: map,
+		title: data.title
+	});
+	
+	console.log(marker);
 
 }
 

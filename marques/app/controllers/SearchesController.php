@@ -125,7 +125,8 @@ class SearchesController extends \lithium\action\Controller {
     			'id'     => $record->id,
     			'type'   => 'film_weekly_cinema',
      			'result' => $record->search_result_ajax(),
-     			'coords' => $record->latitude . ',' . $record->longitude
+     			'coords' => $record->latitude . ',' . $record->longitude,
+     			'title'  => $record->cinema_name
     		);
     	}
     	
