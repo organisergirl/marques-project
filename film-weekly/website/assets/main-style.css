@@ -133,6 +133,35 @@ footer a:visited:hover {
 	padding-bottom: 0.5em;
 }
 
+.add-to-map {
+	float: right;
+}
+
+.dialog-menu ul {
+	margin: 0; 
+	padding: 0;
+	float: left;
+}
+
+.dialog-menu ul li {
+	display: inline;
+}
+
+.dialog-menu li {
+	padding-right: 1em;
+}
+
+.clickable {
+	text-decoration: underline;
+	color: #86b29c;
+	cursor: pointer;
+}
+
+.clear {
+	clear: both;
+	height: 1em;
+}
+
 /* prevent fouc */
 .js {
 	display: none;

@@ -181,6 +181,9 @@ function addToMap(item) {
 		title: data.title
 	});
 	
+	$(item).empty().append('Added');
+	$(item).removeClass('fw-clickable');
+	
 	console.log(marker);
 
 }
