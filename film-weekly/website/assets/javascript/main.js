@@ -10,12 +10,12 @@ var map = null;
 
 //populate the page
 $(document).ready(function() {
-
-	// initalise the ui elements
-	$('button').button();
 	
 	//resize the map
 	resizeMap();
+		
+	// initialise the UI elements
+	initUI();
 	
 	// bind the resize map function to the resize event for the window
 	$(window).resize(function() {
@@ -33,10 +33,6 @@ $(document).ready(function() {
 	
 	map = new google.maps.Map(document.getElementById('map'), myOptions);
 	
-	
-	// initialise the UI elements
-	initUI();
-	
 	// finalise the page by removing the js class
 	$('.js').removeClass('js');
 
@@ -45,6 +41,9 @@ $(document).ready(function() {
 // initialisation functions
 function initUI() {
 
+	// initalise the ui elements
+	$('button').button();
+
 	// initialise the buttons
 	$('#btn_search').click(function() {
 		$('#search_dialog').dialog('open');
@@ -52,7 +51,6 @@ function initUI() {
 	
 	// initialise the dialogs
 	initDialogs();
-	//initForms();
 
 }
 
@@ -64,8 +62,8 @@ function initDialogs() {
 	// initalise all of the dialogs
 	$('#search_dialog').dialog({
 		autoOpen: false,
-		height: 300,
-		width: 600,
+		height: 400,
+		width: 700,
 		modal: true,
 		buttons: {
 			Close: function() {
@@ -74,7 +72,7 @@ function initDialogs() {
 		},
 		open: function() {
 			$("#search_message_box").hide();
-			initForms();
+			initSearchForms();
 		},
 		close: function() {
 			//tidy up the dialog when we close
@@ -84,7 +82,7 @@ function initDialogs() {
 
 }
 
-function initForms() {
+function initSearchForms() {
 
 	$('#search_form').validate({
 		rules: {
@@ -97,7 +95,7 @@ function initForms() {
 		errorLabelContainer: '#search_message',
 		submitHandler: function(form) {
 			$(form).ajaxSubmit({
-				dataType:  'xml', 
+				dataType:  'json', 
 				success: doBasicSearch,
 				error: function (jqXHR, textStatus, errorThrown) {
 					console.log(jqXHR);
@@ -115,7 +113,7 @@ function initForms() {
 }
 
 // function to undertake a search
-function doBasicSearch(responseXML) {
+function doBasicSearch(data) {
 	
 	// store a reference to the search results node so we
 	// don't keep looking it up
@@ -130,18 +128,35 @@ function doBasicSearch(responseXML) {
 
 	// empty any existing search results
 	results.empty();
+	
+	if(data.results.length > 0) {
+		// loop through all of the items
+		$.each(data.results, function(index, value) {
+		
+			entry += '<p class="fw-search-result">' + value.result + ' (<span id="' + value.type + "-" + value.id + '" class="add-to-map fw-clickable">Add to Map</span>)</p>';
+		
+		});
+			
+	} else {
+		entry = '<p>No Search Results Found</p>';
+	}
+	
+	
 
-	//loop through all of the items
+	/*
+//loop through all of the items
 	$(responseXML).find("item").each(function () {
 	
-		id        = $(this).find('id').text();
-		cinema    = $(this).find('cinema_name').text();
-		exhibitor = $(this).find('exhibitor_name').text();
-		address   = $(this).find('address').text();
+		// get the id and type
+		id     = $(this).attr('id');
+		type   = $(this).attr('type');
+		result = $(this).find('result').text();
 		
 		// build an entry
-		entry += '<p>' + cinema + ', ' + exhibitor + ', ' + address + '</p>';
+		entry += '<p class="fw-search-result">' + result + ' (<span id="' + type + "-" + id + '" class="add-to-map fw-clickable">Add to Map</span>)</p>';
+		//entry += '<p id="' + type + "-" + id + '" class="search-result">' + result + '</p>';
 	});
+*/
 	
 	// append the new data
 	results.append(entry);

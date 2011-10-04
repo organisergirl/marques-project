@@ -45,7 +45,7 @@
 	</footer>
 	<!-- dialogs go here -->
 	<div id="search_dialog" class="fw-dialog js" title="Search Film Weekly Data">
-		<form id="search_form" method="post" action="marques/film_weekly_searches.ajax">
+		<form id="search_form" method="post" action="marques/searches.json">
 			<input name="search" size="50" type="search">
 			<input type="submit" value="Search" class="fw-button ui-state-default ui-corner-all">
 		</form>

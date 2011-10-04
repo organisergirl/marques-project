@@ -119,6 +119,18 @@ footer a:visited:hover {
 
 .fw-dialog h1 {
 	font-size: 1.1em;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+.fw-clickable {
+	text-decoration: underline;
+	color: #86b29c;
+	cursor: pointer;
+}
+
+.fw-search-result {
+	padding-bottom: 0.5em;
 }
 
 /* prevent fouc */

@@ -155,6 +155,17 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 		//return "{$record->cinema_name} ({$record->exhibitor_name}), {$record->street}, {$record->suburb}, {$record->australian_state->shortname}";
 		//return '<pre>' . print_r($record, true) . '</pre>';
 	}
+	
+	/**
+	 * output the search result for use in ajax
+	 */
+	public function search_result_ajax($record) {
+	
+		$parts = $this->search_result($record);
+		
+		return $parts['cinema_name'] . ', ' . $parts['exhibitor_name'] . ', ' . $parts['address'];
+	
+	}
 
 }
 
