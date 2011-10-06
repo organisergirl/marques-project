@@ -42,7 +42,7 @@ $(document).ready(function() {
 function initUI() {
 
 	// initalise the ui elements
-	$('button').button();
+	$('.fw-button').button();
 
 	// initialise the buttons
 	$('#btn_search').click(function() {
@@ -51,10 +51,13 @@ function initUI() {
 	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
-	
 		addToMap(this);
-	
 	});
+	
+	// initialise the filters
+	$('.fw-state-filter').click(function(event) {
+		filterSearchResults('fw-state', event);
+	})
 	
 	// initialise the dialogs
 	initDialogs();
@@ -105,9 +108,11 @@ function initSearchForms() {
 				dataType:  'json', 
 				success: doBasicSearch,
 				error: function (jqXHR, textStatus, errorThrown) {
+/*
 					console.log(jqXHR);
 					console.log(textStatus);
 					console.log(errorThrown);
+*/
 					alert('error');
 					
 				}
@@ -141,7 +146,7 @@ function doBasicSearch(data) {
 		// loop through all of the items
 		$.each(data.results, function(index, value) {
 		
-			entry = '<p class="fw-search-result">' + value.result + ' </p>';
+			entry = '<p class="fw-search-result fw-search-result-' + value.state + '">' + value.result + ' </p>';
 		
 			para = $(entry);
 			
@@ -158,19 +163,37 @@ function doBasicSearch(data) {
 		});
 			
 	} else {
-		entry = '<p>No Search Results Found</p>';
+		results.append('<p>No Search Results Found</p>');
 	}
-		
-	// append the new data
-	//results.append(paras);
 
+}
+
+// function to filter the search results
+function filterSearchResults(type, event) {
+
+	// determine what type of filter to carry out
+	if(type == 'fw-state') {
+		// filter the search results by state
+		
+		// get the state
+		var state = event.target.innerHTML;
+		
+		if(state != 'All') {
+			// fade out the selected search results
+			$('.fw-search-result-' + state).show();
+			$('.fw-search-result').not('.fw-search-result-' + state).fadeOut('slow');
+			
+		} else {
+			// show all of the search results
+			$('.fw-search-result').show();
+		}
+	}
 }
 
 // function to add an item to the map
 function addToMap(item) {
 
 	var data = $(item).data('result');
-	console.log(data);
 	
 	var coords = data.coords.split(',');
 	
@@ -183,8 +206,6 @@ function addToMap(item) {
 	
 	$(item).empty().append('Added');
 	$(item).removeClass('fw-clickable');
-	
-	console.log(marker);
 
 }
 

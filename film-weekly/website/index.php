@@ -56,7 +56,7 @@
 		</div>
 		<h1>Search Results</h1>
 		<div class="dialog-menu">
-			<ul><li>Filter by State:</li><li class="clickable">ALL</li><li class="clickable">QLD</li><li class="clickable">NSW</li><li class="clickable">ACT</li><li class="clickable">VIC</li><li class="clickable">TAS</li><li class="clickable">NT</li><li class="clickable">SA</li><li class="clickable">WA</li></ul>
+			<ul><li>Filter by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
 		</div>
 		<div class="clear"></div>
 		<div id="search_results_box">
