@@ -290,25 +290,25 @@ public class DataImporter {
 		
 		ResultSet resultSet    = null;
 		
-		state = australianStates.get(dataElems[0].trim());
+		state = australianStates.get(dataElems[0].trim().toUpperCase());
 		
 		if(state == null) {
-			logger.error("Unknown state detected: " + dataElems[0].trim() + "on line: " + lineCount);
-			throw new ImportException("Unknown state detected: " + dataElems[0].trim() + "on line: " + lineCount);
+			logger.error("Unknown state detected: " + dataElems[0].trim() + " on line: " + lineCount);
+			throw new ImportException("Unknown state detected: " + dataElems[0].trim() + " on line: " + lineCount);
 		}
 		
 		locality = localityTypes.get(dataElems[1].trim());
 		
 		if(locality == null) {
-			logger.error("Unknown locality detected: " + dataElems[1].trim() + "on line: " + lineCount);
-			throw new ImportException("Unknown locality detected: " + dataElems[1].trim() + "on line: " + lineCount);
+			logger.error("Unknown locality detected: " + dataElems[1].trim() + " on line: " + lineCount);
+			throw new ImportException("Unknown locality detected: " + dataElems[1].trim() + " on line: " + lineCount);
 		}
 		
 		cinemaType = cinemaTypes.get(dataElems[2].trim());
 		
 		if(cinemaType == null) {
-			logger.error("Unknown cinemaType detected: " + dataElems[2].trim() + "on line: " + lineCount);
-			throw new ImportException("Unknown cinemaType detected: " + dataElems[2].trim() + "on line: " + lineCount);
+			logger.error("Unknown cinemaType detected: " + dataElems[2].trim() + " on line: " + lineCount);
+			throw new ImportException("Unknown cinemaType detected: " + dataElems[2].trim() + " on line: " + lineCount);
 		}
 		
 		// add the values to the statement
@@ -563,6 +563,7 @@ public class DataImporter {
 		localities.put("Central Business District","1");
 		localities.put("Suburban","2");
 		localities.put("Country/Rural","3");
+		localities.put("Country Rural", "3");
 		
 		return localities;
 	}
@@ -576,6 +577,7 @@ public class DataImporter {
 		cinemas.put("Drive-in", "2");
 		cinemas.put("Touring Circuit", "3");
 		cinemas.put("Open Air", "4");
+		cinemas.put("Drive-In", "2");
 		
 		return cinemas;
 	}
