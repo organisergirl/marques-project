@@ -27,7 +27,7 @@
 	<header>
 		<hgroup>
 			<h1>Mapping the Movies</h1>
-			<h2>A map of Film Weekly Motion Picture Directory Cinema Data, 1948 - 1971</h2>
+			<h2>A map of Film Weekly Motion Picture Directory cinema data, 1948 - 1971</h2>
 		</hgroup>
 	</header>
 	<nav>
@@ -45,18 +45,21 @@
 	</footer>
 	<!-- dialogs go here -->
 	<div id="search_dialog" class="fw-dialog js" title="Search Film Weekly Data">
+		<p class="dialog-help">
+			Enter address, cinema name or exhibitor name below.
+		</p>
 		<form id="search_form" method="post" action="marques/searches.json">
 			<input name="search" size="50" type="search">
 			<input type="submit" value="Search" class="fw-button ui-state-default ui-corner-all">
 		</form>
-		<div id="search_message_box" class="ui-state-error ui-corner-all">
+		<div id="search_message_box" class="ui-state-error ui-corner-all search-message-box">
 			<p>
-				<span class="ui-icon ui-icon-alert"></span><span id="search_message"></span>
+				<span class="ui-icon ui-icon-alert status-icon"></span><span id="search_message" class="search-message"></span>
 			</p>
 		</div>
 		<h1>Search Results</h1>
 		<div class="dialog-menu">
-			<ul><li>Filter by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
+			<ul><li>Filter by State:</li><li class="fw-clickable fw-state-filter">All</li><li class="fw-clickable fw-state-filter">QLD</li><li class="fw-clickable fw-state-filter">NSW</li><li class="fw-clickable fw-state-filter">ACT</li><li class="fw-clickable fw-state-filter">VIC</li><li class="fw-clickable fw-state-filter">TAS</li><li class="fw-clickable fw-state-filter">NT</li><li class="fw-clickable fw-state-filter">SA</li><li class="fw-clickable fw-state-filter">WA</li></ul>
 		</div>
 		<div class="clear"></div>
 		<div id="search_results_box">

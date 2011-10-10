@@ -16,9 +16,6 @@ var mapData = {
 
 //populate the page
 $(document).ready(function() {
-	
-	//resize the map
-	resizeMap();
 		
 	// initialise the UI elements
 	initUI();
@@ -41,6 +38,9 @@ $(document).ready(function() {
 	
 	// finalise the page by removing the js class
 	$('.js').removeClass('js');
+	
+	//resize the map
+	resizeMap();
 
 });
 
@@ -77,9 +77,10 @@ function initDialogs() {
 	// initalise all of the dialogs
 	$('#search_dialog').dialog({
 		autoOpen: false,
-		height: 400,
+		height: 450,
 		width: 700,
 		modal: true,
+		position: 'left',
 		buttons: {
 			Close: function() {
 					$( this ).dialog( "close" );
@@ -91,7 +92,8 @@ function initDialogs() {
 		},
 		close: function() {
 			//tidy up the dialog when we close
-			$('#search_message_box').empty().hide();
+			var form = $('#search_form').validate();
+			form.resetForm();
 		}
 	});
 
@@ -110,16 +112,14 @@ function initSearchForms() {
 		errorLabelContainer: '#search_message',
 		submitHandler: function(form) {
 			$(form).ajaxSubmit({
-				dataType:  'json', 
+				dataType:  'json',
+				beforeSubmit: function() {
+					$('#search_results_box').empty().append('<p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Search Underway"/></p>');
+				},
 				success: doBasicSearch,
 				error: function (jqXHR, textStatus, errorThrown) {
-/*
-					console.log(jqXHR);
-					console.log(textStatus);
-					console.log(errorThrown);
-*/
-					alert('error');
-					
+					$('#search_results_box').empty().append('<div class="ui-state-error ui-corner-all search-message-box"><p><span class="ui-icon ui-icon-alert status-icon"></span>An error occurred during the search, please try again later</p></div>');
+
 				}
 			});
 		}
@@ -154,8 +154,6 @@ function doBasicSearch(data) {
 			entry = '<p class="fw-search-result fw-search-result-' + value.state + '">' + value.result + ' </p>';
 		
 			para = $(entry);
-			
-			console.log($.inArray(marques.computeLatLngHash(value.coords), mapData.hashes));
 			
 			if($.inArray(marques.computeLatLngHash(value.coords), mapData.hashes) > -1) {
 				
@@ -223,11 +221,7 @@ function addToMap(item) {
 	mapData.markers.push(marker);
 	
 	$(item).empty().append('Added');
-	$(item).removeClass('fw-clickable');
-	$(item).removeClass('add-to-map');
-	
-	
-	console.log(mapData);
+	$(item).removeClass('fw-clickable add-to-map');
 
 }
 

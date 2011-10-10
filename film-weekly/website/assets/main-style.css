@@ -123,12 +123,6 @@ footer a:visited:hover {
 	padding-top: 0.5em;
 }
 
-.fw-clickable {
-	text-decoration: underline;
-	color: #86b29c;
-	cursor: pointer;
-}
-
 .fw-search-result {
 	padding-bottom: 0.5em;
 }
@@ -151,15 +145,42 @@ footer a:visited:hover {
 	padding-right: 1em;
 }
 
-.clickable {
+.dialog-help {
+	padding-bottom: 0.5em;
+}
+
+.fw-clickable {
 	text-decoration: underline;
-	color: #86b29c;
+	color: #eb6e06;
 	cursor: pointer;
 }
 
 .clear {
 	clear: both;
 	height: 1em;
+}
+
+.search-progress {
+	text-align: center;
+	width: 100%;
+}
+
+.search-message-box {
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+.search-message {
+/*
+	float: left;
+	margin-left: 25px;
+*/
+}
+
+.status-icon {
+	float: left; 
+	margin-right: .3em;
+	margin-left:  .5em;
 }
 
 /* prevent fouc */
