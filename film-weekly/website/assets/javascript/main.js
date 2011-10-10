@@ -8,6 +8,12 @@
 // global variables
 var map = null;
 
+var mapData = {
+	hashes:  [], 
+	data:    [],
+	markers: []
+};
+
 //populate the page
 $(document).ready(function() {
 	
@@ -61,7 +67,6 @@ function initUI() {
 	
 	// initialise the dialogs
 	initDialogs();
-
 }
 
 /**
@@ -150,7 +155,15 @@ function doBasicSearch(data) {
 		
 			para = $(entry);
 			
-			entry = '<span id="' + value.type + "-" + value.id + '" class="add-to-map fw-clickable">Add to Map</span>';
+			console.log($.inArray(marques.computeLatLngHash(value.coords), mapData.hashes));
+			
+			if($.inArray(marques.computeLatLngHash(value.coords), mapData.hashes) > -1) {
+				
+				entry = '<span class="fw-add-to-map">Added</span>';
+			
+			} else {
+				entry = '<span id="' + value.type + "-" + value.id + '" class="fw-add-to-map add-to-map fw-clickable">Add to Map</span>';
+			}
 			
 			entry = $(entry);
 			
@@ -163,7 +176,7 @@ function doBasicSearch(data) {
 		});
 			
 	} else {
-		results.append('<p>No Search Results Found</p>');
+		results.append('<p class="no-search-results">No Search Results Found</p>');
 	}
 
 }
@@ -203,9 +216,18 @@ function addToMap(item) {
 		map: map,
 		title: data.title
 	});
+
+	// add to the list of what is on the map
+	mapData.hashes.push(marques.computeLatLngHash(data.coords));
+	mapData.data.push(data);
+	mapData.markers.push(marker);
 	
 	$(item).empty().append('Added');
 	$(item).removeClass('fw-clickable');
+	$(item).removeClass('add-to-map');
+	
+	
+	console.log(mapData);
 
 }
 

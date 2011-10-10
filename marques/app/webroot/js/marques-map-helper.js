@@ -196,5 +196,29 @@ marquesHelper.prototype.getAustralianCoords = function() {
 	}
 
 	return coordList;
+}
 
+/**
+ * compute a hash of the lat lngs for indexing collections of objects
+ */
+marquesHelper.prototype.computeLatLngHash = function(latitude, longitude) {
+
+	if(longitude == null) {
+		
+		var coords = latitude.split(',');
+		
+		latitude  = coords[0];
+		longitude = coords[1];
+	
+	}
+
+    var lat = parseFloat(latitude);
+    var lng = parseFloat(longitude);
+    
+    var latlngHash = (lat.toFixed(6) + "" + lng.toFixed(6));
+    
+    latlngHash     = latlngHash.replace(".","").replace(",", "").replace("-", "");
+    latlngHash     = latlngHash.replace(".","").replace(",", "").replace("-", "");
+    
+    return latlngHash;
 }
