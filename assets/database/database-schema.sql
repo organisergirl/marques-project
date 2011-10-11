@@ -49,7 +49,7 @@ CREATE TABLE `film_weekly_archaeologies` (
   KEY `film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=852 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=887 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -144,7 +144,7 @@ CREATE TABLE `film_weekly_category_maps` (
   KEY `idx_film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories_id_map` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id_map` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3832 DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
+) ENGINE=InnoDB AUTO_INCREMENT=4112 DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,7 @@ CREATE TABLE `film_weekly_cinemas` (
   CONSTRAINT `fk_australian_states` FOREIGN KEY (`australian_states_id`) REFERENCES `australian_states` (`id`),
   CONSTRAINT `fk_film_weekly_cinema_types` FOREIGN KEY (`film_weekly_cinema_types_id`) REFERENCES `film_weekly_cinema_types` (`id`),
   CONSTRAINT `fk_locality_types` FOREIGN KEY (`locality_types_id`) REFERENCES `locality_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
+) ENGINE=InnoDB AUTO_INCREMENT=347 DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -241,6 +241,27 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `film_weekly_markers`
+--
+
+DROP TABLE IF EXISTS `film_weekly_markers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `film_weekly_markers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'unique identifier for each record',
+  `film_weekly_cinema_types_id` int(11) NOT NULL COMMENT 'the unique identifier for a film weekly cinema type record',
+  `locality_types_id` int(11) NOT NULL COMMENT 'the unique identifier for a locality type record',
+  `marker_url` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'the complete URL for a marker image',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fw_cinema_type_and_locality` (`film_weekly_cinema_types_id`,`locality_types_id`),
+  KEY `fw_cinema_type` (`film_weekly_cinema_types_id`),
+  KEY `locality_type` (`locality_types_id`),
+  CONSTRAINT `fw_cinema_type_marker` FOREIGN KEY (`film_weekly_cinema_types_id`) REFERENCES `film_weekly_cinema_types` (`id`),
+  CONSTRAINT `locality_type_marker` FOREIGN KEY (`locality_types_id`) REFERENCES `locality_types` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='store details of film weekly markers';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `film_weekly_searches`
 --
 
@@ -258,8 +279,9 @@ CREATE TABLE `film_weekly_searches` (
   `fwa_cinema_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_archaeologies table',
   `fwa_exhibitor_name` varchar(512) CHARACTER SET latin1 DEFAULT NULL COMMENT 'the corresponding field from the film_weekly_archaeologies table',
   PRIMARY KEY (`id`),
-  FULLTEXT KEY `film_weekly_full_text_search` (`fwc_street`,`fwc_suburb`,`fwc_cinema_name`,`fwc_exhibitor_name`,`fwa_cinema_name`,`fwa_exhibitor_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=816 DEFAULT CHARSET=utf8;
+  FULLTEXT KEY `film_weekly_full_text_search_1` (`fwc_street`,`fwc_suburb`,`fwc_cinema_name`,`fwc_exhibitor_name`),
+  FULLTEXT KEY `film_weekly_full_text_search_2` (`fwa_cinema_name`,`fwa_exhibitor_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=1119 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -304,4 +326,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-09-26 13:59:02
+-- Dump completed on 2011-10-11 11:26:03
