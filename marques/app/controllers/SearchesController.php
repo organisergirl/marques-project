@@ -11,6 +11,7 @@ namespace app\controllers;
 use lithium\data\Connections;
 
 use app\models\FilmWeeklyCinemas;
+use app\models\FilmWeeklyMarkers;
 
 /**
  * Search for Film Weekly Cinemas in the database
@@ -51,6 +52,8 @@ class SearchesController extends \lithium\action\Controller {
      * function to get the list of film weekly cinemas as search results
      */
     private function getFilmWeekly($search, $db) {
+    
+    	$markers = $this->getFilmWeeklyMarkers();
     
     	$results = array();
     
@@ -127,11 +130,34 @@ class SearchesController extends \lithium\action\Controller {
      			'result' => $record->search_result_ajax(),
      			'coords' => $record->latitude . ',' . $record->longitude,
      			'title'  => $record->cinema_name,
-     			'state'  => $record->australian_state->shortname
+     			'state'  => $record->australian_state->shortname,
+     			'icon' => $markers[$record->film_weekly_cinema_types_id][$record->locality_types_id]
     		);
     	}
     	
     	return $results;
+    }
+    
+    private function getFilmWeeklyMarkers() {
+    
+    	$markers = array();
+    	
+    	$records = FilmWeeklyMarkers::all();
+    	
+    	foreach($records as $record) {
+    	
+    		if(empty($markers[$record->film_weekly_cinema_types_id])) {
+    		
+    			$markers[$record->film_weekly_cinema_types_id] = array(
+    				$record->locality_types_id => $record->marker_url
+    			);
+    		} else {
+    			$markers[$record->film_weekly_cinema_types_id][$record->locality_types_id] = $record->marker_url;
+    		}
+    	}
+    	
+    	return $markers;
+    
     }
 }
 ?>

@@ -212,7 +212,8 @@ function addToMap(item) {
 	var marker = new google.maps.Marker({
 		position: latlng,
 		map: map,
-		title: data.title
+		title: data.title,
+		icon: data.icon
 	});
 
 	// add to the list of what is on the map
