@@ -55,6 +55,10 @@ function initUI() {
 		$('#search_dialog').dialog('open');
 	});
 	
+	$('#btn_adv_search').click(function() {
+		$('#adv_search_dialog').dialog('open');
+	});
+	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
 		addToMap(this);
@@ -63,7 +67,31 @@ function initUI() {
 	// initialise the filters
 	$('.fw-state-filter').click(function(event) {
 		filterSearchResults('fw-state', event);
-	})
+	});
+	
+	// fill in the advanced search select boxes
+	marques.fillSelectBox('#adv_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
+	marques.fillSelectBox('#adv_filter_state', '/marques/australian_states/items.json');
+	marques.fillSelectBox('#adv_filter_locality', '/marques/locality_types/items.json');
+	
+	// allow user to swap from advanced to basic search
+	$('#search_swap').click(function(event) {
+		$('#adv_search_dialog').dialog('close');
+		$('#search_dialog').dialog('open');
+	});
+	
+	// filter the advanced search results
+	$('#adv_filter_state').change(function (event) {
+		filterAdvSearchResults();
+	});
+	
+	$('#adv_filter_locality').change(function (event) {
+		filterAdvSearchResults();
+	});
+	
+	$('#adv_filter_cinema').change(function (event) {
+		filterAdvSearchResults();
+	});
 	
 	// initialise the dialogs
 	initDialogs();
@@ -83,7 +111,7 @@ function initDialogs() {
 		position: 'left',
 		buttons: {
 			Close: function() {
-					$( this ).dialog( "close" );
+				$( this ).dialog( "close" );
 			}
 		},
 		open: function() {
@@ -96,7 +124,29 @@ function initDialogs() {
 			form.resetForm();
 		}
 	});
-
+	
+	// initalise all of the dialogs
+	$('#adv_search_dialog').dialog({
+		autoOpen: false,
+		height: 500,
+		width: 800,
+		modal: true,
+		position: 'left',
+		buttons: {
+			Close: function() {
+				$( this ).dialog( "close" );
+			}
+		},
+		open: function() {
+			$("#adv_search_message_box").hide();
+			initSearchForms();
+		},
+		close: function() {
+			//tidy up the dialog when we close
+			var form = $('#adv_search_form').validate();
+			form.resetForm();
+		}
+	});
 }
 
 function initSearchForms() {
@@ -123,18 +173,52 @@ function initSearchForms() {
 				}
 			});
 		}
+	});
 	
-	
+	$('#adv_search_form').validate({
+		rules: {
+			search: 'required'
+		},
+		messages: {
+			search: 'Search terms are required'
+		},
+		errorContainer: '#adv_search_message_box',
+		errorLabelContainer: '#adv_search_message',
+		submitHandler: function(form) {
+			$(form).ajaxSubmit({
+				dataType:  'json',
+				beforeSubmit: function() {
+					$('#adv_search_results_box').empty().append('<p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Search Underway"/></p>');
+					resetAdvFilters();
+				},
+				success: doAdvancedSearch,
+				error: function (jqXHR, textStatus, errorThrown) {
+					$('#adv_search_results_box').empty().append('<div class="ui-state-error ui-corner-all search-message-box"><p><span class="ui-icon ui-icon-alert status-icon"></span>An error occurred during the search, please try again later</p></div>');
+
+				}
+			});
+		}
 	});
 
 }
 
-// function to undertake a search
 function doBasicSearch(data) {
+	doSearchResults(data, '#search_results_box');
+}
+
+function doAdvancedSearch(data) {
+	doSearchResults(data, '#adv_search_results_box'); 
+	
+	$('#adv_result_count').empty().append(data.results.length);
+	$('#adv_result_hidden').empty().append('0');
+}
+
+// function to undertake a search
+function doSearchResults(data, elem) {
 	
 	// store a reference to the search results node so we
 	// don't keep looking it up
-	var results = $('#search_results_box');
+	var results = $(elem);
 	
 	// variables to store the data
 	var id;
@@ -148,6 +232,7 @@ function doBasicSearch(data) {
 	results.empty();
 	
 	if(data.results.length > 0) {
+	
 		// loop through all of the items
 		$.each(data.results, function(index, value) {
 		
@@ -156,9 +241,7 @@ function doBasicSearch(data) {
 			para = $(entry);
 			
 			if($.inArray(marques.computeLatLngHash(value.coords), mapData.hashes) > -1) {
-				
 				entry = '<span class="fw-add-to-map">Added</span>';
-			
 			} else {
 				entry = '<span id="' + value.type + "-" + value.id + '" class="fw-add-to-map add-to-map fw-clickable">Add to Map</span>';
 			}
@@ -166,6 +249,7 @@ function doBasicSearch(data) {
 			entry = $(entry);
 			
 			entry.data('result', value);
+			para.data('result', value);
 			
 			para.append(entry);
 			
@@ -199,6 +283,80 @@ function filterSearchResults(type, event) {
 			$('.fw-search-result').show();
 		}
 	}
+}
+
+// function to reset the advance filter select boxes
+function resetAdvFilters() {
+
+	$('#adv_filter_state option:selected').attr('selected', false);
+	$('#adv_filter_state option:first').attr('selected', 'selected');
+	
+	$('#adv_filter_locality option:selected').attr('selected', false);
+	$('#adv_filter_locality option:first').attr('selected', 'selected');
+	
+	$('#adv_filter_cinema option:selected').attr('selected', false);
+	$('#adv_filter_cinema option:first').attr('selected', 'selected');
+	
+	$('#adv_result_count').empty();
+	$('#adv_result_hidden').empty();
+
+}
+
+// function to filter the advanced search results
+function filterAdvSearchResults() {
+
+	var count = 0;
+
+	// show all of the search results
+	$('.fw-search-result').show();
+	
+	// filter by state
+	var criteria = $('#adv_filter_state').val();
+	
+	// filter the search results by state
+	if(criteria != 'All') {
+		// fade out the selected search results
+		$('.fw-search-result-' + criteria).show();
+		$('.fw-search-result').not('.fw-search-result-' + criteria).each(function(index, element) {
+			count++;
+			$(this).hide();
+		});
+		
+	}
+
+	// filter by locality type
+	// work on those that aren't already hidden
+	criteria = $('#adv_filter_locality').val();
+	
+	if(criteria != 'all') {
+	
+		$('.fw-search-result').filter(':visible').each(function(index, element) {
+			
+			var data = $(this).data('result');
+			
+			if(data.locality_type != criteria) {
+				count++;
+				$(this).hide();
+			}
+		});
+	}
+		
+	// filter by cinema type
+	// get all of those that aren't already hidden
+	criteria = $('#adv_filter_cinema').val();
+	if(criteria != 'all') {
+		$('.fw-search-result').filter(':visible').each(function(index, element) {
+					
+			var data = $(this).data('result');
+			
+			if(data.cinema_type != criteria) {
+				count++;
+				$(this).hide();
+			}
+		});
+	}
+	
+	$('#adv_result_hidden').empty().append(count);
 }
 
 // function to add an item to the map

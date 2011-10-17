@@ -200,6 +200,8 @@ marquesHelper.prototype.getAustralianCoords = function() {
 
 /**
  * compute a hash of the lat lngs for indexing collections of objects
+ * 
+ * TODO: delevelop a more robust hash algorithm
  */
 marquesHelper.prototype.computeLatLngHash = function(latitude, longitude) {
 
@@ -221,4 +223,27 @@ marquesHelper.prototype.computeLatLngHash = function(latitude, longitude) {
     latlngHash     = latlngHash.replace(".","").replace(",", "").replace("-", "");
     
     return latlngHash;
+}
+
+/**
+ * fill a select box with items retrieved via ajax
+ */
+marquesHelper.prototype.fillSelectBox = function(id, url) {
+
+	// get a jQuery object for the id
+	var selectBox = $(id);
+	
+	// get the data and populate the select box
+	$.get(url, function(data) {
+	
+		selectBox.empty();
+
+		var items = '';
+		
+		$.each(data.items, function(index, value) {
+			items += '<option value="' + value.id + '">' + value.description + '</option>';
+		});
+		
+		selectBox.append(items);
+	});
 }

@@ -19,7 +19,7 @@ use app\models\FilmWeeklyMarkers;
 class SearchesController extends \lithium\action\Controller {
 
 	// list actions that can be undertaken without authentication
-	public $publicActions = array('index');
+	public $publicActions = array('index', 'advanced');
 	
 	// enable content negotiation so AJAX data can be returned
 	protected function _init() {
@@ -102,6 +102,93 @@ class SearchesController extends \lithium\action\Controller {
     	// remove any duplicates
     	$cinemas = array_unique($cinemas, SORT_NUMERIC);
     	
+    	return $this->getFilmWeeklyCinemas($cinemas, $markers);
+    }
+    
+    /**
+     * function to undertake advanced searches
+     */
+    public function advanced() {
+    
+    	if ($this->request->data) {
+        	
+        	// get the search terms from the post data
+        	$search = $this->request->data['search'];
+        	
+        	// get a connection to the database
+        	$db = Connections::get('default');
+        	
+        	$results = array();
+        	
+        	$results = array_merge($results, $this->getFilmWeeklyAdvanced($search, $db));
+        	        	
+     		return compact('results');
+        }
+    
+    }
+    
+    /**
+     * function to get the list of film weekly cinemas as search results
+     */
+    private function getFilmWeeklyAdvanced($search, $db) {
+    
+    	$markers = $this->getFilmWeeklyMarkers();
+    
+    	$results = array();
+    
+    	// build a query to search for film_weekly_cinema_id using data from the film_weekly_table
+    	$sql = "SELECT DISTINCT film_weekly_cinemas_id 
+    		    FROM film_weekly_searches 
+    		    WHERE MATCH (fwc_street, fwc_suburb, fwc_cinema_name, fwc_exhibitor_name)
+				AGAINST ({:search} IN BOOLEAN MODE)";
+    	
+    	// execute the query
+    	$batch = $db->read($sql, 
+    		array(
+    			'return' => 'array',
+    			'search' => $search
+    		)
+    	);
+    	
+    	//populate an array of ids
+    	$cinemas = array();
+    	
+    	foreach($batch as $item) {
+    	
+    		$cinemas[] = $item['film_weekly_cinemas_id'];
+    	}
+    	
+    	// build a query to search for film_weekl_cinema_id using data from the film_weekly_archaeology_table
+    	$sql = "SELECT DISTINCT film_weekly_archaeologies.film_weekly_cinemas_id
+				FROM film_weekly_searches, film_weekly_archaeologies
+				WHERE MATCH (fwa_cinema_name, fwa_exhibitor_name) AGAINST ({:search} IN BOOLEAN MODE)
+				AND film_weekly_searches.film_weekly_archaeologies_id = film_weekly_archaeologies.id";
+    	
+    	// execute the data
+    	$batch = $db->read($sql, 
+    		array(
+    			'return' => 'array',
+    			'search' => $search
+    		)
+    	);
+    	
+    	// add ids to the array
+		foreach($batch as $item) {
+    	
+    		$cinemas[] = $item['film_weekly_cinemas_id'];
+    	}
+    	
+    	// remove any duplicates
+    	$cinemas = array_unique($cinemas, SORT_NUMERIC);
+    	
+    	return $this->getFilmWeeklyCinemas($cinemas, $markers);
+    }
+    
+    /*
+     * private function to get Film Weekly Cinema data
+     */
+    private function getFilmWeeklyCinemas($cinemas, $markers) {
+    
     	// loop through getting all of the cinemas one at a time
     	// TODO: yes I know this is inefficient, need to revisit this if it becomes an issue
     	
@@ -131,13 +218,18 @@ class SearchesController extends \lithium\action\Controller {
      			'coords' => $record->latitude . ',' . $record->longitude,
      			'title'  => $record->cinema_name,
      			'state'  => $record->australian_state->shortname,
-     			'icon' => $markers[$record->film_weekly_cinema_types_id][$record->locality_types_id]
+     			'icon' => $markers[$record->film_weekly_cinema_types_id][$record->locality_types_id],
+     			'cinema_type' => $record->film_weekly_cinema_types_id,
+     			'locality_type' => $record->locality_types_id
     		);
     	}
     	
     	return $results;
     }
     
+    /*
+     * private function to get the list of markers
+     */
     private function getFilmWeeklyMarkers() {
     
     	$markers = array();

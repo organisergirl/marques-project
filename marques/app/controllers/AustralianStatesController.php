@@ -19,6 +19,51 @@ use app\models\AustralianStates;
  */
 class AustralianStatesController extends \lithium\action\Controller {
 
+	// list actions that can be undertaken without authentication
+	public $publicActions = array('items');
+	
+	/**
+	 * list all of the records
+	 */
+    public function items() {
+        
+        
+        if($this->request->type() == 'json') {
+        	
+        	$data = AustralianStates::all(array('order' => array('shortname' => 'ASC')));
+        	
+        	$items = array();
+        	
+        	$items[] = array('id' => 'All', 'description' => 'All');
+        	
+        	foreach($data as $datum) {
+        		
+        		$items[] = array(
+        			'id' => $datum->shortname,
+        			'description' => $datum->shortname
+        		);
+        	}
+        	
+        	return compact('items');
+        } else {
+        	
+        	// get the data
+        	$data = AustralianStates::all(array('order' => array('id' => 'ASC')));
+        	
+        	// set a title
+        	$title = 'Australian States';
+        	
+        	// get the URL
+        	$url = $this->request->url;
+        	
+        	// use a basic layout
+        	$this->_render['layout'] = 'not_json';
+        	return compact('data', 'title', 'url');
+        	
+        }	
+    }
+
+
 	/**
 	 * list all of the states
 	 */

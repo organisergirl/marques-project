@@ -32,7 +32,7 @@
 	</header>
 	<nav>
 		<p>
-			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
+			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button><button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
 		</p>
 	</nav>
 	<div id="map_container">
@@ -59,10 +59,74 @@
 		</div>
 		<h1>Search Results</h1>
 		<div class="dialog-menu">
-			<ul><li>Filter by State:</li><li class="fw-clickable fw-state-filter">All</li><li class="fw-clickable fw-state-filter">QLD</li><li class="fw-clickable fw-state-filter">NSW</li><li class="fw-clickable fw-state-filter">ACT</li><li class="fw-clickable fw-state-filter">VIC</li><li class="fw-clickable fw-state-filter">TAS</li><li class="fw-clickable fw-state-filter">NT</li><li class="fw-clickable fw-state-filter">SA</li><li class="fw-clickable fw-state-filter">WA</li></ul>
+			<ul><li>Filter by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
 		</div>
 		<div class="clear"></div>
 		<div id="search_results_box">
+		</div>
+	</div>
+	<div id="adv_search_dialog" class="fw-dialog js" title="Advanced Search Film Weekly Data">
+		<div style="float: left">
+			<p class="dialog-help">
+				Enter address, cinema name or exhibitor name below.
+			</p>
+			<form id="adv_search_form" method="post" action="marques/searches/advanced.json">
+				<input name="search" size="50" type="search">
+				<input type="submit" value="Search" class="fw-button ui-state-default ui-corner-all">
+			</form>
+			<div id="adv_search_message_box" class="ui-state-error ui-corner-all search-message-box">
+				<p>
+					<span class="ui-icon ui-icon-alert status-icon"></span><span id="adv_search_message" class="search-message"></span>
+				</p>
+			</div>
+			<p class="dialog-help-2">
+				You can use <a href="http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html" title="MySQL Documentation on available operators" class="external" target="_blank">boolean and other search operators</a>. <br/>If you do not need this level of functionality use the <span id="search_swap" class="clickable">standard search form</span>. 
+			</p>
+		</div>
+		<div style="float: right">
+			<table class="adv-filter-menu">
+				<tr>
+					<td colspan="2">
+						Filter results by:
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="adv_filter_state">State: </label>
+					</td>
+					<td>
+						<select id="adv_filter_state" style="width: 100%">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="adv_filter_locality">Locality: </label>
+					</td>
+					<td>
+						<select id="adv_filter_locality">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="adv_filter_cinema">Cinema Type: </label>
+					</td>
+					<td>
+						<select id="adv_filter_cinema">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						Search Results: <span id="adv_result_count"></span> Hidden: <span id="adv_result_hidden"></span>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="clear"></div>
+		<h1>Search Results</h1>
+		<div id="adv_search_results_box">
 		</div>
 	</div>
 </body>

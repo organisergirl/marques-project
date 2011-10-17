@@ -101,15 +101,15 @@ footer p.right {
 
 footer a { 
 	text-decoration: underline;
-	color: #fff;
+	color: #fff !important;
 }
 
 footer a:hover {
-	color: #fff;
+	color: #fff !important;
 }	
 
 footer a:visited:hover {
-	color: #fff;
+	color: #fff !important;
 }
 
 /* ui elements */
@@ -149,6 +149,17 @@ footer a:visited:hover {
 	padding-bottom: 0.5em;
 }
 
+.dialog-help-2 {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.clickable {
+	text-decoration: underline;
+	color: #eb6e06;
+	cursor: pointer;
+}
+
 .fw-clickable {
 	text-decoration: underline;
 	color: #eb6e06;
@@ -170,17 +181,36 @@ footer a:visited:hover {
 	padding-top: 0.5em;
 }
 
-.search-message {
-/*
-	float: left;
-	margin-left: 25px;
-*/
-}
-
 .status-icon {
 	float: left; 
 	margin-right: .3em;
 	margin-left:  .5em;
+}
+
+.adv-filter-menu select {
+	width: 100%;
+}
+
+.fw-dialog a {
+	text-decoration: underline;
+	color: #eb6e06 !important;
+}
+
+.fw-dialog a:hover {
+	text-decoration: underline;
+	color: #eb6e06 !important;
+}
+
+.fw-dialog a:visited {
+	text-decoration: underline;
+	color: #eb6e06 !important;
+}
+
+.fw-dialog a.external {
+	background-image: url('images/external-link.png');
+	background-position: right;
+	background-repeat: no-repeat;
+	padding-right: 13px;
 }
 
 /* prevent fouc */
