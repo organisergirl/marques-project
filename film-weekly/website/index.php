@@ -101,7 +101,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="adv_filter_locality">Locality: </label>
+						<label for="adv_filter_locality">Locality Type: </label>
 					</td>
 					<td>
 						<select id="adv_filter_locality">
@@ -128,6 +128,15 @@
 		<h1>Search Results</h1>
 		<div id="adv_search_results_box">
 		</div>
+	</div>
+	<div id="browse_dialog" class="fw-dialog js" title="Browse Film Weekly Data">
+		<h1>Select a State</h1>
+		<select id="browse_state"></select>
+		<h1>Select a Suburb</h1>
+		<select id="browse_suburb"></select>
+		<h1>Select a Cinema Type</h1>
+		<select id="browse_cinema"></select>
+		<h1>Record List</h1>
 	</div>
 </body>
 </html>

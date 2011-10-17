@@ -228,7 +228,7 @@ marquesHelper.prototype.computeLatLngHash = function(latitude, longitude) {
 /**
  * fill a select box with items retrieved via ajax
  */
-marquesHelper.prototype.fillSelectBox = function(id, url) {
+marquesHelper.prototype.fillSelectBox = function(id, url, ignoreFirst) {
 
 	// get a jQuery object for the id
 	var selectBox = $(id);
@@ -239,11 +239,21 @@ marquesHelper.prototype.fillSelectBox = function(id, url) {
 		selectBox.empty();
 
 		var items = '';
+		var list = data.items;
 		
-		$.each(data.items, function(index, value) {
-			items += '<option value="' + value.id + '">' + value.description + '</option>';
-		});
+		if(ignoreFirst == true) {
+			$.each(data.items, function(index, value) {
+				if(index != 0) {
+					items += '<option value="' + value.id + '">' + value.description + '</option>';
+				}
+			});		
+		} else {
+			$.each(data.items, function(index, value) {
+				items += '<option value="' + value.id + '">' + value.description + '</option>';
+			});	
+		}
 		
 		selectBox.append(items);
+		
 	});
 }

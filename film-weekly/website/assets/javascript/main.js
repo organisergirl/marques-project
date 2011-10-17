@@ -59,6 +59,10 @@ function initUI() {
 		$('#adv_search_dialog').dialog('open');
 	});
 	
+	$('#btn_browse').click(function() {
+		$('#browse_dialog').dialog('open');
+	});
+	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
 		addToMap(this);
@@ -70,9 +74,12 @@ function initUI() {
 	});
 	
 	// fill in the advanced search select boxes
-	marques.fillSelectBox('#adv_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
 	marques.fillSelectBox('#adv_filter_state', '/marques/australian_states/items.json');
 	marques.fillSelectBox('#adv_filter_locality', '/marques/locality_types/items.json');
+	marques.fillSelectBox('#adv_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
+	
+	marques.fillSelectBox('#browse_state', '/marques/australian_states/items.json', true);
+	marques.fillSelectBox('#browse_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	// allow user to swap from advanced to basic search
 	$('#search_swap').click(function(event) {
@@ -109,11 +116,22 @@ function initDialogs() {
 		width: 700,
 		modal: true,
 		position: 'left',
-		buttons: {
-			Close: function() {
-				$( this ).dialog( "close" );
+		buttons: [
+			{
+				text: 'Add All',
+				click: function() {
+					$('.fw-add-to-map').filter(':visible').each(function(index, element) {
+						$(this).click();
+					});
+				}
+			},			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
 			}
-		},
+		],
 		open: function() {
 			$("#search_message_box").hide();
 			initSearchForms();
@@ -125,18 +143,28 @@ function initDialogs() {
 		}
 	});
 	
-	// initalise all of the dialogs
 	$('#adv_search_dialog').dialog({
 		autoOpen: false,
 		height: 500,
 		width: 800,
 		modal: true,
 		position: 'left',
-		buttons: {
-			Close: function() {
-				$( this ).dialog( "close" );
+		buttons: [
+			{
+				text: 'Add All',
+				click: function() {
+					$('.fw-add-to-map').filter(':visible').each(function(index, element) {
+						$(this).click();
+					});
+				}
+			},			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
 			}
-		},
+		],
 		open: function() {
 			$("#adv_search_message_box").hide();
 			initSearchForms();
@@ -145,6 +173,34 @@ function initDialogs() {
 			//tidy up the dialog when we close
 			var form = $('#adv_search_form').validate();
 			form.resetForm();
+		}
+	});
+	
+	$('#browse_dialog').dialog({
+		autoOpen: false,
+		height: 500,
+		width: 800,
+		modal: true,
+		position: 'left',
+		buttons: [
+			{
+				text: 'Add All',
+				click: function() {
+					alert('yet to be implemented')
+				}
+			},			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			// do this when the dialog opens
+		},
+		close: function() {
+			// do this when the dialog closes
 		}
 	});
 }
