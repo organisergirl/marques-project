@@ -135,7 +135,7 @@
 		<h1>Select a Suburb</h1>
 		<select id="browse_suburb"></select>
 		<h1>Select a Cinema Type</h1>
-		<select id="browse_cinema"></select>
+		<select id="browse_filter_cinema"></select>
 		<h1>Record List</h1>
 		<div id="browse_search_results">
 		</div>

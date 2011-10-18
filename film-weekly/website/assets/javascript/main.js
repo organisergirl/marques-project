@@ -79,7 +79,7 @@ function initUI() {
 	marques.fillSelectBox('#adv_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	marques.fillSelectBox('#browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
-	marques.fillSelectBox('#browse_cinema', '/marques/film_weekly_cinema_types/items.json');
+	marques.fillSelectBox('#browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	// allow user to swap from advanced to basic search
 	$('#search_swap').click(function(event) {
@@ -127,6 +127,24 @@ function initUI() {
 			},
 			'json'
 		);
+	});
+	
+	$('#browse_filter_cinema').change(function (event) {
+	
+		$('.fw-search-result').show();
+	
+		var criteria = $('#browse_filter_cinema').val();
+		
+		if(criteria != 'all') {
+			$('.fw-search-result').filter(':visible').each(function(index, element) {
+						
+				var data = $(this).data('result');
+				
+				if(data.cinema_type != criteria) {
+					$(this).hide();
+				}
+			});
+		}	
 	});
 	
 	// initialise the dialogs
