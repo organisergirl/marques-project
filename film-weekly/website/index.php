@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8"/>
-	<title>Mapping the Movies</title>
+	<title>Australian Cinemas Map</title>
 	<link rel="stylesheet" type="text/css" href="assets/main-style.css"/>
 	<link rel="stylesheet" type="text/css" href="assets/jquery-ui.css"/>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
@@ -26,7 +26,7 @@
 <body>
 	<header>
 		<hgroup>
-			<h1>Mapping the Movies</h1>
+			<h1>Australian Cinemas Map</h1>
 			<h2>A map of Film Weekly Motion Picture Directory cinema data, 1948 - 1971</h2>
 		</hgroup>
 	</header>
