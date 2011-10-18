@@ -37,4 +37,5 @@
 			<li>Film Weekly Cinemas: <?=$fw_cinema_count; ?></li>
 		</ul>
 	</div>
+	<div style="clear: both"></div>
 </div>
