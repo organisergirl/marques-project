@@ -102,6 +102,11 @@ function initUI() {
 	
 	// initialise the browse select boxes
 	$('#browse_state').change(function (event) {
+	
+		$('#browse_filter_cinema option:selected').attr('selected', false);
+		$('#browse_filter_cinema option:first').attr('selected', 'selected');
+		$('#browse_search_results').empty();
+			
 		var state = $('#browse_state option:selected').val();
 		
 		if(state != 'default') {
@@ -112,6 +117,9 @@ function initUI() {
 	});
 	
 	$('#browse_suburb').change(function (event) {
+	
+		$('#browse_filter_cinema option:selected').attr('selected', false);
+		$('#browse_filter_cinema option:first').attr('selected', 'selected');
 	
 		var suburb = $('#browse_suburb').val();
 		var state  = $('#browse_state').val();
