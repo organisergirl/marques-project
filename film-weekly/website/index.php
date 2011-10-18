@@ -137,6 +137,8 @@
 		<h1>Select a Cinema Type</h1>
 		<select id="browse_cinema"></select>
 		<h1>Record List</h1>
+		<div id="browse_search_results">
+		</div>
 	</div>
 </body>
 </html>

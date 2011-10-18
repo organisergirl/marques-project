@@ -228,7 +228,7 @@ marquesHelper.prototype.computeLatLngHash = function(latitude, longitude) {
 /**
  * fill a select box with items retrieved via ajax
  */
-marquesHelper.prototype.fillSelectBox = function(id, url, ignoreFirst) {
+marquesHelper.prototype.fillSelectBox = function(id, url, ignoreFirst, addDefault) {
 
 	// get a jQuery object for the id
 	var selectBox = $(id);
@@ -237,9 +237,14 @@ marquesHelper.prototype.fillSelectBox = function(id, url, ignoreFirst) {
 	$.get(url, function(data) {
 	
 		selectBox.empty();
-
+		
 		var items = '';
 		var list = data.items;
+		
+		// add a default value of required
+		if(addDefault != null) {
+			items += '<option value="default">' + addDefault + '</option>';
+		}
 		
 		if(ignoreFirst == true) {
 			$.each(data.items, function(index, value) {

@@ -78,7 +78,7 @@ function initUI() {
 	marques.fillSelectBox('#adv_filter_locality', '/marques/locality_types/items.json');
 	marques.fillSelectBox('#adv_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
-	marques.fillSelectBox('#browse_state', '/marques/australian_states/items.json', true);
+	marques.fillSelectBox('#browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
 	marques.fillSelectBox('#browse_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	// allow user to swap from advanced to basic search
@@ -98,6 +98,35 @@ function initUI() {
 	
 	$('#adv_filter_cinema').change(function (event) {
 		filterAdvSearchResults();
+	});
+	
+	// initialise the browse select boxes
+	$('#browse_state').change(function (event) {
+		var state = $('#browse_state option:selected').val();
+		
+		if(state != 'default') {
+			marques.fillSelectBox('#browse_suburb', '/marques/browse/suburbs/' + state + '.json', false, 'Select a Suburb');
+		} else {
+			$('#browse_suburb').empty();
+		}
+	});
+	
+	$('#browse_suburb').change(function (event) {
+	
+		var suburb = $('#browse_suburb').val();
+		var state  = $('#browse_state').val();
+		
+		$.post(
+			'/marques/searches/bysuburb.json',
+			{
+				suburb: suburb,
+				state:  state
+			},
+			function(data, textStatus, jqXHR) {
+				doSearchResults(data, '#browse_search_results');
+			},
+			'json'
+		);
 	});
 	
 	// initialise the dialogs
@@ -186,7 +215,9 @@ function initDialogs() {
 			{
 				text: 'Add All',
 				click: function() {
-					alert('yet to be implemented')
+					$('.fw-add-to-map').filter(':visible').each(function(index, element) {
+						$(this).click();
+					});
 				}
 			},			
 			{

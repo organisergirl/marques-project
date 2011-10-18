@@ -19,7 +19,7 @@ use app\models\FilmWeeklyMarkers;
 class SearchesController extends \lithium\action\Controller {
 
 	// list actions that can be undertaken without authentication
-	public $publicActions = array('index', 'advanced');
+	public $publicActions = array('index', 'advanced', 'bysuburb');
 	
 	// enable content negotiation so AJAX data can be returned
 	protected function _init() {
@@ -185,6 +185,58 @@ class SearchesController extends \lithium\action\Controller {
     }
     
     /*
+     * get cinemas by suburb
+     */
+    public function bysuburb() {
+    
+    	if ($this->request->data) {
+        	
+        	// get the search terms from the post data
+        	$suburb = $this->request->data['suburb'];
+        	$state  = $this->request->data['state'];
+        	
+        	// get a connection to the database
+        	$db = Connections::get('default');
+        	
+        	$results = array();
+        	
+        	$results = array_merge($results, $this->getFilmWeeklyBySuburb($suburb, $state, $db));
+        	        	
+     		return compact('results');
+        }
+    
+    }
+    
+    /*
+     * private function to get film weekly cinemas by suburb
+     */
+    private function getFilmWeeklyBySuburb($suburb, $state, $db) {
+    
+    	$markers = $this->getFilmWeeklyMarkers();
+
+		$records = FilmWeeklyCinemas::find(
+			'all',
+			array (
+				'fields' => array('id'),
+				'conditions' => array(
+					'suburb' => $suburb,
+					'australian_states_id' => $state
+				),
+			)
+		);
+		
+		$cinemas = array();
+		
+		foreach($records as $record) {
+		
+			$cinemas[] = $record->id;
+		}
+		
+		return $this->getFilmWeeklyCinemas($cinemas, $markers);
+    
+    }
+    
+    /*
      * private function to get Film Weekly Cinema data
      */
     private function getFilmWeeklyCinemas($cinemas, $markers) {
@@ -193,6 +245,8 @@ class SearchesController extends \lithium\action\Controller {
     	// TODO: yes I know this is inefficient, need to revisit this if it becomes an issue
     	
     	$records = array();
+    	
+    	$results = array();
     	
     	foreach($cinemas as $cinema) {
     	
