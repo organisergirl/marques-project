@@ -190,11 +190,13 @@ function initDialogs() {
 		open: function() {
 			$("#search_message_box").hide();
 			initSearchForms();
+			map.panBy(-350, 0);
 		},
 		close: function() {
 			//tidy up the dialog when we close
 			var form = $('#search_form').validate();
 			form.resetForm();
+			map.panBy(350, 0);
 		}
 	});
 	
@@ -223,11 +225,13 @@ function initDialogs() {
 		open: function() {
 			$("#adv_search_message_box").hide();
 			initSearchForms();
+			map.panBy(-400, 0);
 		},
 		close: function() {
 			//tidy up the dialog when we close
 			var form = $('#adv_search_form').validate();
 			form.resetForm();
+			map.panBy(400, 0);
 		}
 	});
 	
@@ -255,9 +259,11 @@ function initDialogs() {
 		],
 		open: function() {
 			// do this when the dialog opens
+			map.panBy(-400, 0);
 		},
 		close: function() {
 			// do this when the dialog closes
+			map.panBy(400, 0);
 		}
 	});
 }
