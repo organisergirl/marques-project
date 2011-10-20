@@ -383,13 +383,16 @@ function initSearchForms() {
 
 function doBasicSearch(data) {
 	doSearchResults(data, '#search_results_box');
+	
+	$('#search_result_count').empty().append(data.results.length);
+	$('#search_result_hidden').empty();
 }
 
 function doAdvancedSearch(data) {
 	doSearchResults(data, '#adv_search_results_box'); 
 	
 	$('#adv_result_count').empty().append(data.results.length);
-	$('#adv_result_hidden').empty().append('0');
+	$('#adv_result_hidden').empty();
 }
 
 // function to undertake a search
@@ -452,15 +455,22 @@ function filterSearchResults(type, event) {
 		// get the state
 		var state = event.target.innerHTML;
 		
+		var count = 0;
+		
 		if(state != 'All') {
 			// fade out the selected search results
 			$('.fw-search-result-' + state).show();
-			$('.fw-search-result').not('.fw-search-result-' + state).fadeOut('slow');
+			$('.fw-search-result').not('.fw-search-result-' + state).each(function(index, element) {
+				$(element).hide();
+				count++;
+			});
 			
 		} else {
 			// show all of the search results
 			$('.fw-search-result').show();
 		}
+		
+		$('#search_result_hidden').empty().append(count);
 	}
 }
 

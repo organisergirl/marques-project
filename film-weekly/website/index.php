@@ -60,6 +60,7 @@
 		<h1>Search Results</h1>
 		<div class="dialog-menu">
 			<ul><li>Sort Results by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
+			<p style="padding-top: 0.5em;"><br/>Search Results: <span id="search_result_count"></span> Hidden: <span id="search_result_hidden"></span></p>
 		</div>
 		<div class="clear"></div>
 		<div id="search_results_box">
