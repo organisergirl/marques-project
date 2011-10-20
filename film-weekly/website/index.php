@@ -154,7 +154,8 @@
 			</tbody>
 		</table>
 		<h1>Select a Cinema Type</h1>
-		<select id="browse_filter_cinema"></select>
+		<select id="browse_filter_cinema"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
+
 		<h1>Record List</h1>
 		<div id="browse_search_results">
 		</div>

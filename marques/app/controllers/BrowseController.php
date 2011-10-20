@@ -35,9 +35,10 @@ class BrowseController extends \lithium\action\Controller {
         $db = Connections::get('default');
         
         // build a query to find all of the suburbs
-        $sql = "SELECT DISTINCT suburb
+        $sql = "SELECT suburb, count(suburb) as suburb_count
         		FROM film_weekly_cinemas
         		WHERE australian_states_id = {:id}
+        		GROUP BY suburb
         		ORDER BY suburb
         	   ";
         
@@ -57,7 +58,7 @@ class BrowseController extends \lithium\action\Controller {
 				
 				$items[] = array(
         			'id' => $record['suburb'],
-        			'description' => $record['suburb']
+        			'description' => $record['suburb'] . ' (' . $record['suburb_count'] . ')'
         		);
 			} 
 		

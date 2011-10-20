@@ -105,10 +105,13 @@ function initUI() {
 	
 		$('#browse_filter_cinema option:selected').attr('selected', false);
 		$('#browse_filter_cinema option:first').attr('selected', 'selected');
-		$('#browse_search_results').empty();
 		
-		$('.browse_suburb').each(function(index, element) {
-			$(this).empty();
+		$('#browse_search_results').empty();
+		$('#browse_result_count').empty();
+		$('#browse_result_hidden').empty();
+		
+		$('.browse-suburb').each(function(index, element) {
+			$(element).empty();
 		});
 			
 		var state = $('#browse_state option:selected').val();
@@ -148,7 +151,6 @@ function initUI() {
 				$('#browse_suburb_k').append(optionK);
 				$('#browse_suburb_p').append(optionP);
 				$('#browse_suburb_u').append(optionU);
-				
 			});
 		}
 	});
@@ -183,6 +185,9 @@ function initUI() {
 			},
 			function(data, textStatus, jqXHR) {
 				doSearchResults(data, '#browse_search_results');
+				
+				$('#browse_result_count').empty().append(data.results.length);
+				$('#browse_result_hidden').empty().append('0');
 			},
 			'json'
 		);
@@ -193,6 +198,7 @@ function initUI() {
 		$('.fw-search-result').show();
 	
 		var criteria = $('#browse_filter_cinema').val();
+		var count = 0;
 		
 		if(criteria != 'all') {
 			$('.fw-search-result').filter(':visible').each(function(index, element) {
@@ -201,9 +207,12 @@ function initUI() {
 				
 				if(data.cinema_type != criteria) {
 					$(this).hide();
+					count++;
 				}
 			});
-		}	
+		}
+		
+		$('#browse_result_hidden').empty().append(count);	
 	});
 	
 	// initialise the dialogs
