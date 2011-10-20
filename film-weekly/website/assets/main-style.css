@@ -213,6 +213,23 @@ footer a:visited:hover {
 	padding-right: 13px;
 }
 
+.fw-dialog-table {
+	width: 100%;
+}
+
+.fw-dialog-table th {
+	font-weight: bold;
+	text-align: center;
+}
+
+.fw-dialog-table td {
+	width: 20%;
+}
+
+.fw-dialog-table select {
+	width: 100%;
+}
+
 /* prevent fouc */
 .js {
 	display: none;

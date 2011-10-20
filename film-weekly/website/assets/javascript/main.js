@@ -106,22 +106,73 @@ function initUI() {
 		$('#browse_filter_cinema option:selected').attr('selected', false);
 		$('#browse_filter_cinema option:first').attr('selected', 'selected');
 		$('#browse_search_results').empty();
+		
+		$('.browse_suburb').each(function(index, element) {
+			$(this).empty();
+		});
 			
 		var state = $('#browse_state option:selected').val();
 		
 		if(state != 'default') {
-			marques.fillSelectBox('#browse_suburb', '/marques/browse/suburbs/' + state + '.json', false, 'Select a Suburb');
-		} else {
-			$('#browse_suburb').empty();
+			var url = '/marques/browse/suburbs/' + state + '.json';
+			var optionA = '<option value="default">Select a Suburb</option>';
+			var optionF = '<option value="default">Select a Suburb</option>';
+			var optionK = '<option value="default">Select a Suburb</option>';
+			var optionP = '<option value="default">Select a Suburb</option>';
+			var optionU = '<option value="default">Select a Suburb</option>';
+			
+			var tmp
+			
+			$.get(url, function(data) {
+				$.each(data.items, function(index, value) {
+				
+					tmp = value.description.toLowerCase();
+					tmp = tmp.substr(0,1);
+					
+					if(tmp == 'a' || tmp == 'b' || tmp == 'c' || tmp == 'd' || tmp == 'e') {
+						optionA += '<option value="' + value.id + '">' + value.description + '</option>';
+					} else if (tmp == 'f' || tmp == 'g' || tmp == 'h' || tmp == 'i' || tmp == 'j') {
+						optionF += '<option value="' + value.id + '">' + value.description + '</option>';
+					} else if (tmp == 'k' || tmp == 'l' || tmp == 'm' || tmp == 'n' || tmp == 'o') {
+						optionK += '<option value="' + value.id + '">' + value.description + '</option>';
+					} else if (tmp == 'p' || tmp == 'q' || tmp == 'r' || tmp == 's' || tmp == 't') {
+						optionP += '<option value="' + value.id + '">' + value.description + '</option>';
+					} else {
+						optionU += '<option value="' + value.id + '">' + value.description + '</option>';
+					}
+				
+				});
+				
+				$('#browse_suburb_a').append(optionA);
+				$('#browse_suburb_f').append(optionF);
+				$('#browse_suburb_k').append(optionK);
+				$('#browse_suburb_p').append(optionP);
+				$('#browse_suburb_u').append(optionU);
+				
+			});
 		}
 	});
 	
-	$('#browse_suburb').change(function (event) {
+	$('.browse-suburb').change(function (event) {
 	
 		$('#browse_filter_cinema option:selected').attr('selected', false);
 		$('#browse_filter_cinema option:first').attr('selected', 'selected');
+		
+		var target = $(this);
+		var targetid = target.attr('id');
+		
+		$('.browse-suburb').each(function(index, value){
+		
+			var otherid = $(value).attr('id');
+		
+			if(otherid != targetid) {
+				$('#' + otherid + ' option:selected').attr('selected', false);
+				$('#' + otherid + ' option:first').attr('selected', 'selected');
+			}
+		
+		});
 	
-		var suburb = $('#browse_suburb').val();
+		var suburb = target.val();
 		var state  = $('#browse_state').val();
 		
 		$.post(

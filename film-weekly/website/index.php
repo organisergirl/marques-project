@@ -59,7 +59,7 @@
 		</div>
 		<h1>Search Results</h1>
 		<div class="dialog-menu">
-			<ul><li>Filter by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
+			<ul><li>Sort Results by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
 		</div>
 		<div class="clear"></div>
 		<div id="search_results_box">
@@ -80,14 +80,14 @@
 				</p>
 			</div>
 			<p class="dialog-help-2">
-				You can use <a href="http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html" title="MySQL Documentation on available operators" class="external" target="_blank">boolean and other search operators</a>. <br/>If you do not need this level of functionality use the <span id="search_swap" class="clickable">standard search form</span>. 
+				You can use <a href="http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html" title="MySQL Documentation on available operators" class="external" target="_blank">boolean and other search operators</a>. <br/>Use the <span id="search_swap" class="clickable">standard search form</span>. 
 			</p>
 		</div>
 		<div style="float: right">
 			<table class="adv-filter-menu">
 				<tr>
 					<td colspan="2">
-						Filter results by:
+						Sort Results by:
 					</td>
 				</tr>
 				<tr>
@@ -133,7 +133,26 @@
 		<h1>Select a State</h1>
 		<select id="browse_state"></select>
 		<h1>Select a Suburb</h1>
-		<select id="browse_suburb"></select>
+		<table class="fw-dialog-table">
+			<thead>
+				<tr>
+					<th>A - E</th>
+					<th>F - J</th>
+					<th>K - O</th>
+					<th>P - T</th>
+					<th>U - Z</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><select id="browse_suburb_a" class="browse-suburb"></select></td>
+					<td><select id="browse_suburb_f" class="browse-suburb"></select></td>
+					<td><select id="browse_suburb_k" class="browse-suburb"></select></td>
+					<td><select id="browse_suburb_p" class="browse-suburb"></select></td>
+					<td><select id="browse_suburb_u" class="browse-suburb"></select></td>
+				</tr>
+			</tbody>
+		</table>
 		<h1>Select a Cinema Type</h1>
 		<select id="browse_filter_cinema"></select>
 		<h1>Record List</h1>
