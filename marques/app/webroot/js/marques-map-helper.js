@@ -87,7 +87,7 @@ marquesHelper.prototype.getAustralianCoords = function() {
 					zoom: 14
 				},
 				melbourne: {
-					LatLng: new google.maps.LatLng(-38.82, 144.97),
+					LatLng: new google.maps.LatLng(-37.82, 144.97),
 					zoom: 14
 				},
 				canberra: {
@@ -177,7 +177,7 @@ marquesHelper.prototype.getAustralianCoords = function() {
 					zoom: 14
 				},
 				melbourne: {
-					Lat: -38.82,
+					Lat: -37.82,
 					Lng: 144.97,
 					zoom: 14
 				},
@@ -196,6 +196,209 @@ marquesHelper.prototype.getAustralianCoords = function() {
 	}
 
 	return coordList;
+}
+
+/**
+ * build the state based jump list
+ */
+marquesHelper.prototype.stateJumpList = function() {
+
+	var coordList = this.getAustralianCoords();
+	
+	var jumpList = Array();
+	
+	// check to see if the Google Maps API is loaded
+	if(typeof google.maps.Map === 'function') {
+	
+		jumpList.push({
+			id: 'Australian Capital Territory',
+			value: coordList.states.act.LatLng.toUrlValue() + ',' + coordList.states.act.zoom
+		});
+		
+		jumpList.push({
+			id: 'New South Wales',
+			value: coordList.states.nsw.LatLng.toUrlValue() + ',' + coordList.states.nsw.zoom
+		});
+		
+		jumpList.push({
+			id: 'Northern Territory',
+			value: coordList.states.nt.LatLng.toUrlValue() + ',' + coordList.states.nt.zoom
+		});
+		
+		jumpList.push({
+			id: 'Queensland',
+			value: coordList.states.qld.LatLng.toUrlValue() + ',' + coordList.states.qld.zoom
+		});
+		
+		jumpList.push({
+			id: 'South Australia',
+			value: coordList.states.sa.LatLng.toUrlValue() + ',' + coordList.states.sa.zoom
+		});
+		
+		jumpList.push({
+			id: 'Tasmania',
+			value: coordList.states.tas.LatLng.toUrlValue() + ',' + coordList.states.tas.zoom
+		});
+		
+		jumpList.push({
+			id: 'Western Australia',
+			value: coordList.states.wa.LatLng.toUrlValue() + ',' + coordList.states.wa.zoom
+		});
+	
+	} else {
+	
+		jumpList.push({
+			id: 'Australian Capital Territory',
+			value: coordList.states.act.Lat + ',' + coordList.states.act.Lng + ',' + coordList.states.act.zoom
+		});
+		
+		jumpList.push({
+			id: 'New South Walis',
+			value: coordList.states.nsw.Lat + ',' + coordList.states.nsw.Lng + ',' + coordList.states.nsw.zoom
+		});
+		
+		jumpList.push({
+			id: 'Northern Territory',
+			value: coordList.states.nt.Lat + ',' + coordList.states.nt.Lng + ',' + coordList.states.nt.zoom
+		});
+		
+		jumpList.push({
+			id: 'Queensland',
+			value: coordList.states.qld.Lat + ',' + coordList.states.qld.Lng + ',' + coordList.states.qld.zoom
+		});
+		
+		jumpList.push({
+			id: 'South Australia',
+			value: coordList.states.sa.Lat + ',' + coordList.states.sa.Lng + ',' + coordList.states.sa.zoom
+		});
+		
+		jumpList.push({
+			id: 'Tasmania',
+			value: coordList.states.tas.Lat + ',' + coordList.states.tas.Lng + ',' + coordList.states.tas.zoom
+		});
+		
+		jumpList.push({
+			id: 'Western Australia',
+			value: coordList.states.wa.Lat + ',' + coordList.states.wa.Lng + ',' + coordList.states.wa.zoom
+		});
+	}
+	
+	return jumpList;
+}
+
+/**
+ * build the state based jump list
+ */
+marquesHelper.prototype.cityJumpList = function() {
+
+	var coordList = this.getAustralianCoords();
+	
+	var jumpList = Array();
+	
+	// check to see if the Google Maps API is loaded
+	if(typeof google.maps.Map === 'function') {
+	
+		jumpList.push({
+			id: 'Adelaide',
+			value: coordList.capitals.adelaide.LatLng.toUrlValue() + ',' + coordList.capitals.adelaide.zoom
+		});
+		
+		jumpList.push({
+			id: 'Brisbane',
+			value: coordList.capitals.brisbane.LatLng.toUrlValue() + ',' + coordList.capitals.brisbane.zoom
+		});
+		
+		jumpList.push({
+			id: 'Canberra',
+			value: coordList.capitals.canberra.LatLng.toUrlValue() + ',' + coordList.capitals.canberra.zoom
+		});
+		
+		jumpList.push({
+			id: 'Darwin',
+			value: coordList.capitals.darwin.LatLng.toUrlValue() + ',' + coordList.capitals.darwin.zoom
+		});
+		
+		jumpList.push({
+			id: 'Hobart',
+			value: coordList.capitals.hobart.LatLng.toUrlValue() + ',' + coordList.capitals.hobart.zoom
+		});
+		
+		jumpList.push({
+			id: 'Melbourne',
+			value: coordList.capitals.melbourne.LatLng.toUrlValue() + ',' + coordList.capitals.melbourne.zoom
+		});
+		
+		jumpList.push({
+			id: 'Perth',
+			value: coordList.capitals.perth.LatLng.toUrlValue() + ',' + coordList.capitals.perth.zoom
+		});
+		
+		jumpList.push({
+			id: 'Sydney',
+			value: coordList.capitals.sydney.LatLng.toUrlValue() + ',' + coordList.capitals.sydney.zoom
+		});
+
+	} else {
+	
+		jumpList.push({
+			id: 'Adelaide',
+			value: coordList.capitals.adelaide.Lat + ',' + coordList.capitals.adelaide.Lng + ',' + coordList.capitals.adelaide.zoom
+		});
+		
+		jumpList.push({
+			id: 'Brisbane',
+			value: coordList.capitals.brisbane.Lat + ',' + coordList.capitals.brisbane.Lng + ',' + coordList.capitals.brisbane.zoom
+		});
+		
+		jumpList.push({
+			id: 'Canberra',
+			value: coordList.capitals.canberra.Lat + ',' + coordList.capitals.canberra.Lng + ',' + coordList.capitals.canberra.zoom
+		});
+		
+		jumpList.push({
+			id: 'Darwin',
+			value: coordList.capitals.darwin.Lat + ',' + coordList.capitals.darwin.Lng + ',' + coordList.capitals.darwin.zoom
+		});
+		
+		jumpList.push({
+			id: 'Hobart',
+			value: coordList.capitals.hobart.Lat + ',' + coordList.capitals.hobart.Lng + ',' + coordList.capitals.hobart.zoom
+		});
+		
+		jumpList.push({
+			id: 'Melbourne',
+			value: coordList.capitals.melbourne.Lat + ',' + coordList.capitals.melbourne.Lng + ',' + coordList.capitals.melbourne.zoom
+		});
+		
+		jumpList.push({
+			id: 'Perth',
+			value: coordList.capitals.perth.Lat + ',' + coordList.capitals.perth.Lng + ',' + coordList.capitals.perth.zoom
+		});
+		
+		jumpList.push({
+			id: 'Sydney',
+			value: coordList.capitals.sydney.Lat + ',' + coordList.capitals.sydney.Lng + ',' + coordList.capitals.sydney.zoom
+		});
+	
+	}
+	
+	return jumpList;
+}
+
+/**
+ * method to pan and zoom the map
+ *
+ * NOTE: this method is google maps specific
+ */
+marquesHelper.prototype.panAndZoom = function (map, value) {
+
+	// split the value
+	var values = value.split(',');
+	
+	var latLng = new google.maps.LatLng(parseFloat(values[0]), parseFloat(values[1]));
+	
+	map.panTo(latLng);
+	map.setZoom(parseFloat(values[2]));
 }
 
 /**

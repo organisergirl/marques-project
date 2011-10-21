@@ -156,10 +156,28 @@
 		</table>
 		<h1>Select a Cinema Type</h1>
 		<select id="browse_filter_cinema"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
-
 		<h1>Record List</h1>
 		<div id="browse_search_results">
 		</div>
+	</div>
+	<div id="controls_dialog" class="fw-dialog js" title="Map Controls">
+	<h1>Jump To</h1>
+	<table class="fw-dialog-table">
+			<thead>
+				<tr>
+					<th>Country</th>
+					<th>State</th>
+					<th>Capital City</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><select id="jump_country" class="jump-list"></select></td>
+					<td><select id="jump_state" class="jump-list"></select></td>
+					<td><select id="jump_city" class="jump-list"></select></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

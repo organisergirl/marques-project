@@ -63,6 +63,10 @@ function initUI() {
 		$('#browse_dialog').dialog('open');
 	});
 	
+	$('#btn_controls').click(function(){
+		$('#controls_dialog').dialog('open');
+	});
+	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
 		addToMap(this);
@@ -215,6 +219,15 @@ function initUI() {
 		$('#browse_result_hidden').empty().append(count);	
 	});
 	
+	$('.jump-list').change(function (event){
+	
+		if($(this).val() != 'default') {
+			marques.panAndZoom(map, $(this).val());
+			map.panBy(-400, 0);
+		}
+
+	});
+	
 	// initialise the dialogs
 	initDialogs();
 }
@@ -326,6 +339,54 @@ function initDialogs() {
 			map.panBy(400, 0);
 		}
 	});
+	
+	$('#controls_dialog').dialog({
+		autoOpen: false,
+		height: 500,
+		width: 800,
+		modal: true,
+		position: 'left',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			// do this when the dialog opens
+			map.panBy(-400, 0);
+			prepareMapControls();
+		},
+		close: function() {
+			// do this when the dialog closes
+			map.panBy(400, 0);
+		}
+	});
+}
+
+function prepareMapControls() {
+
+	$('.jump-list').each(function(index, element){
+		$(element).empty();
+	});
+	
+	var list = '<option value="default">Select a State</option>';
+	
+	$(marques.stateJumpList()).each(function(index, value) {
+		list += '<option value="' + value.value + '">' + value.id + '</option>';
+	});
+	
+	$('#jump_state').append(list);
+	
+	list = '<option value="default">Select a City</option>';
+	
+	$(marques.cityJumpList()).each(function(index, value) {
+		list += '<option value="' + value.value + '">' + value.id + '</option>';
+	});
+	
+	$('#jump_city').append(list);
 }
 
 function initSearchForms() {
