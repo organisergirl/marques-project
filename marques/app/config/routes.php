@@ -23,6 +23,9 @@ use lithium\core\Environment;
  * add custom routes for the MARQUes system
  */
  
+// add a route for the pagination helper
+Router::connect('/{:controller}/{:action}/page:{:page:[0-9]+}');
+ 
 // use common urls for login and logout
 Router::connect('/login', 'Sessions::add');
 Router::connect('/logout', 'Sessions::delete');
@@ -30,9 +33,6 @@ Router::connect('/logout', 'Sessions::delete');
 // connect / to the admin page
 Router::connect('/', 'Admin::index');
 Router::connect('/marques', 'Admin::index');
-
-// add a route for the pagination helper
-Router::connect('/{:controller}/{:action}/page:{:page:[0-9]+}');
 
 // add routes that include content negotiation
 Router::connect('/{:controller}/{:action}/{:id:[0-9]+}.{:type}', array('id' => null));

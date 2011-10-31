@@ -7,6 +7,7 @@
  
 // global variables
 var map = null;
+var infoWindow = null;
 
 var mapData = {
 	hashes:  [], 
@@ -754,6 +755,34 @@ function addToMap(item) {
 		title: data.title,
 		icon: data.icon
 	});
+	
+	// add a click event to the marker
+	google.maps.event.addListener(marker, 'click', function() {
+	
+		// close any existing infoWindow
+		if(infoWindow != null) {
+			infoWindow.close();
+		}
+	
+		// get the position of this marker and use it to lookup additional info
+		var latlng = this.getPosition();
+		var hash = marques.computeLatLngHash(latlng.lat(), latlng.lng());
+		
+		//var data = mapData.data[$.inArray(hash, mapData.hashes)];
+		
+		var content = '<div class="info-window info-window-' + hash + '"><p>Loading cinema information</p></div>';
+		
+		infoWindow = new google.maps.InfoWindow({
+			content: content
+		});
+		
+		infoWindow.open(map,this);
+		
+		google.maps.event.addListener(infoWindow, 'domready', function() {
+			loadInfoWindow();
+		});
+		
+	});
 
 	// add to the list of what is on the map
 	mapData.hashes.push(marques.computeLatLngHash(data.coords));
@@ -763,6 +792,35 @@ function addToMap(item) {
 	$(item).empty().append('Added');
 	$(item).removeClass('fw-clickable add-to-map');
 
+}
+
+// dynamically load the content of an infoWindow
+function loadInfoWindow() {
+
+	// find the infoWindow element
+	var infoWindow = $('.info-window');
+	
+	var classes = infoWindow.attr('class').split(' ');
+	
+	var hash = classes[1];
+	hash = hash.split('-');
+
+	if(hash.length != 3) {
+		hash = classes[0];
+		hash = hash.split('-');
+	}
+	
+	hash = hash[2];
+	
+	var data = mapData.data[$.inArray(hash, mapData.hashes)];
+
+	var url = '/marques/film_weekly_info_windows/' + data.id;
+	
+	$.get(url, function(data) {
+	
+		console.log(data);	
+	
+	});
 }
 
 //dynamically resize the map
