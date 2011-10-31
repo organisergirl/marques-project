@@ -131,6 +131,10 @@ footer a:visited:hover {
 	float: right;
 }
 
+.jump-to-marker {
+	margin-right: 1em;
+}
+
 .dialog-menu ul {
 	margin: 0; 
 	padding: 0;

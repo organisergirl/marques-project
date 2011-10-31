@@ -7,6 +7,7 @@
  
 // global variables
 var map = null;
+var infoWindow = null;
 
 var mapData = {
 	hashes:  [], 
@@ -228,14 +229,34 @@ function initUI() {
 			marques.panAndZoom(map, $(this).val());
 			map.panBy(-400, 0);
 		}
-
+		
+		var tmp = $('#jump_state')
+		
+		if($('#jump_state').get(0) === $(this).get(0)) {
+			// reset the city list
+			$('#jump_city option:selected').attr('selected', false);
+			$('#jump_city option:first').attr('selected', 'selected');
+		} else {
+			// reset the state list
+			$('#jump_state option:selected').attr('selected', false);
+			$('#jump_state option:first').attr('selected', 'selected');
+		}
 	});
 	
 	$('.jump-list-link').click(function (event) {
 	
 		var coords = $(this).data('coords');
 		marques.panAndZoom(map, coords);
-		map.panBy(-400, 0);
+		map.panBy(-425, 0);
+		
+		// reset the city list
+		$('#jump_city option:selected').attr('selected', false);
+		$('#jump_city option:first').attr('selected', 'selected');
+		
+		// reset the state list
+		$('#jump_state option:selected').attr('selected', false);
+		$('#jump_state option:first').attr('selected', 'selected');
+		
 	});
 	
 	// reset the map
@@ -249,6 +270,35 @@ function initUI() {
 		mapData.markers.empty();
 		
 		//reset any other UI elements
+		prepareMapControls(true);
+	
+	});
+	
+	// initialise the delete to map links
+	$('.delete-from-map').live('click', function() {
+		var marker = $(this).data('result');
+		marques.deleteMarker(map, marker);
+		
+		var index = $(this).data('index');
+		
+		mapData.hashes.splice(index, 1);
+		mapData.data.splice(index, 1);
+		mapData.markers.splice(index, 1);
+		
+		prepareMapControls(true);
+	});
+	
+	// initialise the jump to marker links
+	$('.jump-to-marker').live('click', function() {
+		
+		var index = $(this).data('index');
+		
+		var data = mapData.data[index];
+		
+		var coords = data.coords + ',18';
+		
+		marques.panAndZoom(map, coords);
+		map.panBy(-425, 0);
 	
 	});
 	
@@ -367,7 +417,7 @@ function initDialogs() {
 	$('#controls_dialog').dialog({
 		autoOpen: false,
 		height: 500,
-		width: 800,
+		width: 850,
 		modal: true,
 		position: 'left',
 		buttons: [			
@@ -380,43 +430,93 @@ function initDialogs() {
 		],
 		open: function() {
 			// do this when the dialog opens
-			map.panBy(-400, 0);
+			map.panBy(-425, 0);
 			prepareMapControls();
 		},
 		close: function() {
 			// do this when the dialog closes
-			map.panBy(400, 0);
+			map.panBy(425, 0);
 		}
 	});
 }
 
-function prepareMapControls() {
+function prepareMapControls(refresh) {
 
-	$('.jump-list').each(function(index, element){
-		$(element).empty();
-	});
+	if(typeof(refresh) == 'undefined') {
+		$('.jump-list').each(function(index, element){
+			$(element).empty();
+		});
+		
+		var list = '<option value="default">Select a State</option>';
+		
+		$(marques.stateJumpList()).each(function(index, value) {
+			list += '<option value="' + value.value + '">' + value.id + '</option>';
+		});
+		
+		$('#jump_state').append(list);
+		
+		list = '<option value="default">Select a City</option>';
+		
+		$(marques.cityJumpList()).each(function(index, value) {
+			list += '<option value="' + value.value + '">' + value.id + '</option>';
+		});
+		
+		$('#jump_city').append(list);
+		
+		var jumpList = marques.countryJumpList();
+		
+		// assumes australia will always be first element in the list
+		$('#jump_country').append(jumpList[0].id);
+		$('#jump_country').data('coords', jumpList[0].value);
+	}
 	
-	var list = '<option value="default">Select a State</option>';
+	// build the marker list
+	var para;
+	var entry;
+	var span;
+	var results = $('#controls_marker_list');
+	results.empty();
 	
-	$(marques.stateJumpList()).each(function(index, value) {
-		list += '<option value="' + value.value + '">' + value.id + '</option>';
-	});
+	if(mapData.markers.length > 0) {
 	
-	$('#jump_state').append(list);
-	
-	list = '<option value="default">Select a City</option>';
-	
-	$(marques.cityJumpList()).each(function(index, value) {
-		list += '<option value="' + value.value + '">' + value.id + '</option>';
-	});
-	
-	$('#jump_city').append(list);
-	
-	var jumpList = marques.countryJumpList();
-	
-	// assumes australia will always be first element in the list
-	$('#jump_country').append(jumpList[0].id);
-	$('#jump_country').data('coords', jumpList[0].value);
+		// loop through all of the items
+		$.each(mapData.data, function(index, value) {
+		
+			entry = '<p class="fw-search-result fw-search-result-' + value.state + '">' + value.result + ' </p>';
+		
+			para = $(entry);
+			
+			span = '<span class="fw-add-to-map"></span>';
+			
+			span = $(span);
+			
+			entry = '<span id="' + value.type + "-" + value.id + '" class="jump-to-marker fw-clickable">Jump to Marker</span> &nbsp;';
+			
+			entry = $(entry);
+			
+			entry.data('index', index);
+			
+			span.append(entry);
+
+			entry = '<span id="' + value.type + "-" + value.id + '" class="delete-from-map fw-clickable">Delete from Map</span>';
+			
+			entry = $(entry);
+			
+			entry.data('result', mapData.markers[index]);
+			entry.data('index', index);
+			//para.data('result', value);
+			
+			span.append(entry);
+			
+			para.append(span);
+			
+			results.append(para);
+		
+		});
+			
+	} else {
+		results.append('<p class="no-search-results">No Markers are on the Map</p>');
+	}
 }
 
 function initSearchForms() {
@@ -469,7 +569,9 @@ function initSearchForms() {
 			});
 		}
 	});
-
+	
+	$('#search_results_box').empty();
+	$('#adv_search_results_box').empty();
 }
 
 function doBasicSearch(data) {
@@ -653,6 +755,34 @@ function addToMap(item) {
 		title: data.title,
 		icon: data.icon
 	});
+	
+	// add a click event to the marker
+	google.maps.event.addListener(marker, 'click', function() {
+	
+		// close any existing infoWindow
+		if(infoWindow != null) {
+			infoWindow.close();
+		}
+	
+		// get the position of this marker and use it to lookup additional info
+		var latlng = this.getPosition();
+		var hash = marques.computeLatLngHash(latlng.lat(), latlng.lng());
+		
+		//var data = mapData.data[$.inArray(hash, mapData.hashes)];
+		
+		var content = '<div class="info-window info-window-' + hash + '"><p>Loading cinema information</p></div>';
+		
+		infoWindow = new google.maps.InfoWindow({
+			content: content
+		});
+		
+		infoWindow.open(map,this);
+		
+		google.maps.event.addListener(infoWindow, 'domready', function() {
+			loadInfoWindow();
+		});
+		
+	});
 
 	// add to the list of what is on the map
 	mapData.hashes.push(marques.computeLatLngHash(data.coords));
@@ -662,6 +792,35 @@ function addToMap(item) {
 	$(item).empty().append('Added');
 	$(item).removeClass('fw-clickable add-to-map');
 
+}
+
+// dynamically load the content of an infoWindow
+function loadInfoWindow() {
+
+	// find the infoWindow element
+	var infoWindow = $('.info-window');
+	
+	var classes = infoWindow.attr('class').split(' ');
+	
+	var hash = classes[1];
+	hash = hash.split('-');
+
+	if(hash.length != 3) {
+		hash = classes[0];
+		hash = hash.split('-');
+	}
+	
+	hash = hash[2];
+	
+	var data = mapData.data[$.inArray(hash, mapData.hashes)];
+
+	var url = '/marques/film_weekly_info_windows/' + data.id;
+	
+	$.get(url, function(data) {
+	
+		console.log(data);	
+	
+	});
 }
 
 //dynamically resize the map
