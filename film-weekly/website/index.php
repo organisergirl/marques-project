@@ -180,12 +180,8 @@
 	</table>
 	<h1>Reset Map</h1>
 	<p>
-		Delete all markers from the map. <button id="btn_map_reset" class="fw-button ui-state-default ui-corner-all">Reset Map</button>
+		Delete all markers form the map. <button id="btn_map_reset" class="fw-button ui-state-default ui-corner-all">Reset Map</button>
 	</p>
-	<h1>Marker List</h1>
-	<div id="controls_marker_list">
-	
-	</div>
 	</div>
 </body>
 </html>
