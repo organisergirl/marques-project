@@ -12,6 +12,9 @@
 ?>
 <?php $this->title('List Film Weekly Cinemas'); ?>
 <h2>List of Film Weekly Cinemas</h2>
+<p>
+<?=$this->html->link('Add New Record', array('FilmWeeklyCinemas::add')); ?>
+</p>
 <table>
 	<thead>
 		<tr>
@@ -34,10 +37,3 @@
 		<?php } ?>
 	</tbody>
 </table>
-<p>
-<?=$this->html->link('Add New Record', array('FilmWeeklyCinemas::add')); ?>
-</p>
-<p>
-<?=$this->Paginator->paginate(); ?>
-</p>
-

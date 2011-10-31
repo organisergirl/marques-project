@@ -22,7 +22,7 @@
 		<h3>Manage Film Weekly Data</h3>
 		<ul>
 			<li><?=$this->html->link('Search Cinema Records', array('FilmWeeklySearches::index')); ?></li>
-			<li><?=$this->html->link('Manage Cinema Records', array('FilmWeeklyCinemas::index')); ?></li>
+			<li><?=$this->html->link('List All Cinema Records', array('FilmWeeklyCinemas::index')); ?></li>
 			<li><?=$this->html->link('Manage Australian States', array('AustralianStates::index')); ?></li>
 			<li><?=$this->html->link('Manage Locality Types', array('LocalityTypes::index')); ?></li>
 			<li><?=$this->html->link('Manage Categories', array('FilmWeeklyCategories::index')); ?></li>
