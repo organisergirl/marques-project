@@ -159,6 +159,7 @@ function initUI() {
 		}
 	});
 	
+	// populate the browse search results
 	$('.browse-suburb').change(function (event) {
 	
 		$('#browse_filter_cinema option:selected').attr('selected', false);
@@ -197,6 +198,7 @@ function initUI() {
 		);
 	});
 	
+	// filter the browse search results
 	$('#browse_filter_cinema').change(function (event) {
 	
 		$('.fw-search-result').show();
@@ -219,6 +221,7 @@ function initUI() {
 		$('#browse_result_hidden').empty().append(count);	
 	});
 	
+	// populate the jump lists
 	$('.jump-list').change(function (event){
 	
 		if($(this).val() != 'default') {
@@ -226,6 +229,27 @@ function initUI() {
 			map.panBy(-400, 0);
 		}
 
+	});
+	
+	$('.jump-list-link').click(function (event) {
+	
+		var coords = $(this).data('coords');
+		marques.panAndZoom(map, coords);
+		map.panBy(-400, 0);
+	});
+	
+	// reset the map
+	$('#btn_map_reset').click(function (event) {
+	
+		marques.deleteMarker(map, mapData.markers);
+		
+		// empty the other arrays
+		mapData.hashes.empty();
+		mapData.objects.empty();
+		mapData.markers.empty();
+		
+		//reset any other UI elements
+	
 	});
 	
 	// initialise the dialogs
@@ -387,6 +411,12 @@ function prepareMapControls() {
 	});
 	
 	$('#jump_city').append(list);
+	
+	var jumpList = marques.countryJumpList();
+	
+	// assumes australia will always be first element in the list
+	$('#jump_country').append(jumpList[0].id);
+	$('#jump_country').data('coords', jumpList[0].value);
 }
 
 function initSearchForms() {

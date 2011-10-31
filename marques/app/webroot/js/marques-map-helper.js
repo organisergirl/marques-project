@@ -199,6 +199,36 @@ marquesHelper.prototype.getAustralianCoords = function() {
 }
 
 /**
+ * get the australian coordinates for a jump link
+ */
+marquesHelper.prototype.countryJumpList = function() {
+
+	var coordList = this.getAustralianCoords();
+	
+	var jumpList = Array();
+	
+	// check to see if the Google Maps API is loaded
+	if(typeof google.maps.Map === 'function') {
+		
+		jumpList.push({
+			id: 'Australia',
+			value: coordList.australia.LatLng.toUrlValue() + ',' + coordList.australia.zoom
+		});
+	
+	} else {
+	
+		jumpList.push({
+			id: 'Australia',
+			value: coordList.australia.Lat + ',' + coordList.australia.Lng + ',' + coordList.australia.zoom
+		});
+	
+	}
+	
+	return jumpList;
+	
+}
+
+/**
  * build the state based jump list
  */
 marquesHelper.prototype.stateJumpList = function() {
@@ -400,6 +430,29 @@ marquesHelper.prototype.panAndZoom = function (map, value) {
 	map.panTo(latLng);
 	map.setZoom(parseFloat(values[2]));
 }
+
+/**
+ * method to delete marker(s) from the map
+ *
+ * NOTE: this method is google maps specific
+ */
+marquesHelper.prototype.deleteMarker = function (map, markers) {
+
+	// check to see if markers is an array
+	if($.isArray(markers) == true) {
+		// process all the elements in the array
+		$.each(markers, function(index, value){
+				value.setMap(null);
+		});
+		
+		markers.empty();
+	
+	} else {
+		// treat this as a single instance
+		markers.setMap(null);
+	}
+}
+
 
 /**
  * compute a hash of the lat lngs for indexing collections of objects

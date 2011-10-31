@@ -163,21 +163,25 @@
 	<div id="controls_dialog" class="fw-dialog js" title="Map Controls">
 	<h1>Jump To</h1>
 	<table class="fw-dialog-table">
-			<thead>
-				<tr>
-					<th>Country</th>
-					<th>State</th>
-					<th>Capital City</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><select id="jump_country" class="jump-list"></select></td>
-					<td><select id="jump_state" class="jump-list"></select></td>
-					<td><select id="jump_city" class="jump-list"></select></td>
-				</tr>
-			</tbody>
-		</table>
+		<thead>
+			<tr>
+				<th>Country</th>
+				<th>State</th>
+				<th>Capital City</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span id="jump_country" class="jump-list-link clickable"></span></td>
+				<td><select id="jump_state" class="jump-list"></select></td>
+				<td><select id="jump_city" class="jump-list"></select></td>
+			</tr>
+		</tbody>
+	</table>
+	<h1>Reset Map</h1>
+	<p>
+		Delete all markers form the map. <button id="btn_map_reset" class="fw-button ui-state-default ui-corner-all">Reset Map</button>
+	</p>
 	</div>
 </body>
 </html>
