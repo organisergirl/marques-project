@@ -271,6 +271,11 @@ marquesHelper.prototype.stateJumpList = function() {
 		});
 		
 		jumpList.push({
+			id: 'Victoria',
+			value: coordList.states.vic.LatLng.toUrlValue() + ',' + coordList.states.vic.zoom
+		});
+		
+		jumpList.push({
 			id: 'Western Australia',
 			value: coordList.states.wa.LatLng.toUrlValue() + ',' + coordList.states.wa.zoom
 		});
@@ -305,6 +310,11 @@ marquesHelper.prototype.stateJumpList = function() {
 		jumpList.push({
 			id: 'Tasmania',
 			value: coordList.states.tas.Lat + ',' + coordList.states.tas.Lng + ',' + coordList.states.tas.zoom
+		});
+		
+		jumpList.push({
+			id: 'Victoria',
+			value: coordList.states.vic.Lat + ',' + coordList.states.vic.Lng + ',' + coordList.states.vic.zoom
 		});
 		
 		jumpList.push({
