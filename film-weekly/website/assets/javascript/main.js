@@ -801,7 +801,11 @@ function addToMap(item) {
 			
 			$.get(url, function(data){
 			
-				console.log(data);
+				infoWindow.close();
+				infoWindow = new google.maps.InfoWindow({
+					content: data 
+				});
+				infoWindow.open(map, marker);
 			});
 			
 		

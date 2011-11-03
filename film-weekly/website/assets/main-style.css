@@ -234,6 +234,11 @@ footer a:visited:hover {
 	width: 100%;
 }
 
+/* info windows */
+.fw-info-window-content {
+	width: 400px;
+}
+
 /* prevent fouc */
 .js {
 	display: none;
