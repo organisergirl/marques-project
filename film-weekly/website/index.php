@@ -184,8 +184,14 @@
 	</p>
 	<h1>Marker List</h1>
 	<div id="controls_marker_list">
-	
 	</div>
+	</div>
+	<div id="ajax_error_dialog" class="fw-dialog js" title="Error">
+		<div class="ui-state-error ui-corner-all search-message-box">
+			<p>
+				<span class="ui-icon ui-icon-alert status-icon"></span><span class="search-message">An error has occurred while processing your request, please try again later.<br/>If the problem persists please contact the site administrator.</span>
+			</p>
+		</div>
 	</div>
 </body>
 </html>

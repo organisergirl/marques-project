@@ -304,6 +304,13 @@ function initUI() {
 	
 	// initialise the dialogs
 	initDialogs();
+	
+	// setup a standard error dialog to show when an ajax error occures
+	$('#ajax_error_dialog').ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
+		$('#ajax_error_msg').empty().append()
+		$('#ajax_error_dialog').dialog('open');
+		$('#ajax_error_dialog').dialog('moveToTop');
+	});		
 }
 
 /**
@@ -436,6 +443,28 @@ function initDialogs() {
 		close: function() {
 			// do this when the dialog closes
 			map.panBy(425, 0);
+		}
+	});
+	
+	$('#ajax_error_dialog').dialog({
+		autoOpen: false,
+		height: 150,
+		width: 600,
+		modal: true,
+		position: 'middle',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			
+		},
+		close: function() {
+			
 		}
 	});
 }
@@ -807,8 +836,6 @@ function addToMap(item) {
 				});
 				infoWindow.open(map, marker);
 			});
-			
-		
 		});
 		
 	});
