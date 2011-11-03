@@ -7,6 +7,7 @@
  
 // global variables
 var map = null;
+var infoWindow = null;
 
 var mapData = {
 	hashes:  [], 
@@ -753,6 +754,59 @@ function addToMap(item) {
 		map: map,
 		title: data.title,
 		icon: data.icon
+	});
+	
+	// add a click event to the marker
+	google.maps.event.addListener(marker, 'click', function() {
+		
+		// close any existing open infoWindow
+		if(infoWindow != null) {
+			infoWindow.close();
+		}
+		
+		// create a new infoWindow
+		infoWindow = new google.maps.InfoWindow({
+        	content: '<div class="info-window info-window-' + marques.computeLatLngHash(data.coords) + '"><p class="search-progress">Loading Cinema Data.</p><p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Search Underway"/></p></div>'
+    	});
+    	
+    	// open the new infoWindow
+    	infoWindow.open(map, marker);
+    	
+    	// add a dom ready event to dynamically load the infoWindow content
+		google.maps.event.addListener(infoWindow, 'domready', function() {
+		
+			// get reference to the infoWindow
+			var infoWindow = this;
+			
+			// get reference to the container div
+			var infoWindowContent = $('.info-window');
+			
+			// get a list of classes
+			var classes = infoWindowContent.attr('class').split(' ');
+			
+			// find the right class for the hash
+			var hash = classes[1].split('-');
+			
+			if(hash.length == 3) {
+				hash = hash[2];
+			} else {
+				hash = classes[0].split('-');
+				hash = hash[2];
+			}
+			
+			// get the data object
+			var data = mapData.data[$.inArray(hash, mapData.hashes)];
+			
+			var url = '/marques/film_weekly_info_windows/content/' + data.id;
+			
+			$.get(url, function(data){
+			
+				console.log(data);
+			});
+			
+		
+		});
+		
 	});
 
 	// add to the list of what is on the map

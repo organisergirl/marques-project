@@ -32,9 +32,7 @@ Router::connect('/', 'Admin::index');
 Router::connect('/marques', 'Admin::index');
 
 // add a route for the pagination helper
-//Router::connect('/{:controller}/{:action}/page:{:page:[0-9]+}');
 Router::connect('/{:controller}/{:action}/page:{:page:[0-9]+}');
-Router::connect('/film_weekly_cinemas/index/page:{:page:[0-9]+}');
 
 // add routes that include content negotiation
 Router::connect('/{:controller}/{:action}/{:id:[0-9]+}.{:type}', array('id' => null));

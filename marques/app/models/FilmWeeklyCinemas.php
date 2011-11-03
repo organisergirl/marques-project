@@ -128,7 +128,6 @@ class FilmWeeklyCinemas extends \lithium\data\Model {
 		)
 	);
 	
-	
 	/**
 	 * output the search result
 	 */

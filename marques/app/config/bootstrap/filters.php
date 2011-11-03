@@ -11,6 +11,13 @@ use lithium\action\Response;
 use lithium\security\Auth;
 use lithium\security\Password;
 use lithium\util\collection\Filters;
+use lithium\analysis\Logger;
+use lithium\data\Connections;
+
+// Set up the logger configuration to use the file adapter.
+Logger::config(array(
+    'default' => array('adapter' => 'File')
+));
 
 /**
  * ensure that the password field for users is securely hashed
@@ -78,16 +85,6 @@ Filters::apply('app\models\FilmWeeklySearches', 'save', function($self, $params,
 
 });
 
-/**
- * filter sql commands for logging
- */
-use lithium\analysis\Logger;
-use lithium\data\Connections;
-
-// Set up the logger configuration to use the file adapter.
-Logger::config(array(
-    'default' => array('adapter' => 'File')
-));
 
 // Filter the database adapter returned from the Connections object.
 Connections::get('default')->applyFilter('_execute', function($self, $params, $chain) {
