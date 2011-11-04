@@ -172,7 +172,7 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><span id="jump_country" class="jump-list-link clickable"></span></td>
+				<td><span id="jump_country" class="jump-list jump-list-link clickable"></span></td>
 				<td><select id="jump_state" class="jump-list"></select></td>
 				<td><select id="jump_city" class="jump-list"></select></td>
 			</tr>
