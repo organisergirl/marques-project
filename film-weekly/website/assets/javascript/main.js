@@ -342,7 +342,9 @@ function initDialogs() {
 			}
 		],
 		open: function() {
-			$("#search_message_box").hide();
+			$('#search_message_box').hide();
+			$('#search_result_count').empty();
+			$('#search_result_hidden').empty();
 			initSearchForms();
 			map.panBy(-350, 0);
 		},
@@ -378,6 +380,8 @@ function initDialogs() {
 		],
 		open: function() {
 			$("#adv_search_message_box").hide();
+			$('#adv_result_count').empty();
+			$('#adv_result_hidden').empty();
 			initSearchForms();
 			map.panBy(-400, 0);
 		},
@@ -413,6 +417,8 @@ function initDialogs() {
 		],
 		open: function() {
 			// do this when the dialog opens
+			$('#browse_result_count').empty();
+			$('#browse_result_hidden').empty();
 			map.panBy(-400, 0);
 		},
 		close: function() {
