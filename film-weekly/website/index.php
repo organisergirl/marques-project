@@ -9,6 +9,8 @@
 -->
 <html lang="en">
 <head>
+	<!-- Enable IE9 Standards mode -->
+	<meta http-equiv="X-UA-Compatible" content="IE=9" >
 	<meta charset="utf-8"/>
 	<title>Australian Cinemas Map</title>
 	<link rel="stylesheet" type="text/css" href="assets/main-style.css"/>
@@ -21,7 +23,7 @@
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
 	<!-- use some of the MARQues scripts -->
 	<script type="text/javascript" src="/marques/js/marques-map-helper.js"></script>
-	
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 </head>
 <body>
 	<header>
