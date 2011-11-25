@@ -37,4 +37,4 @@
 		<?php } ?>
 	</tbody>
 </table>
-<!--$this->Paginator->paginate();-->
+<?=$this->Paginator->paginate(); ?>
