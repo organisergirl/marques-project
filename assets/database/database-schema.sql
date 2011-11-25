@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.1.57, for apple-darwin11.1.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.59, for apple-darwin11.2.0 (i386)
 --
 -- Host: localhost    Database: marques
 -- ------------------------------------------------------
@@ -49,7 +49,7 @@ CREATE TABLE `film_weekly_archaeologies` (
   KEY `film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=887 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7033 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -144,7 +144,7 @@ CREATE TABLE `film_weekly_category_maps` (
   KEY `idx_film_weekly_categories_id` (`film_weekly_categories_id`),
   CONSTRAINT `fk_film_weekly_categories_id_map` FOREIGN KEY (`film_weekly_categories_id`) REFERENCES `film_weekly_categories` (`id`),
   CONSTRAINT `fk_film_weekly_cinemas_id_map` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4112 DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
+) ENGINE=InnoDB AUTO_INCREMENT=28917 DEFAULT CHARSET=utf8 COMMENT='store details of the relationship between film weekly cinema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,7 @@ CREATE TABLE `film_weekly_cinemas` (
   CONSTRAINT `fk_australian_states` FOREIGN KEY (`australian_states_id`) REFERENCES `australian_states` (`id`),
   CONSTRAINT `fk_film_weekly_cinema_types` FOREIGN KEY (`film_weekly_cinema_types_id`) REFERENCES `film_weekly_cinema_types` (`id`),
   CONSTRAINT `fk_locality_types` FOREIGN KEY (`locality_types_id`) REFERENCES `locality_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=347 DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
+) ENGINE=InnoDB AUTO_INCREMENT=2661 DEFAULT CHARSET=utf8 COMMENT='store details of cinemas referenced in the film weekly datas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -281,7 +281,7 @@ CREATE TABLE `film_weekly_searches` (
   PRIMARY KEY (`id`),
   FULLTEXT KEY `film_weekly_full_text_search_1` (`fwc_street`,`fwc_suburb`,`fwc_cinema_name`,`fwc_exhibitor_name`),
   FULLTEXT KEY `film_weekly_full_text_search_2` (`fwa_cinema_name`,`fwa_exhibitor_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=1119 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6294 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,4 +326,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-11 12:19:17
+-- Dump completed on 2011-11-25 13:35:31
