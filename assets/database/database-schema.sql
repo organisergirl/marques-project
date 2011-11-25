@@ -16,6 +16,23 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `activity_logs`
+--
+
+DROP TABLE IF EXISTS `activity_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activity_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'unique id for an activity log record',
+  `type` varchar(20) CHARACTER SET latin1 NOT NULL COMMENT 'the type of activity being logged',
+  `notes` varchar(512) CHARACTER SET latin1 NOT NULL COMMENT 'the notes related to the activity',
+  `timestamp` datetime NOT NULL COMMENT 'the date and time when the activity occured',
+  PRIMARY KEY (`id`),
+  KEY `activity_type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Store details of activities that need to be logged for the p';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `australian_states`
 --
 
@@ -326,4 +343,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-25 13:35:31
+-- Dump completed on 2011-11-25 15:25:00

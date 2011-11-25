@@ -12,6 +12,7 @@ use lithium\data\Connections;
 
 use app\models\FilmWeeklyCinemas;
 use app\models\FilmWeeklyMarkers;
+use app\models\ActivityLogs;
 
 /**
  * Search for Film Weekly Cinemas in the database
@@ -43,6 +44,15 @@ class SearchesController extends \lithium\action\Controller {
         	$results = array();
         	
         	$results = array_merge($results, $this->getFilmWeekly($search, $db));
+        	
+        	$log = array(
+        		'type'  => 'search',
+        		'notes' => $this->request->data['search'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
         	        	
      		return compact('results');
         }
