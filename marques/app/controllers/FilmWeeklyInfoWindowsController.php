@@ -15,6 +15,8 @@ use app\models\LocalityTypes;
 use app\models\FilmWeeklyCategoryMaps;
 use app\models\FilmWeeklyArchaeology;
 use app\models\FilmWeeklyCategories;
+use app\models\FilmWeeklyResourceMaps;
+use app\models\FilmWeeklyMarkers;
 
 /**
  * Manage the Film Weekly Cinemas in the database
@@ -53,8 +55,12 @@ class FilmWeeklyInfoWindowsController extends \lithium\action\Controller {
 		
 		$listings = $this->get_film_weekly_listings($id, $categories);
 		
+		$resources = $this->get_film_weekly_resources($id);
+		
+		$markers = $this->getFilmWeeklyMarkers();
+		
 		$this->_render['layout'] = 'plain_text';
-		return compact('cinema', 'categories', 'maps', 'listings');
+		return compact('cinema', 'categories', 'maps', 'listings', 'resources', 'markers');
     
     }
     
@@ -104,6 +110,57 @@ class FilmWeeklyInfoWindowsController extends \lithium\action\Controller {
 		$max = '19' . $max[1];
 		
 		return $min . ' - ' . $max;
+    
+    }
+    
+    // private function to get any resources that may be available
+    private function get_film_weekly_resources($id) {
+    
+    	$records = FilmWeeklyResourceMaps::all(
+    		array(
+				'conditions' => array('film_weekly_cinemas_id' => $id),
+				'with'       => array('Resources')
+			)
+    	);
+
+    	$resources = array();
+    	$resource  = array();
+    	
+    	foreach($records as $record) {
+    	
+    		$resource['title'] = $record->resource->title;
+    		$resource['description'] = $record->resource->description;
+    		$resource['url'] = $record->resource->url;
+    		
+    		$resources[] = $resource;
+    	
+    	}
+    	
+    	return $resources;
+    }
+    
+    /*
+     * private function to get the list of markers
+     */
+    private function getFilmWeeklyMarkers() {
+    
+    	$markers = array();
+    	
+    	$records = FilmWeeklyMarkers::all();
+    	
+    	foreach($records as $record) {
+    	
+    		if(empty($markers[$record->film_weekly_cinema_types_id])) {
+    		
+    			$markers[$record->film_weekly_cinema_types_id] = array(
+    				$record->locality_types_id => $record->marker_url
+    			);
+    		} else {
+    			$markers[$record->film_weekly_cinema_types_id][$record->locality_types_id] = $record->marker_url;
+    		}
+    	}
+    	
+    	return $markers;
     
     }
 }
