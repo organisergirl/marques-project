@@ -45,6 +45,7 @@ class SearchesController extends \lithium\action\Controller {
         	
         	$results = array_merge($results, $this->getFilmWeekly($search, $db));
         	
+        	// save an activity log entry
         	$log = array(
         		'type'  => 'search',
         		'notes' => $this->request->data['search'],
@@ -131,6 +132,16 @@ class SearchesController extends \lithium\action\Controller {
         	$results = array();
         	
         	$results = array_merge($results, $this->getFilmWeeklyAdvanced($search, $db));
+        	
+        	// save an activity log entry
+        	$log = array(
+        		'type'  => 'adv-search',
+        		'notes' => $this->request->data['search'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
         	        	
      		return compact('results');
         }
@@ -211,7 +222,17 @@ class SearchesController extends \lithium\action\Controller {
         	$results = array();
         	
         	$results = array_merge($results, $this->getFilmWeeklyBySuburb($suburb, $state, $db));
-        	        	
+        	
+        	// save an activity log entry
+        	$log = array(
+        		'type'  => 'browse-by-suburb',
+        		'notes' => $this->request->data['suburb'] . ' - ' . $this->request->data['state'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
+  	
      		return compact('results');
         }
     
