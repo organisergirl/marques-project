@@ -28,6 +28,7 @@
 			<li><?=$this->html->link('Manage Categories', array('FilmWeeklyCategories::index')); ?></li>
 			<li><?=$this->html->link('Manage Cinema Types', array('FilmWeeklyCinemaTypes::index')); ?></li>
 			<li><?=$this->html->link('Manage Marker Records', array('FilmWeeklyMarkers::index')); ?></li>
+			<li><?=$this->html->link('Manage Resource Records', array('Resources::index')); ?></li>
 		</ul>
 	</div>
 	<div id="right-panel">

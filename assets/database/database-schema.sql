@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: marques
 -- ------------------------------------------------------
--- Server version	5.1.57
+-- Server version	5.1.59
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,7 +29,7 @@ CREATE TABLE `activity_logs` (
   `timestamp` datetime NOT NULL COMMENT 'the date and time when the activity occured',
   PRIMARY KEY (`id`),
   KEY `activity_type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Store details of activities that need to be logged for the p';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='Store details of activities that need to be logged for the p';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,6 +279,25 @@ CREATE TABLE `film_weekly_markers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `film_weekly_resource_maps`
+--
+
+DROP TABLE IF EXISTS `film_weekly_resource_maps`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `film_weekly_resource_maps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'a unique identifier for the record',
+  `film_weekly_cinemas_id` int(11) NOT NULL COMMENT 'the unique identifier for a film weekly cinema',
+  `resources_id` int(11) NOT NULL COMMENT 'the unique identifier for the resource',
+  PRIMARY KEY (`id`),
+  KEY `film_weekly_cinemas_id` (`film_weekly_cinemas_id`),
+  KEY `resources_id` (`resources_id`),
+  CONSTRAINT `film_weekly_cinemas` FOREIGN KEY (`film_weekly_cinemas_id`) REFERENCES `film_weekly_cinemas` (`id`),
+  CONSTRAINT `resources` FOREIGN KEY (`resources_id`) REFERENCES `resources` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `film_weekly_searches`
 --
 
@@ -316,6 +335,22 @@ CREATE TABLE `locality_types` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `resources`
+--
+
+DROP TABLE IF EXISTS `resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `resources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'the unique identifier for the record',
+  `title` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'the title of the resource',
+  `description` varchar(512) COLLATE utf8_bin NOT NULL COMMENT 'a short description of the resource',
+  `url` varchar(256) COLLATE utf8_bin NOT NULL COMMENT 'the url for the resource',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='a simple table to store details of remote resources';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `users`
 --
 
@@ -343,4 +378,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-25 15:25:00
+-- Dump completed on 2011-11-28 11:19:56
