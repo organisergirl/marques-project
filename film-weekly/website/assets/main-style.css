@@ -234,66 +234,9 @@ footer a:visited:hover {
 	width: 100%;
 }
 
-.fw-dialog-highlight {
-	width: 100%;
-	background-color: #F5F5F5;
-    color:black;
-    padding-left: 1em;
-}
-
 /* info windows */
 .fw-info-window-content {
 	width: 400px;
-}
-
-.fw-info-window-content a.external {
-	background-image: url('images/external-link.png');
-	background-position: right;
-	background-repeat: no-repeat;
-	padding-right: 13px;
-}
-
-.fw-info-window-content a {
-	text-decoration: underline;
-	color: #eb6e06 !important;
-}
-
-.fw-info-window-content a:hover {
-	text-decoration: underline;
-	color: #eb6e06 !important;
-}
-
-.fw-info-window-content a:visited {
-	text-decoration: underline;
-	color: #eb6e06 !important;
-}
-
-.fw-info-window-content ul {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-}
-
-.fw-info-window-content li:nth-child(odd) {
-    background-color: #F5F5F5;
-    color:black;
-}
-
-/*
-.fw-info-window-content h3 {
-	border-bottom-style: solid;
-	border-bottom-width: 2px;
-	border-color: #002f60;
-	margin-bottom: 0.5em;
-}
-*/
-
-.fw-info-window-content h3, h4 {
-	border-bottom-style: solid;
-	border-bottom-width: 2px;
-	border-color: #002f60;
-	margin-bottom: 0.5em;
-	margin-top: 0.5em;
 }
 
 /* prevent fouc */

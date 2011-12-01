@@ -18,7 +18,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>Cinema ID</th><th>Resource ID</th>
+			<th>Cinema ID</th><th>Resource Id</th>
 		</tr>
 	</thead>
 	<tbody>

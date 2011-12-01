@@ -20,10 +20,10 @@
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-validate-1.8.1.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-form-2.85.js"></script>
-	<script type="text/javascript" src="assets/javascript/libraries/jquery-cookie.js"></script>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
-	<!-- use the MARQues script -->
+	<!-- use some of the MARQues scripts -->
 	<script type="text/javascript" src="/marques/js/marques-map-helper.js"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 </head>
 <body>
 	<header>
@@ -46,13 +46,6 @@
 		<p class="right">Powered by <a href="http://code.google.com/p/marques-project/" title="More information about MARQues">MARQues</a></p>
 	</footer>
 	<!-- dialogs go here -->
-	<div id="welcome_dialog" class="fw-dialog js" title="Welcome to the Australian Cinemas Map">
-		<div id="welcome_dialog_text" style="height: 95%">
-		</div>
-		<div class="fw-dialog-highlight">
-			<p>Do not show this message again: <input type="checkbox" id="show_welcome"/></p>
-		</div>
-	</div>
 	<div id="search_dialog" class="fw-dialog js" title="Search Film Weekly Data">
 		<p class="dialog-help">
 			Enter address, cinema name or exhibitor name below.

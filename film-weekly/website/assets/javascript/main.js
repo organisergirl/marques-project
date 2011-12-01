@@ -42,26 +42,8 @@ $(document).ready(function() {
 	
 	//resize the map
 	resizeMap();
-	
-	// show the welcome message if required
-	showWelcome();
 
 });
-
-// function to show the welcome message
-function showWelcome() {
-
-	// populate the welcome message
-	$.get('/marques/pages/welcome', function(data){
-		$('#welcome_dialog_text').empty().append(data);
-		
-		// see if the cookie is present
-		if($.cookie('show_welcome') == null) {
-			// determine if we need to show it
-			$('#welcome_dialog').dialog('open');
-		}
-	});
-}
 
 // initialisation functions
 function initUI() {
@@ -488,33 +470,6 @@ function initDialogs() {
 			
 		},
 		close: function() {
-			
-		}
-	});
-	
-	$('#welcome_dialog').dialog({
-		autoOpen: false,
-		height: 400,
-		width: 600,
-		modal: true,
-		position: 'middle',
-		buttons: [			
-			{
-				text: 'Close',
-				click: function() {
-					$(this).dialog('close');
-				}
-			}
-		],
-		open: function() {
-			
-		},
-		close: function() {
-		
-			// see if the check box is ticked
-			if($('#show_welcome').is(':checked') == true) {
-				$.cookie('show_welcome', 'true', { expires: 365 });	
-			}
 			
 		}
 	});
