@@ -578,6 +578,8 @@ public class DataImporter {
 		cinemas.put("Touring Circuit", "3");
 		cinemas.put("Open Air", "4");
 		cinemas.put("Drive-In", "2");
+		cinemas.put("Drive-in/Open Air", "5");
+		cinemas.put("Hardtop/Open Air", "6");
 		
 		return cinemas;
 	}
