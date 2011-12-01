@@ -21,9 +21,14 @@
 
 ?>
 <div class="fw-info-window-content">
-<h1><?=$details['cinema_name']; ?><img style="float: left" src="<?=$markers[$cinema->film_weekly_cinema_types_id][$cinema->locality_types_id]; ?>"/></h1>
+<div style="float: left; clear: ">
+<img style="float: left" src="<?=$markers[$cinema->film_weekly_cinema_types_id][$cinema->locality_types_id]; ?>"/>
+</div>
+<div>
+<h1><?=$details['cinema_name']; ?></h1>
 <h2><?=$details['exhibitor_name']; ?></h2>
 <h3><?=$details['address'];?></h3>
+</div>
 <p>Film Weekly Listings: <?=$listings; ?></p>
 <p>First Recorded Capacity: <?=$cinema->capacity; ?></p>
 <h4>Venue Archaeology</h4>

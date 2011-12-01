@@ -12,8 +12,9 @@
 ?>
 <?php $this->title('Edit Cinema Record'); ?>
 
-<h2>Create New Cinema Record</h2>
+<h2>Edit Cinema Record</h2>
 <?=$this->form->create($data['form']); ?>
+	<?=$this->form->field('id', array('label' => 'Record ID', 'disabled' => 'disabled')); ?>
 	<?=$this->form->field('cinema_name', array('label' => 'Theatre Name')); ?>
 	<?=$this->form->field('exhibitor_name', array('label' => 'Exhibitor Name')); ?>
 	<?=$this->form->field('capacity', array('label' => 'Capacity')); ?>

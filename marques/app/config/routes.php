@@ -52,7 +52,7 @@ Router::connect('/{:controller}/{:action}.{:type}');
  * Connect the rest of `PagesController`'s URLs. This will route URLs like `/pages/about` to
  * `PagesController`, rendering `/views/pages/about.html.php` as a static page.
  */
-//Router::connect('/pages/{:args}', 'Pages::view');
+Router::connect('/pages/{:args}', 'Pages::view');
 
 /**
  * Add the testing routes. These routes are only connected in non-production environments, and allow
@@ -60,10 +60,12 @@ Router::connect('/{:controller}/{:action}.{:type}');
  * core, as well as your own application and any other loaded plugins or frameworks. Browse to
  * [http://path/to/app/test](/test) to run tests.
  */
+/*
 if (!Environment::is('production')) {
 	Router::connect('/test/{:args}', array('controller' => 'lithium\test\Controller'));
 	Router::connect('/test', array('controller' => 'lithium\test\Controller'));
 }
+*/
 
 /**
  * ### Database object routes
