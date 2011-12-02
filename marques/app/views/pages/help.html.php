@@ -7,7 +7,7 @@
  */
 
 /*
- * edit the HTML below to contain the desired welcome message
+ * edit the HTML below to contain the desired help text
  *
  * It is important to remember that this is a HTML snippet which is rendered inside
  * the dialog as part of the welcome message
@@ -16,7 +16,7 @@
  * exactly what you're doing
  */
 ?>
-<h1>Welcome to the Australian Cinemas Map</h1>
+<h1>Help on how to use the Australian Cinemas Map</h1>
 <p>
 More content to go here
 </p>

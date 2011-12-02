@@ -87,6 +87,7 @@ Filters::apply('app\models\FilmWeeklySearches', 'save', function($self, $params,
 
 
 // Filter the database adapter returned from the Connections object.
+/*
 Connections::get('default')->applyFilter('_execute', function($self, $params, $chain) {
     // Hand the SQL in the params headed to _execute() to the logger:
     Logger::debug(date("D M j G:i:s") . " " . $params['sql']);
@@ -94,6 +95,7 @@ Connections::get('default')->applyFilter('_execute', function($self, $params, $c
     // Always make sure to keep the filter chain going.
     return $chain->next($self, $params, $chain);
 });
+*/
 
 
 ?>

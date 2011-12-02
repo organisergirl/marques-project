@@ -47,7 +47,7 @@
 	</footer>
 	<!-- dialogs go here -->
 	<div id="welcome_dialog" class="fw-dialog js" title="Welcome to the Australian Cinemas Map">
-		<div id="welcome_dialog_text" style="height: 95%">
+		<div id="welcome_dialog_text" class="fw-welcome-message">
 		</div>
 		<div class="fw-dialog-highlight">
 			<p>Do not show this message again: <input type="checkbox" id="show_welcome"/></p>
@@ -114,7 +114,7 @@
 						<label for="adv_filter_locality">Locality Type: </label>
 					</td>
 					<td>
-						<select id="adv_filter_locality">
+						<select id="adv_filter_locality" class="filter-locality">
 						</select>
 					</td>
 				</tr>
@@ -123,7 +123,7 @@
 						<label for="adv_filter_cinema">Cinema Type: </label>
 					</td>
 					<td>
-						<select id="adv_filter_cinema">
+						<select id="adv_filter_cinema" class="filter-cinema">
 						</select>
 					</td>
 				</tr>
@@ -140,60 +140,87 @@
 		</div>
 	</div>
 	<div id="browse_dialog" class="fw-dialog js" title="Browse Film Weekly Data">
-		<h1>Select a State</h1>
-		<select id="browse_state"></select>
-		<h1>Select a Suburb</h1>
+		<div id="browse_tabs">
+			<ul>
+				<li><a href="#browse_tabs_1">Browse by State</a></li>
+				<li><a href="#browse_tabs_2">Browse by Locality Type</a></li>
+				<li><a href="#browse_tabs_3">Browse by Cinema Type</a></li>
+			</ul>
+			<div id="browse_tabs_1" class="fw-browse-tabs">
+				<h1>Select a State</h1>
+				<select id="browse_state" class="browse_state"></select>
+				<h1>Select a Suburb</h1>
+				<table class="fw-dialog-table">
+					<thead>
+						<tr>
+							<th>A - E</th>
+							<th>F - J</th>
+							<th>K - O</th>
+							<th>P - T</th>
+							<th>U - Z</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><select id="browse_suburb_a" class="browse-suburb"></select></td>
+							<td><select id="browse_suburb_f" class="browse-suburb"></select></td>
+							<td><select id="browse_suburb_k" class="browse-suburb"></select></td>
+							<td><select id="browse_suburb_p" class="browse-suburb"></select></td>
+							<td><select id="browse_suburb_u" class="browse-suburb"></select></td>
+						</tr>
+					</tbody>
+				</table>
+				<h1>Select a Cinema Type</h1>
+				<select id="browse_filter_cinema" class="filter-cinema"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
+				<h1>Record List</h1>
+				<div id="browse_search_results">
+				</div>
+			</div>
+			<div id="browse_tabs_2">
+				<h1>Select a State</h1>
+				<select id="browse_state_2" class="browse_state"></select>
+				<h1>Select a Locality Type</h1>
+				<select id="browse_filter_locality" class="filter-locality"></select>
+				<h1>Record List</h1>
+				<div id="browse_search_results_2">
+				</div>
+			</div>
+			<div id="browse_tabs_3">
+				<h1>Select a State</h1>
+				<select id="browse_state_3" class="browse_state"></select>
+				<h1>Select a Cinema Type</h1>
+				<select id="browse_filter_cinema_2" class="filter-cinema"></select>
+				<h1>Record List</h1>
+				<div id="browse_search_results_3">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="controls_dialog" class="fw-dialog js" title="Map Controls">
+		<h1>Jump To</h1>
 		<table class="fw-dialog-table">
 			<thead>
 				<tr>
-					<th>A - E</th>
-					<th>F - J</th>
-					<th>K - O</th>
-					<th>P - T</th>
-					<th>U - Z</th>
+					<th>Country</th>
+					<th>State</th>
+					<th>Capital City</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><select id="browse_suburb_a" class="browse-suburb"></select></td>
-					<td><select id="browse_suburb_f" class="browse-suburb"></select></td>
-					<td><select id="browse_suburb_k" class="browse-suburb"></select></td>
-					<td><select id="browse_suburb_p" class="browse-suburb"></select></td>
-					<td><select id="browse_suburb_u" class="browse-suburb"></select></td>
+					<td><span id="jump_country" class="jump-list jump-list-link clickable"></span></td>
+					<td><select id="jump_state" class="jump-list"></select></td>
+					<td><select id="jump_city" class="jump-list"></select></td>
 				</tr>
 			</tbody>
 		</table>
-		<h1>Select a Cinema Type</h1>
-		<select id="browse_filter_cinema"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
-		<h1>Record List</h1>
-		<div id="browse_search_results">
+		<h1>Reset Map</h1>
+		<p>
+			Delete all markers from the map. <button id="btn_map_reset" class="fw-button ui-state-default ui-corner-all">Reset Map</button>
+		</p>
+		<h1>Marker List</h1>
+		<div id="controls_marker_list">
 		</div>
-	</div>
-	<div id="controls_dialog" class="fw-dialog js" title="Map Controls">
-	<h1>Jump To</h1>
-	<table class="fw-dialog-table">
-		<thead>
-			<tr>
-				<th>Country</th>
-				<th>State</th>
-				<th>Capital City</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><span id="jump_country" class="jump-list jump-list-link clickable"></span></td>
-				<td><select id="jump_state" class="jump-list"></select></td>
-				<td><select id="jump_city" class="jump-list"></select></td>
-			</tr>
-		</tbody>
-	</table>
-	<h1>Reset Map</h1>
-	<p>
-		Delete all markers from the map. <button id="btn_map_reset" class="fw-button ui-state-default ui-corner-all">Reset Map</button>
-	</p>
-	<h1>Marker List</h1>
-	<div id="controls_marker_list">
-	</div>
 	</div>
 	<div id="ajax_error_dialog" class="fw-dialog js" title="Error">
 		<div class="ui-state-error ui-corner-all search-message-box">

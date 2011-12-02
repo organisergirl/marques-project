@@ -21,17 +21,12 @@
 
 ?>
 <div class="fw-info-window-content">
-<div style="float: left; clear: ">
-<img style="float: left" src="<?=$markers[$cinema->film_weekly_cinema_types_id][$cinema->locality_types_id]; ?>"/>
-</div>
-<div>
-<h1><?=$details['cinema_name']; ?></h1>
-<h2><?=$details['exhibitor_name']; ?></h2>
-<h3><?=$details['address'];?></h3>
-</div>
+<h1><?=$details['cinema_name']; ?> <img style="float: left" src="<?=$markers[$cinema->film_weekly_cinema_types_id][$cinema->locality_types_id]; ?>"/></h1>
+<h2><?=$details['address'];?></h2>
 <p>Film Weekly Listings: <?=$listings; ?></p>
+<p>First Recorded Exhibitor: <?=$details['exhibitor_name']; ?></p>
 <p>First Recorded Capacity: <?=$cinema->capacity; ?></p>
-<h4>Venue Archaeology</h4>
+<h3>Venue Archaeology</h3>
 <ul>
 <?php foreach($cinema->film_weekly_archaeologies as $record) { ?>
 	<?php if($record->cinema_name != null) { ?>
@@ -45,7 +40,7 @@
 	<?php }?>
 <?php } ?>
 </ul>
-<h4>Resources</h4>
+<h3>Resources</h3>
 <ul>
 <?php foreach($resources as $resource) { ?>
 	<li><?=$this->html->link($resource['title'], $resource['url'], $link_options); ?></li>

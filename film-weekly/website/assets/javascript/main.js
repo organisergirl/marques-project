@@ -98,11 +98,11 @@ function initUI() {
 	
 	// fill in the advanced search select boxes
 	marques.fillSelectBox('#adv_filter_state', '/marques/australian_states/items.json');
-	marques.fillSelectBox('#adv_filter_locality', '/marques/locality_types/items.json');
-	marques.fillSelectBox('#adv_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
+	marques.fillSelectBox('.filter-locality', '/marques/locality_types/items.json');
+	marques.fillSelectBox('.filter-cinema', '/marques/film_weekly_cinema_types/items.json');
 	
-	marques.fillSelectBox('#browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
-	marques.fillSelectBox('#browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
+	marques.fillSelectBox('.browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
+	marques.fillSelectBox('.browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	// allow user to swap from advanced to basic search
 	$('#search_swap').click(function(event) {
@@ -124,6 +124,8 @@ function initUI() {
 	});
 	
 	// initialise the browse select boxes
+	marques.fillSelectBox('#browse_filter_locality', '/marques/locality_types/items.json', true, 'Select a locality type');
+		
 	$('#browse_state').change(function (event) {
 	
 		$('#browse_filter_cinema option:selected').attr('selected', false);
@@ -240,6 +242,57 @@ function initUI() {
 		$('#browse_result_hidden').empty().append(count);	
 	});
 	
+	// reset the browse filter locality select
+	$('#browse_state_2').change(function (event) {
+	
+		// reset the browse filter
+		$('#browse_filter_locality option:selected').attr('selected', false);
+		$('#browse_filter_locality option:first').attr('selected', 'selected');
+		
+		// get rid of any results
+		$('#browse_search_results_2').empty();
+	});
+	
+	// populate the browse by locality search results
+	$('#browse_filter_locality').change(function (event) {
+	
+		// determine which state is selected
+		var state = $('#browse_state_2').val();
+		
+		if(state == 'default') {
+			
+			alert('Please select a state before continuing');
+			
+			// reset the browse filter
+			$('#browse_filter_locality option:selected').attr('selected', false);
+			$('#browse_filter_locality option:first').attr('selected', 'selected');
+			
+			// get rid of any results
+			$('#browse_search_results_2').empty();
+			
+		} else {
+		
+			var locality = $('#browse_filter_locality').val();
+			
+			if(locality != 'default') {
+		
+				// get the data
+				$.post(
+					'/marques/searches/bylocality.json',
+					{
+						state: state,
+						locality:  locality
+					},
+					function(data, textStatus, jqXHR) {
+						doSearchResults(data, '#browse_search_results_2');
+					},
+					'json'
+				);
+			}
+		}
+	
+	});
+	
 	// populate the jump lists
 	$('.jump-list').change(function (event){
 	
@@ -319,6 +372,9 @@ function initUI() {
 		map.panBy(-425, 0);
 	
 	});
+	
+	// initialise the tabs
+	$('#browse_tabs').tabs();
 	
 	// initialise the dialogs
 	initDialogs();
@@ -400,6 +456,7 @@ function initDialogs() {
 			$("#adv_search_message_box").hide();
 			$('#adv_result_count').empty();
 			$('#adv_result_hidden').empty();
+			resetAdvFilters();
 			initSearchForms();
 			map.panBy(-400, 0);
 		},
@@ -883,7 +940,7 @@ function addToMap(item) {
 			
 				infoWindow.close();
 				infoWindow = new google.maps.InfoWindow({
-					content: data 
+					content: data
 				});
 				infoWindow.open(map, marker);
 			});

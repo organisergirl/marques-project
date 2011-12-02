@@ -20,7 +20,7 @@ use app\models\ActivityLogs;
 class SearchesController extends \lithium\action\Controller {
 
 	// list actions that can be undertaken without authentication
-	public $publicActions = array('index', 'advanced', 'bysuburb');
+	public $publicActions = array('index', 'advanced', 'bysuburb', 'bylocality');
 	
 	// enable content negotiation so AJAX data can be returned
 	protected function _init() {
@@ -237,6 +237,70 @@ class SearchesController extends \lithium\action\Controller {
         }
     
     }
+    
+     /*
+     * get cinemas by locality
+     */
+    public function bylocality() {
+    
+    	if ($this->request->data) {
+        	
+        	// get the search terms from the post data
+        	$locality = $this->request->data['locality'];
+        	$state  = $this->request->data['state'];
+        	
+        	// get a connection to the database
+        	$db = Connections::get('default');
+        	
+        	$results = array();
+        	
+        	$results = array_merge($results, $this->getFilmWeeklyByLocality($locality, $state, $db));
+        	
+        	// save an activity log entry
+        	$log = array(
+        		'type'  => 'browse-by-locality',
+        		'notes' => $this->request->data['locality'] . ' - ' . $this->request->data['state'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
+  	
+     		return compact('results');
+        }
+    
+    }
+    
+     /*
+     * private function to get film weekly cinemas by locality
+     */
+    private function getFilmWeeklyByLocality($locality, $state, $db) {
+    
+    	$markers = $this->getFilmWeeklyMarkers();
+
+		$records = FilmWeeklyCinemas::find(
+			'all',
+			array (
+				'fields' => array('id'),
+				'conditions' => array(
+					'locality_types_id' => $locality,
+					'australian_states_id' => $state
+				),
+			)
+		);
+		
+		$cinemas = array();
+		
+		foreach($records as $record) {
+		
+			$cinemas[] = $record->id;
+		}
+		
+		return $this->getFilmWeeklyCinemas($cinemas, $markers);
+    
+    }
+
+    
     
     /*
      * private function to get film weekly cinemas by suburb

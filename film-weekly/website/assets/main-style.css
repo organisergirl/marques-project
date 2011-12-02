@@ -23,7 +23,6 @@ body {
 }
 
 #container {
-	/*height: 83%;*/
 	width: 100%;
 	display: block;
 	clear: both;
@@ -197,7 +196,7 @@ footer a:visited:hover {
 
 .fw-dialog a {
 	text-decoration: underline;
-	color: #eb6e06 !important;
+	color: #eb6e06;
 }
 
 .fw-dialog a:hover {
@@ -241,9 +240,21 @@ footer a:visited:hover {
     padding-left: 1em;
 }
 
+.fw-welcome-message {
+	height: 95%;
+}
+
+.fw-browse-tabs {
+	min-height: 100%;
+}
+
+.ui-tabs {
+	border: none !important;
+}
+
 /* info windows */
 .fw-info-window-content {
-	width: 400px;
+	width: 500px;
 }
 
 .fw-info-window-content a.external {
@@ -279,16 +290,11 @@ footer a:visited:hover {
     color:black;
 }
 
-/*
-.fw-info-window-content h3 {
-	border-bottom-style: solid;
-	border-bottom-width: 2px;
-	border-color: #002f60;
-	margin-bottom: 0.5em;
+.fw-info-window-content h1, h2, h3, h4 {
+	white-space:nowrap;
 }
-*/
 
-.fw-info-window-content h3, h4 {
+.fw-info-window-content h2, h3, h4 {
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 	border-color: #002f60;
