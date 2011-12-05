@@ -19,6 +19,40 @@ use app\models\FilmWeeklyCategories;
  */
 class FilmWeeklyCategoriesController extends \lithium\action\Controller {
 
+	// list actions that can be undertaken without authentication
+	public $publicActions = array('items');
+	
+	// enable content negotiation so AJAX data can be returned
+	protected function _init() {
+        $this->_render['negotiate'] = true;
+        parent::_init();
+    }
+    
+    /**
+     * list all of the categories for json output
+     */
+    public function items() {
+    
+    	// get the list of categories
+        $categories = FilmWeeklyCategories::all(
+        	array(
+        		'order' => array('id' => 'ASC'),
+        	)
+        );
+        
+        $items = array();
+        
+        foreach($categories as $category) {
+        
+        	$items[] = array(
+        		'id'=> $category->id,
+        		'description' => $category->description
+        	);
+        }
+        
+        return compact('items');
+    }
+
 	/**
 	 * list all of the categories
 	 */

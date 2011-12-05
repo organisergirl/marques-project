@@ -8,6 +8,7 @@
 // global variables
 var map = null;
 var infoWindow = null;
+var filmWeeklyCategories = null;
 
 var mapData = {
 	hashes:  [], 
@@ -45,8 +46,24 @@ $(document).ready(function() {
 	
 	// show the welcome message if required
 	showWelcome();
+	
+	// initialise the time slider
+	initTimeSlider();
 
 });
+
+// function to initialise the time slider
+function initTimeSlider() {
+
+	// get the list of film weekly dates
+	$.get('/marques/film_weekly_categories/items.json', function(data){
+		
+		var items = data.items;
+		
+		filmWeeklyCategories = items;
+		
+	});
+}
 
 // function to show the welcome message
 function showWelcome() {
@@ -86,6 +103,10 @@ function initUI() {
 		$('#controls_dialog').dialog('open');
 	});
 	
+	$('#btn_time_slider').click(function(){
+		$('#time_slider_dialog').dialog('open');
+	});
+	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
 		addToMap(this);
@@ -102,8 +123,7 @@ function initUI() {
 	marques.fillSelectBox('.filter-cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	marques.fillSelectBox('.browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
-	//marques.fillSelectBox('.browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
-	
+		
 	// allow user to swap from advanced to basic search
 	$('#search_swap').click(function(event) {
 		$('#adv_search_dialog').dialog('close');
@@ -680,6 +700,72 @@ function initDialogs() {
 			
 		}
 	});
+	
+	$('#time_slider_dialog').dialog({
+		autoOpen: false,
+		height: 250,
+		width: 700,
+		modal: false,
+		position: 'bottom',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+		
+			$('#time_slider').rangeSlider({
+				defaultValues:{
+					min: 0, 
+					max: 5
+				},
+				bounds:{
+					min:0, 
+					max: filmWeeklyCategories.length -1
+				},
+				wheelMode: null,
+				arrows: true,
+				valueLabels: "show",
+				formatter: function(value){
+					console.log(value);
+					return filmWeeklyCategories[Math.round(value)]['description']
+				},
+				durationIn: 0,
+				durationOut: 400,
+				delayOut: 200,
+				range: {min: false, max: false}
+			});
+			
+			/*
+$('#time_slider').bind('valuesChanged', function(event, ui){
+				updateValuesChanged(event, ui, changing);
+			});
+*/
+
+		},
+		close: function() {
+			
+		}
+	});
+}
+
+// function to update the values changed from the time slider
+function updateValuesChanged(event, ui, changing) {
+
+	// check to make sure values have stoped changing
+	if (!changing) {
+	
+		if(values.min == 0) {
+			$('#time_slider').rangeSlider('min', 1);
+		}
+		
+		if(values.max > filmWeeklyCategories.length -2) {
+			$('#time_slider').rangeSlider('max', filmWeeklyCategories.length -2);
+		}
+	}
 }
 
 function prepareMapControls(refresh) {

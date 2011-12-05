@@ -21,6 +21,8 @@
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-validate-1.8.1.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-form-2.85.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-cookie.js"></script>
+	<script type="text/javascript" src="assets/javascript/libraries/jQRangeSlider/jQRangeSlider-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="assets/javascript/libraries/jQRangeSlider/css/dev.css"/>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
 	<!-- use the MARQues script -->
 	<script type="text/javascript" src="/marques/js/marques-map-helper.js"></script>
@@ -34,7 +36,7 @@
 	</header>
 	<nav>
 		<p>
-			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button><button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
+			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button><button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_time_slider" class="fw-button ui-state-default ui-corner-all">Time Slider</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
 		</p>
 	</nav>
 	<div id="map_container">
@@ -223,6 +225,13 @@
 		</p>
 		<h1>Marker List</h1>
 		<div id="controls_marker_list">
+		</div>
+	</div>
+	<div id="time_slider_dialog" class="fw-dialog js" title="Time Slider">
+		<h1>Select Time Period</h1>
+		<p>Use the slider below to select a time period, any cinemas with film weekly listings outside the selected time period will be hidden.</p>
+		<div style="padding-top: 3em;">
+			<div id="time_slider"></div>
 		</div>
 	</div>
 	<div id="ajax_error_dialog" class="fw-dialog js" title="Error">
