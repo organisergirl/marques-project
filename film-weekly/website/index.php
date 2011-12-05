@@ -141,15 +141,18 @@
 	</div>
 	<div id="browse_dialog" class="fw-dialog js" title="Browse Film Weekly Data">
 		<div id="browse_tabs">
-			<ul>
-				<li><a href="#browse_tabs_1">Browse by State</a></li>
-				<li><a href="#browse_tabs_2">Browse by Locality Type</a></li>
-				<li><a href="#browse_tabs_3">Browse by Cinema Type</a></li>
+			<ul class="fw-ui-tab-container">
+				<li class="fw-ui-tab"><a href="#browse_tabs_1">Browse by State</a></li>
+				<li class="fw-ui-tab"><a href="#browse_tabs_2">Browse by Locality Type</a></li>
+				<li class="fw-ui-tab"><a href="#browse_tabs_3">Browse by Cinema Type</a></li>
 			</ul>
 			<div id="browse_tabs_1" class="fw-browse-tabs">
 				<h1>Select a State</h1>
-				<select id="browse_state" class="browse_state"></select>
+				<select id="browse_state" class="browse_state browse-select"></select>
 				<h1>Select a Suburb</h1>
+				<div>
+					<button id="browse_select_all_suburbs">Select All Suburbs</button> or select a suburb below
+				</div>
 				<table class="fw-dialog-table">
 					<thead>
 						<tr>
@@ -162,34 +165,34 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><select id="browse_suburb_a" class="browse-suburb"></select></td>
-							<td><select id="browse_suburb_f" class="browse-suburb"></select></td>
-							<td><select id="browse_suburb_k" class="browse-suburb"></select></td>
-							<td><select id="browse_suburb_p" class="browse-suburb"></select></td>
-							<td><select id="browse_suburb_u" class="browse-suburb"></select></td>
+							<td><select id="browse_suburb_a" class="browse-suburb browse-select"></select></td>
+							<td><select id="browse_suburb_f" class="browse-suburb browse-select"></select></td>
+							<td><select id="browse_suburb_k" class="browse-suburb browse-select"></select></td>
+							<td><select id="browse_suburb_p" class="browse-suburb browse-select"></select></td>
+							<td><select id="browse_suburb_u" class="browse-suburb browse-select"></select></td>
 						</tr>
 					</tbody>
 				</table>
 				<h1>Select a Cinema Type</h1>
-				<select id="browse_filter_cinema" class="filter-cinema"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
+				<select id="browse_filter_cinema" class="browse-filter-cinema  browse-select"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
 				<h1>Record List</h1>
 				<div id="browse_search_results">
 				</div>
 			</div>
 			<div id="browse_tabs_2">
 				<h1>Select a State</h1>
-				<select id="browse_state_2" class="browse_state"></select>
+				<select id="browse_state_2" class="browse_state  browse-select"></select>
 				<h1>Select a Locality Type</h1>
-				<select id="browse_filter_locality" class="filter-locality"></select>
+				<select id="browse_filter_locality" class="filter-locality  browse-select"></select>
 				<h1>Record List</h1>
 				<div id="browse_search_results_2">
 				</div>
 			</div>
 			<div id="browse_tabs_3">
 				<h1>Select a State</h1>
-				<select id="browse_state_3" class="browse_state"></select>
+				<select id="browse_state_3" class="browse_state  browse-select"></select>
 				<h1>Select a Cinema Type</h1>
-				<select id="browse_filter_cinema_2" class="filter-cinema"></select>
+				<select id="browse_filter_cinema_2" class="browse-filter-cinema  browse-select"></select>
 				<h1>Record List</h1>
 				<div id="browse_search_results_3">
 				</div>

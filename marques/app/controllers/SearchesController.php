@@ -20,7 +20,7 @@ use app\models\ActivityLogs;
 class SearchesController extends \lithium\action\Controller {
 
 	// list actions that can be undertaken without authentication
-	public $publicActions = array('index', 'advanced', 'bysuburb', 'bylocality');
+	public $publicActions = array('index', 'advanced', 'bysuburb', 'bylocality', 'bycinematype', 'bystate');
 	
 	// enable content negotiation so AJAX data can be returned
 	protected function _init() {
@@ -239,6 +239,38 @@ class SearchesController extends \lithium\action\Controller {
     }
     
      /*
+     * get cinemas by state
+     */
+    public function bystate() {
+    
+    	if ($this->request->data) {
+        	
+        	// get the search terms from the post data
+        	$state  = $this->request->data['state'];
+        	
+        	// get a connection to the database
+        	$db = Connections::get('default');
+        	
+        	$results = array();
+        	
+        	$results = array_merge($results, $this->getFilmWeeklyByState($state, $db));
+        	
+        	// save an activity log entry
+        	$log = array(
+        		'type'  => 'browse-by-state',
+        		'notes' => $this->request->data['state'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
+  	
+     		return compact('results');
+        }
+    
+    }
+    
+     /*
      * get cinemas by locality
      */
     public function bylocality() {
@@ -299,8 +331,69 @@ class SearchesController extends \lithium\action\Controller {
 		return $this->getFilmWeeklyCinemas($cinemas, $markers);
     
     }
-
     
+     /*
+     * get cinemas by locality
+     */
+    public function bycinematype() {
+    
+    	if ($this->request->data) {
+        	
+        	// get the search terms from the post data
+        	$type = $this->request->data['type'];
+        	$state  = $this->request->data['state'];
+        	
+        	// get a connection to the database
+        	$db = Connections::get('default');
+        	
+        	$results = array();
+        	
+        	$results = array_merge($results, $this->getFilmWeeklyByCinemaType($type, $state, $db));
+        	
+        	// save an activity log entry
+        	$log = array(
+        		'type'  => 'browse-by-cinema-type',
+        		'notes' => $this->request->data['type'] . ' - ' . $this->request->data['state'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
+  	
+     		return compact('results');
+        }
+    
+    }
+    
+     /*
+     * private function to get film weekly cinemas by locality
+     */
+    private function getFilmWeeklyByCinemaType($type, $state, $db) {
+    
+    	$markers = $this->getFilmWeeklyMarkers();
+
+		$records = FilmWeeklyCinemas::find(
+			'all',
+			array (
+				'fields' => array('id'),
+				'conditions' => array(
+					'film_weekly_cinema_types_id' => $type,
+					'australian_states_id' => $state
+				),
+			)
+		);
+		
+		$cinemas = array();
+		
+		foreach($records as $record) {
+		
+			$cinemas[] = $record->id;
+		}
+		
+		return $this->getFilmWeeklyCinemas($cinemas, $markers);
+    
+    }
+
     
     /*
      * private function to get film weekly cinemas by suburb
@@ -330,6 +423,35 @@ class SearchesController extends \lithium\action\Controller {
 		return $this->getFilmWeeklyCinemas($cinemas, $markers);
     
     }
+    
+        /*
+     * private function to get film weekly cinemas by suburb
+     */
+    private function getFilmWeeklyByState($state, $db) {
+    
+    	$markers = $this->getFilmWeeklyMarkers();
+
+		$records = FilmWeeklyCinemas::find(
+			'all',
+			array (
+				'fields' => array('id'),
+				'conditions' => array(
+					'australian_states_id' => $state
+				),
+			)
+		);
+		
+		$cinemas = array();
+		
+		foreach($records as $record) {
+		
+			$cinemas[] = $record->id;
+		}
+		
+		return $this->getFilmWeeklyCinemas($cinemas, $markers);
+    
+    }
+
     
     /*
      * private function to get Film Weekly Cinema data

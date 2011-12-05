@@ -102,7 +102,7 @@ function initUI() {
 	marques.fillSelectBox('.filter-cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	marques.fillSelectBox('.browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
-	marques.fillSelectBox('.browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
+	//marques.fillSelectBox('.browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	// allow user to swap from advanced to basic search
 	$('#search_swap').click(function(event) {
@@ -125,6 +125,9 @@ function initUI() {
 	
 	// initialise the browse select boxes
 	marques.fillSelectBox('#browse_filter_locality', '/marques/locality_types/items.json', true, 'Select a locality type');
+	marques.fillSelectBox('#browse_filter_cinema', '/marques/film_weekly_cinema_types/items.json');
+	marques.fillSelectBox('#browse_filter_cinema_2', '/marques/film_weekly_cinema_types/items.json', true, 'Select a cinema type');
+
 		
 	$('#browse_state').change(function (event) {
 	
@@ -291,6 +294,91 @@ function initUI() {
 			}
 		}
 	
+	});
+	
+	// reset the browse filter locality select
+	$('#browse_state_3').change(function (event) {
+	
+		// reset the browse filter
+		$('#browse_filter_cinema_2 option:selected').attr('selected', false);
+		$('#browse_filter_cinema_2 option:first').attr('selected', 'selected');
+		
+		// get rid of any results
+		$('#browse_search_results_3').empty();
+	});
+	
+	// populate the browse by locality search results
+	$('#browse_filter_cinema_2').change(function (event) {
+	
+		// determine which state is selected
+		var state = $('#browse_state_3').val();
+		
+		if(state == 'default') {
+			
+			alert('Please select a state before continuing');
+			
+			// reset the browse filter
+			$('#browse_filter_cinema_2 option:selected').attr('selected', false);
+			$('#browse_filter_cinema_2 option:first').attr('selected', 'selected');
+			
+			// get rid of any results
+			$('#browse_search_results_3').empty();
+						
+		} else {
+		
+			var type = $('#browse_filter_cinema_2').val();
+			
+			if(type != 'default') {
+		
+				// get the data
+				$.post(
+					'/marques/searches/bycinematype.json',
+					{
+						state: state,
+						type:  type
+					},
+					function(data, textStatus, jqXHR) {
+						doSearchResults(data, '#browse_search_results_3');
+					},
+					'json'
+				);
+			}
+		}
+	
+	});
+	
+	// initialise the browse select all suburbs button
+	$('#browse_select_all_suburbs').button();
+	
+	$('#browse_select_all_suburbs').click(function(event) {
+	
+		// reset the suburb select boxes
+		$('.browse-suburb').each(function(index, value){
+		
+			$('#' + $(value).attr('id') + ' option:selected').attr('selected', false);
+			$('#' + $(value).attr('id') + ' option:first').attr('selected', 'selected');
+		});
+		
+		// get the selected state
+		var state = $('#browse_state option:selected').val();
+		
+		if(state != 'default') {
+		
+			// get the data
+			$.post(
+				'/marques/searches/bystate.json',
+				{
+					state:  state
+				},
+				function(data, textStatus, jqXHR) {
+					doSearchResults(data, '#browse_search_results');
+					
+					$('#browse_result_count').empty().append(data.results.length);
+					$('#browse_result_hidden').empty().append('0');
+				},
+				'json'
+			);
+		}
 	});
 	
 	// populate the jump lists
@@ -494,6 +582,23 @@ function initDialogs() {
 			// do this when the dialog opens
 			$('#browse_result_count').empty();
 			$('#browse_result_hidden').empty();
+			
+			$('.browse-select').each(function(){
+			
+				var select = $(this);
+				
+				$('#' + select.context.id + ' option:selected').attr('selected', false);
+				$('#' + select.context.id + ' option:first').attr('selected', 'selected');
+
+			});
+			
+			$('#browse_search_results').empty();
+			$('#browse_search_results_2').empty();
+			$('#browse_search_results_3').empty();
+			
+			$('#browse_tabs').tabs('select', 0);
+			
+			
 			map.panBy(-400, 0);
 		},
 		close: function() {

@@ -252,6 +252,15 @@ footer a:visited:hover {
 	border: none !important;
 }
 
+.fw-ui-tab {
+	margin-right: 1.0em !important;
+}
+
+.fw-ui-tab-container {
+	padding-left: 1.0em !important;
+	padding-top: 0.5em !important;
+}
+
 /* info windows */
 .fw-info-window-content {
 	width: 500px;

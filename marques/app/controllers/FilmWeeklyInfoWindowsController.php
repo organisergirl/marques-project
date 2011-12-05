@@ -107,7 +107,12 @@ class FilmWeeklyInfoWindowsController extends \lithium\action\Controller {
 		$min = $min[0];
 		
 		$max = explode('/', $max);
-		$max = '19' . $max[1];
+		
+		if(count($max) == 2) {
+			$max = '19' . $max[1];
+		} else {
+			$max = $max[0];
+		}
 		
 		return $min . ' - ' . $max;
     
