@@ -455,7 +455,7 @@ marquesHelper.prototype.deleteMarker = function (map, markers) {
 				value.setMap(null);
 		});
 		
-		markers.empty();
+		//markers = new Array();
 	
 	} else {
 		// treat this as a single instance

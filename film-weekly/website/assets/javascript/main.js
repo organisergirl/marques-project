@@ -107,6 +107,16 @@ function initUI() {
 		$('#time_slider_dialog').dialog('open');
 	});
 	
+	$('#btn_film_weekly').click(function() {
+	
+		// populate the welcome message
+		$.get('/marques/pages/filmweekly', function(data){
+			$('#film_weekly_dialog_text').empty().append(data);
+			$('#film_weekly_dialog').dialog('open');
+		});
+	
+	});
+	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
 		addToMap(this);
@@ -444,9 +454,9 @@ function initUI() {
 		marques.deleteMarker(map, mapData.markers);
 		
 		// empty the other arrays
-		mapData.hashes.empty();
-		mapData.objects.empty();
-		mapData.markers.empty();
+		mapData.hashes = new Array();
+		mapData.objects = new Array();
+		mapData.markers = new Array();
 		
 		//reset any other UI elements
 		prepareMapControls(true);
@@ -509,6 +519,17 @@ function initDialogs() {
 		position: 'left',
 		buttons: [
 			{
+				text: 'Reset Map',
+				click: function() {
+					$('#btn_map_reset').click();
+					$('#search_message_box').hide();
+					$('#search_result_count').empty();
+					$('#search_result_hidden').empty();
+					$('#search_results_box').empty();
+					initSearchForms();
+				}
+			},
+			{
 				text: 'Add All',
 				click: function() {
 					$('.fw-add-to-map').filter(':visible').each(function(index, element) {
@@ -545,6 +566,17 @@ function initDialogs() {
 		modal: true,
 		position: 'left',
 		buttons: [
+			{
+				text: 'Reset Map',
+				click: function() {
+					$('#btn_map_reset').click();
+					$('#adv_search_message_box').hide();
+					$('#adv_result_count').empty();
+					$('#adv_result_hidden').empty();
+					resetAdvFilters();
+					initSearchForms();
+				}
+			},
 			{
 				text: 'Add All',
 				click: function() {
@@ -583,6 +615,14 @@ function initDialogs() {
 		modal: true,
 		position: 'left',
 		buttons: [
+			{
+				text: 'Reset Map',
+				click: function() {
+					$('#btn_map_reset').click();
+					$('#browse_dialog').dialog('close');
+					$('#browse_dialog').dialog('open');
+				}
+			},
 			{
 				text: 'Add All',
 				click: function() {
@@ -730,7 +770,6 @@ function initDialogs() {
 				arrows: true,
 				valueLabels: "show",
 				formatter: function(value){
-					console.log(value);
 					return filmWeeklyCategories[Math.round(value)]['description']
 				},
 				durationIn: 0,
@@ -739,33 +778,63 @@ function initDialogs() {
 				range: {min: false, max: false}
 			});
 			
-			/*
-$('#time_slider').bind('valuesChanged', function(event, ui){
-				updateValuesChanged(event, ui, changing);
+			$('#time_slider').bind('valuesChanged', function(event, ui){
+				timesliderValuesChanged(event, ui);
 			});
-*/
 
 		},
 		close: function() {
 			
 		}
 	});
+	
+	$('#film_weekly_dialog').dialog({
+		autoOpen: false,
+		height: 400,
+		width: 600,
+		modal: true,
+		position: 'middle',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			
+		},
+		close: function() {
+		
+		}
+	});
+
 }
 
 // function to update the values changed from the time slider
-function updateValuesChanged(event, ui, changing) {
-
-	// check to make sure values have stoped changing
-	if (!changing) {
+function timesliderValuesChanged(event, ui, changing) {
 	
-		if(values.min == 0) {
-			$('#time_slider').rangeSlider('min', 1);
+	var min = Math.round(ui.values.min) + 1;
+	var max = Math.round(ui.values.max) + 1;
+	
+	//debug code
+	console.log(min);
+	console.log(max);
+	
+	// take everything off the map
+	marques.deleteMarker(map, mapData.markers);
+	
+	// add back only those that fall within the defined period
+	$.each(mapData.data, function(index, value){
+	
+		if(value.min_film_weekly_cat >= min && value.max_film_weekly_cat <= max) {
+			mapData.markers[index].setMap(map);
 		}
 		
-		if(values.max > filmWeeklyCategories.length -2) {
-			$('#time_slider').rangeSlider('max', filmWeeklyCategories.length -2);
-		}
-	}
+	});
+	
+	
 }
 
 function prepareMapControls(refresh) {

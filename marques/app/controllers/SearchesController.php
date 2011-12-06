@@ -476,10 +476,35 @@ class SearchesController extends \lithium\action\Controller {
     		);
     		
     		$records[] = $record;
-    	
     	}
     	
+    	// get the film weekly identifiers
+    	$categories = array();
+    	
+    	// get a connection to the database
+    	$db = Connections::get('default');
+
+		// define sql to select the min and maximum ids
+		$sql = "SELECT MIN(film_weekly_categories_id) as min_id, MAX(film_weekly_categories_id) as max_id
+				FROM film_weekly_category_maps	
+				WHERE film_weekly_cinemas_id = {:search}";
+				
+		// get the data
+		foreach($cinemas as $cinema) {
+		
+			$record = $db->read($sql,
+				array(
+					'return' => 'array',
+					'search' => $cinema
+				)
+			);
+			
+			$categories[] = $record;
+		}
+    	
     	// loop through the list of cinemas building up the search results
+    	$count = 0;
+    	
     	foreach($records as $record) {
     		
     		$results[] = array(
@@ -491,8 +516,12 @@ class SearchesController extends \lithium\action\Controller {
      			'state'  => $record->australian_state->shortname,
      			'icon' => $markers[$record->film_weekly_cinema_types_id][$record->locality_types_id],
      			'cinema_type' => $record->film_weekly_cinema_types_id,
-     			'locality_type' => $record->locality_types_id
+     			'locality_type' => $record->locality_types_id,
+     			'min_film_weekly_cat' => $categories[$count][0]['min_id'],
+     			'max_film_weekly_cat' => $categories[$count][0]['max_id']
     		);
+    		
+    		$count++;
     	}
     	
     	return $results;
