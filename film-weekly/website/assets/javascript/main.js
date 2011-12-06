@@ -70,13 +70,10 @@ function showWelcome() {
 
 	// populate the welcome message
 	$.get('/marques/pages/welcome', function(data){
+	
+		// add the data to the div and load the welcome box
 		$('#welcome_dialog_text').empty().append(data);
-		
-		// see if the cookie is present
-		if($.cookie('show_welcome') == null) {
-			// determine if we need to show it
-			$('#welcome_dialog').dialog('open');
-		}
+		$('#welcome_dialog').dialog('open');
 	});
 }
 
@@ -109,10 +106,30 @@ function initUI() {
 	
 	$('#btn_film_weekly').click(function() {
 	
-		// populate the welcome message
+		// populate the film weekly dialog message
 		$.get('/marques/pages/filmweekly', function(data){
 			$('#film_weekly_dialog_text').empty().append(data);
 			$('#film_weekly_dialog').dialog('open');
+		});
+	
+	});
+	
+	$('#btn_about').click(function() {
+	
+		// populate the about message
+		$.get('/marques/pages/about', function(data){
+			$('#about_dialog_text').empty().append(data);
+			$('#about_dialog').dialog('open');
+		});
+	
+	});
+	
+	$('#btn_help').click(function() {
+	
+		// populate the about message
+		$.get('/marques/pages/help', function(data){
+			$('#help_dialog_text').empty().append(data);
+			$('#help_dialog').dialog('open');
 		});
 	
 	});
@@ -122,22 +139,28 @@ function initUI() {
 		addToMap(this);
 	});
 	
-	// initialise the filters
-	$('.fw-state-filter').click(function(event) {
-		filterSearchResults('fw-state', event);
-	});
-	
 	// fill in the advanced search select boxes
 	marques.fillSelectBox('#adv_filter_state', '/marques/australian_states/items.json');
+	marques.fillSelectBox('#search_filter_state', '/marques/australian_states/items.json');
 	marques.fillSelectBox('.filter-locality', '/marques/locality_types/items.json');
 	marques.fillSelectBox('.filter-cinema', '/marques/film_weekly_cinema_types/items.json');
 	
 	marques.fillSelectBox('.browse_state', '/marques/australian_states/itemsbyid.json', true, 'Select a state');
+	
+	$('#search_filter_state').change(function(event){
+		filterSearchResults($(this).val());
+	});
 		
 	// allow user to swap from advanced to basic search
 	$('#search_swap').click(function(event) {
 		$('#adv_search_dialog').dialog('close');
 		$('#search_dialog').dialog('open');
+	});
+	
+	// allow user to swap from advanced to search to browse
+	$('#browse_swap').click(function(event) {
+		$('#adv_search_dialog').dialog('close');
+		$('#browse_dialog').dialog('open');
 	});
 	
 	// filter the advanced search results
@@ -176,11 +199,11 @@ function initUI() {
 		
 		if(state != 'default') {
 			var url = '/marques/browse/suburbs/' + state + '.json';
-			var optionA = '<option value="default">Select a Suburb</option>';
-			var optionF = '<option value="default">Select a Suburb</option>';
-			var optionK = '<option value="default">Select a Suburb</option>';
-			var optionP = '<option value="default">Select a Suburb</option>';
-			var optionU = '<option value="default">Select a Suburb</option>';
+			var optionA = '<option value="default">Select a Place Name</option>';
+			var optionF = '<option value="default">Select a Place Name</option>';
+			var optionK = '<option value="default">Select a Place Name</option>';
+			var optionP = '<option value="default">Select a Place Name</option>';
+			var optionU = '<option value="default">Select a Place Name</option>';
 			
 			var tmp
 			
@@ -719,7 +742,7 @@ function initDialogs() {
 		height: 400,
 		width: 600,
 		modal: true,
-		position: 'middle',
+		position: 'left',
 		buttons: [			
 			{
 				text: 'Close',
@@ -729,15 +752,12 @@ function initDialogs() {
 			}
 		],
 		open: function() {
-			
+			// do this when the dialog opens
+			map.panBy(-300, 0);
 		},
 		close: function() {
-		
-			// see if the check box is ticked
-			if($('#show_welcome').is(':checked') == true) {
-				$.cookie('show_welcome', 'true', { expires: 365 });	
-			}
-			
+			// do this when the dialog closes
+			map.panBy(300, 0);
 		}
 	});
 	
@@ -793,7 +813,7 @@ function initDialogs() {
 		height: 400,
 		width: 600,
 		modal: true,
-		position: 'middle',
+		position: 'left',
 		buttons: [			
 			{
 				text: 'Close',
@@ -803,10 +823,60 @@ function initDialogs() {
 			}
 		],
 		open: function() {
-			
+			// do this when the dialog opens
+			map.panBy(-300, 0);
 		},
 		close: function() {
-		
+			// do this when the dialog closes
+			map.panBy(300, 0);
+		}
+	});
+	
+	$('#about_dialog').dialog({
+		autoOpen: false,
+		height: 400,
+		width: 600,
+		modal: true,
+		position: 'left',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			// do this when the dialog opens
+			map.panBy(-300, 0);
+		},
+		close: function() {
+			// do this when the dialog closes
+			map.panBy(300, 0);
+		}
+	});
+	
+	$('#help_dialog').dialog({
+		autoOpen: false,
+		height: 400,
+		width: 600,
+		modal: true,
+		position: 'left',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			// do this when the dialog opens
+			map.panBy(-300, 0);
+		},
+		close: function() {
+			// do this when the dialog closes
+			map.panBy(300, 0);
 		}
 	});
 
@@ -828,13 +898,11 @@ function timesliderValuesChanged(event, ui, changing) {
 	// add back only those that fall within the defined period
 	$.each(mapData.data, function(index, value){
 	
-		if(value.min_film_weekly_cat >= min && value.max_film_weekly_cat <= max) {
+		if(value.min_film_weekly_cat >= min || value.max_film_weekly_cat <= max) {
 			mapData.markers[index].setMap(map);
 		}
 		
-	});
-	
-	
+	});	
 }
 
 function prepareMapControls(refresh) {
@@ -947,7 +1015,7 @@ function initSearchForms() {
 			search: 'required'
 		},
 		messages: {
-			search: 'Search terms are required'
+			search: 'Search terms are required. <br/>Have you considered trying to Browse instead?'
 		},
 		errorContainer: '#adv_search_message_box',
 		errorLabelContainer: '#adv_search_message',
@@ -1036,32 +1104,24 @@ function doSearchResults(data, elem) {
 }
 
 // function to filter the search results
-function filterSearchResults(type, event) {
-
-	// determine what type of filter to carry out
-	if(type == 'fw-state') {
-		// filter the search results by state
+function filterSearchResults(state) {
 		
-		// get the state
-		var state = event.target.innerHTML;
+	var count = 0;
+	
+	if(state != 'All') {
+		// fade out the selected search results
+		$('.fw-search-result-' + state).show();
+		$('.fw-search-result').not('.fw-search-result-' + state).each(function(index, element) {
+			$(element).hide();
+			count++;
+		});
 		
-		var count = 0;
-		
-		if(state != 'All') {
-			// fade out the selected search results
-			$('.fw-search-result-' + state).show();
-			$('.fw-search-result').not('.fw-search-result-' + state).each(function(index, element) {
-				$(element).hide();
-				count++;
-			});
-			
-		} else {
-			// show all of the search results
-			$('.fw-search-result').show();
-		}
-		
-		$('#search_result_hidden').empty().append(count);
+	} else {
+		// show all of the search results
+		$('.fw-search-result').show();
 	}
+	
+	$('#search_result_hidden').empty().append(count);
 }
 
 // function to reset the advance filter select boxes

@@ -20,7 +20,6 @@
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-validate-1.8.1.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-form-2.85.js"></script>
-	<script type="text/javascript" src="assets/javascript/libraries/jquery-cookie.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jQRangeSlider/jQRangeSlider-min.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/javascript/libraries/jQRangeSlider/css/dev.css"/>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
@@ -36,7 +35,7 @@
 	</header>
 	<nav>
 		<p>
-			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button><button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_time_slider" class="fw-button ui-state-default ui-corner-all">Time Slider</button><button id="btn_film_weekly" class="fw-button ui-state-default ui-corner-all">Film Weekly</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
+			<button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_time_slider" class="fw-button ui-state-default ui-corner-all">Time Slider</button><button id="btn_film_weekly" class="fw-button ui-state-default ui-corner-all">Film Weekly</button><button id="btn_about" class="fw-button ui-state-default ui-corner-all">About</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
 		</p>
 	</nav>
 	<div id="map_container">
@@ -51,13 +50,10 @@
 	<div id="welcome_dialog" class="fw-dialog js" title="Welcome to the Australian Cinemas Map">
 		<div id="welcome_dialog_text" class="fw-welcome-message">
 		</div>
-		<div class="fw-dialog-highlight">
-			<p>Do not show this message again: <input type="checkbox" id="show_welcome"/></p>
-		</div>
 	</div>
 	<div id="search_dialog" class="fw-dialog js" title="Search Film Weekly Data">
 		<p class="dialog-help">
-			Enter address, cinema name or exhibitor name below.
+			Enter address, cinema name or exhibitor name below. Filter the search results by state if required.
 		</p>
 		<form id="search_form" method="post" action="marques/searches.json">
 			<input name="search" size="50" type="search">
@@ -70,8 +66,11 @@
 		</div>
 		<h1>Search Results</h1>
 		<div class="dialog-menu">
-			<ul><li>Sort Results by State:</li><li class="clickable fw-state-filter">All</li><li class="clickable fw-state-filter">QLD</li><li class="clickable fw-state-filter">NSW</li><li class="clickable fw-state-filter">ACT</li><li class="clickable fw-state-filter">VIC</li><li class="clickable fw-state-filter">TAS</li><li class="clickable fw-state-filter">NT</li><li class="clickable fw-state-filter">SA</li><li class="clickable fw-state-filter">WA</li></ul>
-			<p style="padding-top: 0.5em;"><br/>Search Results: <span id="search_result_count"></span> Hidden: <span id="search_result_hidden"></span></p>
+			<p>
+				<label for="search_filter_state">Filter Results by State: </label>
+				<select id="search_filter_state"></select>
+			</p>
+			<p style="padding-top: 0.5em;">Total Number of Search Results: <span id="search_result_count"></span> Filtered: <span id="search_result_hidden"></span></p>
 		</div>
 		<div class="clear"></div>
 		<div id="search_results_box">
@@ -80,7 +79,8 @@
 	<div id="adv_search_dialog" class="fw-dialog js" title="Advanced Search Film Weekly Data">
 		<div style="float: left">
 			<p class="dialog-help">
-				Enter address, cinema name or exhibitor name below.
+				Enter address, cinema name or exhibitor name below. 
+				<br/>Filter the search results using filters to the right if required.
 			</p>
 			<form id="adv_search_form" method="post" action="marques/searches/advanced.json">
 				<input name="search" size="50" type="search">
@@ -92,14 +92,16 @@
 				</p>
 			</div>
 			<p class="dialog-help-2">
-				You can use <a href="http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html" title="MySQL Documentation on available operators" class="external" target="_blank">boolean and other search operators</a>. <br/>Use the <span id="search_swap" class="clickable">standard search form</span>. 
+				You may wish to use the <span id="browse_swap" class="clickable">browse functionality instead</span>.
+				<br/>When doing an advanced search you can use <a href="http://dev.mysql.com/doc/refman/5.1/en/fulltext-boolean.html" title="MySQL Documentation on available operators" class="external" target="_blank">boolean and other search operators</a>. 
+				<br/>Use may wish to use the <span id="search_swap" class="clickable">standard search instead</span> for simpler queries. 
 			</p>
 		</div>
 		<div style="float: right">
 			<table class="adv-filter-menu">
 				<tr>
 					<td colspan="2">
-						Sort Results by:
+						Filter Search Results by:
 					</td>
 				</tr>
 				<tr>
@@ -131,7 +133,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						Search Results: <span id="adv_result_count"></span> Hidden: <span id="adv_result_hidden"></span>
+						Search Results: <span id="adv_result_count"></span> Filtered: <span id="adv_result_hidden"></span>
 					</td>
 				</tr>
 			</table>
@@ -151,9 +153,9 @@
 			<div id="browse_tabs_1" class="fw-browse-tabs">
 				<h1>Select a State</h1>
 				<select id="browse_state" class="browse_state browse-select"></select>
-				<h1>Select a Suburb</h1>
+				<h1>Select a Place Name</h1>
 				<div>
-					<button id="browse_select_all_suburbs">Select All Suburbs</button> or select a suburb below
+					<button id="browse_select_all_suburbs">Select all place names</button> or select a single place name below.
 				</div>
 				<table class="fw-dialog-table">
 					<thead>
@@ -176,7 +178,7 @@
 					</tbody>
 				</table>
 				<h1>Select a Cinema Type</h1>
-				<select id="browse_filter_cinema" class="browse-filter-cinema  browse-select"></select> Records: <span id="browse_result_count"></span> Hidden: <span id="browse_result_hidden"></span>
+				<select id="browse_filter_cinema" class="browse-filter-cinema  browse-select"></select> Records: <span id="browse_result_count"></span> Filtered: <span id="browse_result_hidden"></span>
 				<h1>Record List</h1>
 				<div id="browse_search_results">
 				</div>
@@ -243,6 +245,14 @@
 	</div>
 	<div id="film_weekly_dialog" class="fw-dialog js" title="About the Film Weekly Periodical">
 		<div id="film_weekly_dialog_text" class="fw-film-weekly-text">
+		</div>
+	</div>
+	<div id="about_dialog" class="fw-dialog js" title="About the Australian Cinema Map Website">
+		<div id="about_dialog_text" class="fw-about-text">
+		</div>
+	</div>
+	<div id="help_dialog" class="fw-dialog js" title="Help Using the Australian Cinema Map Website">
+		<div id="help_dialog_text" class="fw-about-text">
 		</div>
 	</div>
 </body>
