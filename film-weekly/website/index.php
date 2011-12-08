@@ -20,9 +20,17 @@
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-ui-1.8.16.custom.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-validate-1.8.1.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-form-2.85.js"></script>
-	<script type="text/javascript" src="assets/javascript/libraries/jQRangeSlider/jQRangeSlider-min.js"></script>
-	<link rel="stylesheet" type="text/css" href="assets/javascript/libraries/jQRangeSlider/css/dev.css"/>
+	<script type="text/javascript" src="assets/javascript/libraries/jquery.scrollTo-1.4.2.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
+	<!-- enable the use of these tags in IE8 and below -->
+	<!--[if lt IE 9]>
+	<script>
+		document.createElement('header');
+		document.createElement('nav');
+		document.createElement('footer');
+		document.createElement('hgroup');
+	</script>
+	<![endif]-->
 	<!-- use the MARQues script -->
 	<script type="text/javascript" src="/marques/js/marques-map-helper.js"></script>
 </head>
@@ -232,8 +240,25 @@
 	<div id="time_slider_dialog" class="fw-dialog js" title="Time Slider">
 		<h1>Select Time Period</h1>
 		<p>Use the slider below to select a time period, any cinemas with film weekly listings outside the selected time period will be hidden.</p>
-		<div style="padding-top: 3em;">
-			<div id="time_slider"></div>
+		<div style="padding-top: 0.5em;">
+			<table style="width: 100%">
+				<tr>
+					<td colspan="3">
+						Selected Film Weekly year: <span id="slider_label_top_right"></span>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 5em; text-align: left">
+						<span id="slider_label_left"></span>
+					</td>
+					<td>
+						<div id="time_slider"></div>
+					</td>
+					<td style="width: 5em; text-align: right">
+						<span id="slider_label_right"></span>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 	<div id="ajax_error_dialog" class="fw-dialog js" title="Error">

@@ -37,11 +37,13 @@ header {
 	background-image: url('images/flinders-logo.png');
 	background-position: right;
 	background-repeat: no-repeat;
+	display: block;
 }
 
 hgroup {
 	margin-left: 1em;
 	margin-right: 1em;
+	display: block;
 }
 
 nav {
@@ -51,6 +53,8 @@ nav {
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 	border-color: #ffd300;
+	width:100%;
+	display: block;
 }
 
 nav p {
@@ -84,6 +88,7 @@ footer {
 	border-top-style: solid;
 	border-top-width: 2px;
 	border-color: #ffd300;
+	display: block;
 }
 
 footer p.left {
@@ -117,6 +122,12 @@ footer a:visited:hover {
 }
 
 .fw-dialog h1 {
+	font-size: 1.2em;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+.fw-dialog h2 {
 	font-size: 1.1em;
 	padding-bottom: 0.5em;
 	padding-top: 0.5em;
@@ -310,6 +321,15 @@ footer a:visited:hover {
 	margin-bottom: 0.5em;
 	margin-top: 0.5em;
 }
+
+/* help dialog */
+.help-top-link {
+	font-weight: normal;
+	font-size: 0.9em;
+}
+
+/* time slider */
+
 
 /* prevent fouc */
 .js {

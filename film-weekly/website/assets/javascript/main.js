@@ -124,14 +124,16 @@ function initUI() {
 	
 	});
 	
-	$('#btn_help').click(function() {
-	
-		// populate the about message
-		$.get('/marques/pages/help', function(data){
-			$('#help_dialog_text').empty().append(data);
-			$('#help_dialog').dialog('open');
+	// populate the help dialog message
+	$.get('/marques/pages/help', function(data){
+		$('#help_dialog_text').empty().append(data);
+		$('.help-top-link').click(function() {
+			$('#help_dialog_text').parent().scrollTo($('#help_top'), {duration:1000});
 		});
+	});
 	
+	$('#btn_help').click(function() {
+		$('#help_dialog').dialog('open');
 	});
 	
 	// initialise the add to map links
@@ -559,6 +561,11 @@ function initDialogs() {
 						$(this).click();
 					});
 				}
+			},
+			{	text: 'Help',
+				click: function() {
+					showHelp('search');
+				}
 			},			
 			{
 				text: 'Close',
@@ -607,6 +614,11 @@ function initDialogs() {
 						$(this).click();
 					});
 				}
+			},
+			{	text: 'Help',
+				click: function() {
+					showHelp('adv_search');
+				}
 			},			
 			{
 				text: 'Close',
@@ -653,6 +665,11 @@ function initDialogs() {
 						$(this).click();
 					});
 				}
+			},
+			{	text: 'Help',
+				click: function() {
+					showHelp('browse');
+				}
 			},			
 			{
 				text: 'Close',
@@ -696,7 +713,12 @@ function initDialogs() {
 		width: 850,
 		modal: true,
 		position: 'left',
-		buttons: [			
+		buttons: [
+			{	text: 'Help',
+				click: function() {
+					showHelp('controls');
+				}
+			},			
 			{
 				text: 'Close',
 				click: function() {
@@ -767,7 +789,12 @@ function initDialogs() {
 		width: 700,
 		modal: false,
 		position: 'bottom',
-		buttons: [			
+		buttons: [
+			{	text: 'Help',
+				click: function() {
+					showHelp('time_slider');
+				}
+			},			
 			{
 				text: 'Close',
 				click: function() {
@@ -776,32 +803,28 @@ function initDialogs() {
 			}
 		],
 		open: function() {
-		
-			$('#time_slider').rangeSlider({
-				defaultValues:{
-					min: 0, 
-					max: 5
+			$('#time_slider').slider({
+				min: 0,
+				max: filmWeeklyCategories.length -1,
+				change: function(event, ui) {
+					$('#slider_label_top_right').empty().append(filmWeeklyCategories[ui.value].description);
+					updateMapTimePeriod(ui.value);
 				},
-				bounds:{
-					min:0, 
-					max: filmWeeklyCategories.length -1
-				},
-				wheelMode: null,
-				arrows: true,
-				valueLabels: "show",
-				formatter: function(value){
-					return filmWeeklyCategories[Math.round(value)]['description']
-				},
-				durationIn: 0,
-				durationOut: 400,
-				delayOut: 200,
-				range: {min: false, max: false}
+				slide: function(event, ui) {
+					$('#slider_label_top_right').empty().append(filmWeeklyCategories[ui.value].description);
+				}
 			});
 			
-			$('#time_slider').bind('valuesChanged', function(event, ui){
-				timesliderValuesChanged(event, ui);
-			});
-
+			// reset the time slider
+			$('#time_slider').slider('value', 0);
+			
+			// reset the labels
+			$('#slider_label_top_right').empty().append(filmWeeklyCategories[0].description);
+			$('#slider_label_left').empty().append(filmWeeklyCategories[0].description);
+			$('#slider_label_right').empty().append(filmWeeklyCategories[filmWeeklyCategories.length -1 ].description);
+			
+			// update the map
+			updateMapTimePeriod(0);
 		},
 		close: function() {
 			
@@ -860,8 +883,8 @@ function initDialogs() {
 		autoOpen: false,
 		height: 400,
 		width: 600,
-		modal: true,
-		position: 'left',
+		modal: false,
+		position: 'right',
 		buttons: [			
 			{
 				text: 'Close',
@@ -872,39 +895,44 @@ function initDialogs() {
 		],
 		open: function() {
 			// do this when the dialog opens
-			map.panBy(-300, 0);
+			//map.panBy(-300, 0);
 		},
 		close: function() {
 			// do this when the dialog closes
-			map.panBy(300, 0);
+			//map.panBy(300, 0);
 		}
 	});
 
 }
 
-// function to update the values changed from the time slider
-function timesliderValuesChanged(event, ui, changing) {
-	
-	var min = Math.round(ui.values.min) + 1;
-	var max = Math.round(ui.values.max) + 1;
-	
-	//debug code
-	console.log(min);
-	console.log(max);
-	
-	// take everything off the map
-	marques.deleteMarker(map, mapData.markers);
-	
-	// add back only those that fall within the defined period
-	$.each(mapData.data, function(index, value){
-	
-		if(value.min_film_weekly_cat >= min || value.max_film_weekly_cat <= max) {
-			mapData.markers[index].setMap(map);
-		}
-		
-	});	
+// function to show the help dialog and scroll to the appropriate heading
+function showHelp(heading) {
+	// open the dialog
+	$('#help_dialog').dialog('open');
+	$('#help_dialog_text').parent().scrollTo($('#help_' + heading), {duration:1000});
 }
 
+// update the contents of the map based on the selected time period
+function updateMapTimePeriod(category){
+
+	// adjust the index from the array index
+	// to the id value in the table
+	category++;
+
+	// take everything off the map
+    marques.deleteMarker(map, mapData.markers);
+    
+    // add back only those that fall within the defined period
+    $.each(mapData.data, function(index, value){
+    
+            if(category >= value.min_film_weekly_cat && category <= value.max_film_weekly_cat) {
+                   mapData.markers[index].setMap(map);
+            }
+            
+    });
+}
+
+// prepare the UI elements in the controls dialog
 function prepareMapControls(refresh) {
 
 	if(typeof(refresh) == 'undefined') {
@@ -1281,12 +1309,27 @@ function addToMap(item) {
 //dynamically resize the map
 function resizeMap() {
 
+	var mid  = $('#map_container');
+	var foot = $('#footer');
+	
+	var midPosition  = mid.position();
+	var footPosition = foot.position();
+	
+	
+	var newHeight = footPosition.top - midPosition.top;
+	
+	mid.height(newHeight);
+
+	/*
+
 	// calculate new size and apply it
 	var mid = document.getElementById('map_container');
 	var foot = document.getElementById('footer');
 	
 	//mid.style.height = ((foot.offsetTop + foot.clientHeight - footerHeightAdjust) - (mid.offsetTop))+'px';
 	mid.style.height = ((foot.offsetTop) - (mid.offsetTop))+'px';
+	
+	*/
 	
 	// trigger a resize event on the map so it reflects the new size
 	if(map != null) {

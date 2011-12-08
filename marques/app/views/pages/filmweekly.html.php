@@ -1,9 +1,9 @@
 <?php
 /**
- * MARQUes - Maps Answering Research Questions
+ * Mapping the Movies
  *
- * @copyright     Copyright 2011, Flinders University (http://www.flinders.edu.au)
- * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ * @copyright     Copyright 2011, Flinders Institute for Research in the Humanities - Flinders University (http://www.flinders.edu.au)
+ * @license       All Rights Reserved
  */
 
 /*
