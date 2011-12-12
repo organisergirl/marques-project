@@ -304,7 +304,7 @@ public class DataImporter {
 			throw new ImportException("Unknown locality detected: " + dataElems[1].trim() + " on line: " + lineCount);
 		}
 		
-		cinemaType = cinemaTypes.get(dataElems[2].trim());
+		cinemaType = cinemaTypes.get(dataElems[2].trim().toLowerCase());
 		
 		if(cinemaType == null) {
 			logger.error("Unknown cinemaType detected: " + dataElems[2].trim() + " on line: " + lineCount);
@@ -573,13 +573,15 @@ public class DataImporter {
 		
 		HashMap<String, String> cinemas = new HashMap<String, String>();
 		
-		cinemas.put("Cinema", "1");
-		cinemas.put("Drive-in", "2");
-		cinemas.put("Touring Circuit", "3");
-		cinemas.put("Open Air", "4");
-		cinemas.put("Drive-In", "2");
-		cinemas.put("Drive-in/Open Air", "5");
-		cinemas.put("Hardtop/Open Air", "6");
+		cinemas.put("indoor cinema",     "1");
+		cinemas.put("drive-in",          "2");
+		cinemas.put("touring circuit",   "3");
+		cinemas.put("open air cinema",   "4");
+		cinemas.put("drive-in/open air cinema", "5");
+		cinemas.put("indoor/open air cinema",   "6");
+		
+		// catch old cinema types
+		cinemas.put("hardtop/open air cinema", "6");
 		
 		return cinemas;
 	}
