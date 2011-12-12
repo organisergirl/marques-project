@@ -258,6 +258,10 @@
 						<span id="slider_label_right"></span>
 					</td>
 				</tr>
+				<tr>
+					<td colspan="3" id="animation_message">
+					</td>
+				</tr>
 			</table>
 		</div>
 	</div>

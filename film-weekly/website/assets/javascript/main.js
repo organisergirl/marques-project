@@ -9,6 +9,10 @@
 var map = null;
 var infoWindow = null;
 var filmWeeklyCategories = null;
+var mapUpdated = false;
+
+var currentTimeInterval = 0;
+var nextTimeout = null;
 
 var mapData = {
 	hashes:  [], 
@@ -500,6 +504,8 @@ function initUI() {
 		mapData.markers.splice(index, 1);
 		
 		prepareMapControls(true);
+		
+		mapUpdated = true;
 	});
 	
 	// initialise the jump to marker links
@@ -790,6 +796,12 @@ function initDialogs() {
 		modal: false,
 		position: 'bottom',
 		buttons: [
+			{
+				text: 'Animate',
+				click: function() {
+					startTimeAnimation();
+				}
+			},
 			{	text: 'Help',
 				click: function() {
 					showHelp('time_slider');
@@ -815,18 +827,26 @@ function initDialogs() {
 				}
 			});
 			
-			// reset the time slider
-			$('#time_slider').slider('value', 0);
+			// reset the time slider and map if it has been updated
+			// by having markers added or removed
 			
-			// reset the labels
-			$('#slider_label_top_right').empty().append(filmWeeklyCategories[0].description);
-			$('#slider_label_left').empty().append(filmWeeklyCategories[0].description);
-			$('#slider_label_right').empty().append(filmWeeklyCategories[filmWeeklyCategories.length -1 ].description);
+			if(mapUpdated == true) {
 			
-			// update the map
-			updateMapTimePeriod(0);
+				// reset the time slider
+				$('#time_slider').slider('value', 0);
+				
+				// reset the labels
+				$('#slider_label_top_right').empty().append(filmWeeklyCategories[0].description);
+				$('#slider_label_left').empty().append(filmWeeklyCategories[0].description);
+				$('#slider_label_right').empty().append(filmWeeklyCategories[filmWeeklyCategories.length -1 ].description);
+				
+				// update the map
+				updateMapTimePeriod(0);
+			}
 		},
 		close: function() {
+		
+			stopTimeAnimation();
 			
 		}
 	});
@@ -905,6 +925,58 @@ function initDialogs() {
 
 }
 
+// functions for animating the time slider
+function startTimeAnimation() {
+
+	// reset the time slider
+	$('#time_slider').slider('value', 0);
+	
+	// update the map
+	updateMapTimePeriod(0);
+	
+	// update the time marker
+	currentTimeInterval = 1;
+	
+	// set a timeout for the continue time animation
+	nextTimeout = setTimeout('continueTimeAnimation()', 3000);
+	
+	// update the message
+	$('#animation_message').empty().append('Animation running…');
+
+}
+
+function continueTimeAnimation() {
+
+	if(currentTimeInterval < filmWeeklyCategories.length) {
+
+		// reset the time slider
+		$('#time_slider').slider('value', currentTimeInterval);
+		
+		// update the map
+		updateMapTimePeriod(currentTimeInterval);
+		
+		// update the time marker
+		currentTimeInterval++;
+		
+		// set a timeout for the continue time animation
+		nextTimeout = setTimeout('continueTimeAnimation()', 3000);	
+	}
+
+}
+
+function stopTimeAnimation() {
+
+	if(nextTimeOut != null) {
+
+		clearTimeout(nextTimeout);
+		
+		nextTimeout = null;
+		
+		// update the message
+		$('#animation_message').empty()
+	}
+}
+
 // function to show the help dialog and scroll to the appropriate heading
 function showHelp(heading) {
 	// open the dialog
@@ -925,10 +997,10 @@ function updateMapTimePeriod(category){
     // add back only those that fall within the defined period
     $.each(mapData.data, function(index, value){
     
-            if(category >= value.min_film_weekly_cat && category <= value.max_film_weekly_cat) {
-                   mapData.markers[index].setMap(map);
-            }
-            
+        if(category >= value.min_film_weekly_cat && category <= value.max_film_weekly_cat) {
+               mapData.markers[index].setMap(map);
+        }
+        
     });
 }
 
@@ -1303,6 +1375,8 @@ function addToMap(item) {
 	
 	$(item).empty().append('Added');
 	$(item).removeClass('fw-clickable add-to-map');
+	
+	mapUpdated = true;
 
 }
 
