@@ -30,7 +30,7 @@ class LocalityTypesController extends \lithium\action\Controller {
         
         if($this->request->type() == 'json') {
         	
-        	$data = LocalityTypes::all(array('order' => array('description' => 'ASC')));
+        	$data = LocalityTypes::all(array('order' => array('id' => 'ASC')));
         	
         	$items = array();
         	
