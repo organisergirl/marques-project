@@ -208,6 +208,13 @@ public class DataImporter {
 		String newCinemaId = getMaxCinemaId();
 	
 		logger.info("New maximum cinema record id: " + newCinemaId);
+		
+		// make sure the calculations work when there 
+		// where no records were available at the start 
+		if(Integer.parseInt(maxCinemaId) == 0) {
+			maxCinemaId = getMinCinemaId();
+		}
+		
 		logger.info("Number of new records added: " + (Integer.parseInt(newCinemaId) - Integer.parseInt(maxCinemaId)));
 		
 	}
@@ -276,6 +283,40 @@ public class DataImporter {
 		}
 	}
 	
+	// private method to get the minimum cinema id
+	private String getMinCinemaId() throws ImportException{
+		
+		Statement sqlStmt = null;
+		ResultSet resultSet = null;
+		
+		try {
+			sqlStmt = database.createStatement();
+			resultSet = sqlStmt.executeQuery("SELECT MIN(id) FROM film_weekly_cinemas");
+			
+			if(resultSet.next()){
+				if (resultSet.getString(1) != null) {
+					return resultSet.getString(1);
+				} else {
+					return "0";
+				}
+			} else {
+				return "0";
+			}
+		} catch (SQLException e) {
+			logger.error("Unable to select the maximum cinema record id", e);
+			throw new ImportException("Unable to select the maximum cinema record id", e);
+		} finally {
+			try {
+				if(sqlStmt != null) {
+					resultSet.close();
+					sqlStmt.close();
+				}
+			} catch (SQLException e) {
+				logger.error("unable to tidy up database objects", e);
+			}
+		}
+	}
+	
 	// private method to add a new record 
 	private RecordDetails addNewRecord(String[] dataElems, PreparedStatement cinemaStmt, PreparedStatement categoryStmt) throws ImportException {
 		
@@ -297,7 +338,7 @@ public class DataImporter {
 			throw new ImportException("Unknown state detected: " + dataElems[0].trim() + " on line: " + lineCount);
 		}
 		
-		locality = localityTypes.get(dataElems[1].trim());
+		locality = localityTypes.get(dataElems[1].trim().toLowerCase());
 		
 		if(locality == null) {
 			logger.error("Unknown locality detected: " + dataElems[1].trim() + " on line: " + lineCount);
@@ -560,10 +601,11 @@ public class DataImporter {
 		
 		HashMap<String, String> localities = new HashMap<String, String>();
 		
-		localities.put("Central Business District","1");
-		localities.put("Suburban","2");
-		localities.put("Country/Rural","3");
-		localities.put("Country Rural", "3");
+		localities.put("central business district","1");
+		localities.put("suburban","2");
+		localities.put("country/rural","3");
+		localities.put("country rural", "3");
+		localities.put("rural", "3");
 		
 		return localities;
 	}

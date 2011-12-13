@@ -58,7 +58,7 @@ public class FwImporter {
 	/**
 	 * version information
 	 */
-	public static final String APP_VERSION   = "Version: 1.0.2";
+	public static final String APP_VERSION   = "Version: 1.0.3";
 	
 	/**
 	 * URL for more information
