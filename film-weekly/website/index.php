@@ -185,7 +185,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<h1>Select a Cinema Type</h1>
+				<h1>Filter by Cinema Type</h1>
 				<select id="browse_filter_cinema" class="browse-filter-cinema  browse-select"></select> Records: <span id="browse_result_count"></span> Filtered: <span id="browse_result_hidden"></span>
 				<h1>Record List</h1>
 				<div id="browse_search_results">

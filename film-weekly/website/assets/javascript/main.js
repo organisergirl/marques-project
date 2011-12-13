@@ -239,6 +239,9 @@ function initUI() {
 				$('#browse_suburb_p').append(optionP);
 				$('#browse_suburb_u').append(optionU);
 			});
+			
+			// load all of the entire state
+			$('#browse_select_all_suburbs').click();
 		}
 	});
 	
@@ -422,6 +425,9 @@ function initUI() {
 		var state = $('#browse_state option:selected').val();
 		
 		if(state != 'default') {
+		
+			// give user some feedback
+			$('#browse_search_results').empty().append('<p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Loading Data"/></p>');
 		
 			// get the data
 			$.post(
