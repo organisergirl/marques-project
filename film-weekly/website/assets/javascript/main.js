@@ -498,10 +498,10 @@ function initUI() {
 		marques.deleteMarker(map, mapData.markers);
 		
 		// empty the other arrays
-		mapData.hashes = new Array();
-		mapData.objects = new Array();
+		mapData.hashes  = new Array();
+		mapData.data    = new Array();
 		mapData.markers = new Array();
-		
+
 		//reset any other UI elements
 		prepareMapControls(true);
 	
