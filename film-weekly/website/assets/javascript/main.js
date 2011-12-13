@@ -9,7 +9,7 @@
 var map = null;
 var infoWindow = null;
 var filmWeeklyCategories = null;
-var mapUpdated = false;
+var mapUpdated = true;
 
 var currentTimeInterval = 0;
 var nextTimeout = null;
@@ -1008,7 +1008,7 @@ function continueTimeAnimation() {
 
 function stopTimeAnimation() {
 
-	if(nextTimeOut != null) {
+	if(nextTimeout != null) {
 
 		clearTimeout(nextTimeout);
 		
