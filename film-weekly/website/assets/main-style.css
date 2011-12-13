@@ -39,6 +39,11 @@ header {
 
 .fw-flinders-logo {
 	float: right;
+	border-style: none;
+}
+
+.fw-flinders-logo a img {
+	border-style: none;
 }
 
 hgroup {
