@@ -34,10 +34,11 @@ header {
 	color:  #fff;
 	padding-bottom: 1px;
 	height: 65px;
-	background-image: url('images/flinders-logo.png');
-	background-position: right;
-	background-repeat: no-repeat;
 	display: block;
+}
+
+.fw-flinders-logo {
+	float: right;
 }
 
 hgroup {

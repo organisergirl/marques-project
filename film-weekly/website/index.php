@@ -37,6 +37,7 @@
 <body>
 	<header>
 		<hgroup>
+			<span class="fw-flinders-logo"><a href="http://www.flinders.edu.au" title="Flinders University"><img src="/assets/images/flinders-logo.png" height="65" width="140"/></a></span>
 			<h1>Australian Cinemas Map</h1>
 			<h2>A map of Film Weekly Motion Picture Directory cinema data, 1948 - 1971</h2>
 		</hgroup>
