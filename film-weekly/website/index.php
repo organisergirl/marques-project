@@ -43,7 +43,15 @@
 	</header>
 	<nav>
 		<p>
-			<button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button><button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button><button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button><button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button><button id="btn_time_slider" class="fw-button ui-state-default ui-corner-all">Time Slider</button><button id="btn_film_weekly" class="fw-button ui-state-default ui-corner-all">Film Weekly</button><button id="btn_about" class="fw-button ui-state-default ui-corner-all">About</button><button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
+			<button id="btn_browse" class="fw-button ui-state-default ui-corner-all">Browse</button>
+			<button id="btn_search" class="fw-button ui-state-default ui-corner-all">Search</button>
+			<button id="btn_adv_search" class="fw-button ui-state-default ui-corner-all">Adv. Search</button>
+			<button id="btn_controls" class="fw-button ui-state-default ui-corner-all">Controls</button>
+			<button id="btn_time_slider" class="fw-button ui-state-default ui-corner-all">Time Slider</button>
+			<button id="btn_film_weekly" class="fw-button ui-state-default ui-corner-all">Film Weekly</button>
+			<button id="btn_about" class="fw-button ui-state-default ui-corner-all">About</button>
+			<button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
+			<button id="btn_legend" class="fw-button ui-state-default ui-corner-all">Legend</button>
 		</p>
 	</nav>
 	<div id="map_container">
@@ -282,6 +290,10 @@
 	</div>
 	<div id="help_dialog" class="fw-dialog js" title="Help Using the Australian Cinema Map Website">
 		<div id="help_dialog_text" class="fw-about-text">
+		</div>
+	</div>
+	<div id="legend_dialog" class="fw-dialog js" title="Australian Cinema Map Legend">
+		<div id="legend_dialog_text" class="fw-legend-text">
 		</div>
 	</div>
 </body>

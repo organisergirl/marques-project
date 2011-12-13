@@ -140,6 +140,15 @@ function initUI() {
 		$('#help_dialog').dialog('open');
 	});
 	
+	// populate the legend dialog box
+	$.get('/marques/pages/legend', function(data){
+		$('#legend_dialog_text').empty().append(data);
+	});
+	
+	$('#btn_legend').click(function() {
+		$('#legend_dialog').dialog('open');
+	});
+	
 	// initialise the add to map links
 	$('.add-to-map').live('click', function() {
 		addToMap(this);
@@ -906,6 +915,30 @@ function initDialogs() {
 	});
 	
 	$('#help_dialog').dialog({
+		autoOpen: false,
+		height: 400,
+		width: 600,
+		modal: false,
+		position: 'right',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			// do this when the dialog opens
+			//map.panBy(-300, 0);
+		},
+		close: function() {
+			// do this when the dialog closes
+			//map.panBy(300, 0);
+		}
+	});
+	
+	$('#legend_dialog').dialog({
 		autoOpen: false,
 		height: 400,
 		width: 600,
