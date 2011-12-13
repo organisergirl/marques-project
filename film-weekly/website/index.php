@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<footer id="footer">
-		<p class="left"> &#169; 2011 Flinders Institute for Research in the Humanities</p>
+		<p class="left"> &#169; 2011 <a href="http://www.flinders.edu.au/ehl/firth/" title="More information about the institute">Flinders Institute for Research in the Humanities</a></p>
 		<p class="right">Powered by <a href="http://code.google.com/p/marques-project/" title="More information about MARQues">MARQues</a></p>
 	</footer>
 	<!-- dialogs go here -->
