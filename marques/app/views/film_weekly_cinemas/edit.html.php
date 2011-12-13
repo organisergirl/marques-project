@@ -13,6 +13,11 @@
 <?php $this->title('Edit Cinema Record'); ?>
 
 <h2>Edit Cinema Record</h2>
+<p>
+<?=$this->html->link('Edit Categories', array('FilmWeeklyCategoryMaps::index', 'args' => $data['form']->id)); ?> | 
+<?=$this->html->link('Edit Archaeology Records', array('FilmWeeklyArchaeology::index', 'args' => $data['form']->id)); ?> |
+<?=$this->html->link('Edit Resources', array('FilmWeeklyResourceMaps::associate', 'args' => $data['form']->id)); ?>
+</p>
 <?=$this->form->create($data['form']); ?>
 	<?=$this->form->field('id', array('label' => 'Record ID', 'disabled' => 'disabled')); ?>
 	<?=$this->form->field('cinema_name', array('label' => 'Theatre Name')); ?>
