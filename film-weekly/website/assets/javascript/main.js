@@ -960,6 +960,9 @@ function continueTimeAnimation() {
 		
 		// set a timeout for the continue time animation
 		nextTimeout = setTimeout('continueTimeAnimation()', 3000);	
+	} else {
+		// update the message
+		$('#animation_message').empty();
 	}
 
 }
@@ -973,7 +976,7 @@ function stopTimeAnimation() {
 		nextTimeout = null;
 		
 		// update the message
-		$('#animation_message').empty()
+		$('#animation_message').empty();
 	}
 }
 
