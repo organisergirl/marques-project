@@ -53,6 +53,7 @@
 			<button id="btn_about" class="fw-button ui-state-default ui-corner-all">About</button>
 			<button id="btn_help" class="fw-button ui-state-default ui-corner-all">Help</button>
 			<button id="btn_legend" class="fw-button ui-state-default ui-corner-all">Legend</button>
+			<button id="btn_contribute" class="fw-button ui-state-default ui-corner-all">Contribute</button>
 		</p>
 	</nav>
 	<div id="map_container">
@@ -295,6 +296,10 @@
 	</div>
 	<div id="legend_dialog" class="fw-dialog js" title="Australian Cinema Map Legend">
 		<div id="legend_dialog_text" class="fw-legend-text">
+		</div>
+	</div>
+	<div id="contribute_dialog" class="fw-dialog js" title="Contribute to the Australian Cinema Map">
+		<div id="contribute_dialog_text" class="fw-contribute-text">
 		</div>
 	</div>
 </body>

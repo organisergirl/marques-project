@@ -18,6 +18,11 @@
 		'class'  => 'external',
 		'target' => 'blank'
 	);
+	
+	//edit the content of this variable to the url of the contribute form
+	// use the full URL including HTTP or if you use a relative URL
+	// start it with a ../ if the page is outside the marques system
+	$contribute_url = '../contribute/index.php?cinema=';
 
 ?>
 <div class="fw-info-window-content">
@@ -41,6 +46,9 @@
 <?php } ?>
 </ul>
 <h3>Resources</h3>
+<p>
+	You are invited to <?=$this->html->link('Contribute', $contribute_url . $cinema->id); ?> resources and information.
+</p>
 <ul>
 <?php foreach($resources as $resource) { ?>
 	<li><?=$this->html->link($resource['title'], $resource['url'], $link_options); ?></li>

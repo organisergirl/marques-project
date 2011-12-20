@@ -21,6 +21,65 @@ use app\models\LocalityTypes;
  */
 class FilmWeeklyMarkersController extends \lithium\action\Controller {
 
+	// list actions that can be undertaken without authentication
+	public $publicActions = array('items');
+	
+	/**
+	 * list all of the records
+	 */
+    public function items() {
+        
+        
+        if($this->request->type() == 'json') {
+        	
+        	$markers = FilmWeeklyMarkers::all(
+				array (
+						'with' => array(
+							'FilmWeeklyCinemaTypes',
+							'LocalityTypes'
+						)
+					)
+				);
+	        	
+        	
+        	$items = array();
+        	
+        	foreach($markers as $marker) {
+        		
+        		$items[] = array(
+        			'cinema_type'   => $marker->film_weekly_cinema_type->description,
+        			'locality_type' => $marker->locality_type->description,
+        			'icon_url'      => $marker->marker_url
+        		);
+        	
+        	}
+        	        	
+        	return compact('items');
+        	
+        } else {
+        	
+        	// get the data
+        	$data = FilmWeeklyMarkers::all(
+				array (
+						'with' => array(
+							'FilmWeeklyCinemaTypes',
+							'LocalityTypes'
+						)
+					)
+				);
+        	        	
+        	// set a title
+        	$title = 'Film Weekly Marker Icons';
+        	
+        	// get the URL
+        	$url = $this->request->url;
+        	
+        	// use a basic layout
+        	$this->_render['layout'] = 'not_json';
+        	return compact('data', 'title', 'url');
+        }	
+    }
+
 	/**
 	 * list the existing marker records
 	 */

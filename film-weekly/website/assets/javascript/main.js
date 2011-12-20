@@ -108,6 +108,10 @@ function initUI() {
 		$('#time_slider_dialog').dialog('open');
 	});
 	
+	$('#btn_contribute').click(function() {
+		$('#contribute_dialog').dialog('open');
+	});
+	
 	$('#btn_film_weekly').click(function() {
 	
 		// populate the film weekly dialog message
@@ -143,10 +147,29 @@ function initUI() {
 	// populate the legend dialog box
 	$.get('/marques/pages/legend', function(data){
 		$('#legend_dialog_text').empty().append(data);
+		
+		// build the table
+		$.get('/marques/film_weekly_markers/items.json', function(data){
+			
+			var items = '';
+			
+			$.each(data.items, function(index, value) {
+				items += '<tr><td>' + value.cinema_type + '</td>';
+				items += '<td>' + value.locality_type + '</td>';
+				items += '<td class="fw-center-cell"><img src="' + value.icon_url + '"/></td></tr>';
+			});
+			
+			$('#legend_marker_icons').append(items);
+		});
 	});
 	
 	$('#btn_legend').click(function() {
 		$('#legend_dialog').dialog('open');
+	});
+	
+	// populate the contribute dialog message
+	$.get('/marques/pages/contribute', function(data){
+		$('#contribute_dialog_text').empty().append(data);
 	});
 	
 	// initialise the add to map links
@@ -959,6 +982,30 @@ function initDialogs() {
 		close: function() {
 			// do this when the dialog closes
 			//map.panBy(300, 0);
+		}
+	});
+	
+	$('#contribute_dialog').dialog({
+		autoOpen: false,
+		height: 400,
+		width: 600,
+		modal: true,
+		position: 'left',
+		buttons: [			
+			{
+				text: 'Close',
+				click: function() {
+					$(this).dialog('close');
+				}
+			}
+		],
+		open: function() {
+			// do this when the dialog opens
+			map.panBy(-300, 0);
+		},
+		close: function() {
+			// do this when the dialog closes
+			map.panBy(300, 0);
 		}
 	});
 

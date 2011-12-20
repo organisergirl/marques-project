@@ -128,15 +128,31 @@ footer a:visited:hover {
 }
 
 .fw-dialog h1 {
-	font-size: 1.2em;
+	font-size: 1.3em;
 	padding-bottom: 0.5em;
 	padding-top: 0.5em;
 }
 
 .fw-dialog h2 {
+	font-size: 1.2em;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+.fw-dialog h3 {
 	font-size: 1.1em;
 	padding-bottom: 0.5em;
 	padding-top: 0.5em;
+}
+
+.fw-dialog h4 {
+	font-size: 1.0em;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+.fw-dialog p {
+	text-align:justify;
 }
 
 .fw-search-result {
@@ -233,6 +249,10 @@ footer a:visited:hover {
 	padding-right: 13px;
 }
 
+.fw-dialog p {
+	padding-bottom: 1.0em;
+}
+
 .fw-dialog-table {
 	width: 100%;
 }
@@ -276,6 +296,19 @@ footer a:visited:hover {
 .fw-ui-tab-container {
 	padding-left: 1.0em !important;
 	padding-top: 0.5em !important;
+}
+
+.fw-legend-text table {
+	width: 100%;
+}
+
+.fw-center-cell {
+	text-align: center;
+}
+
+#legend_marker_icons tr:nth-child(odd) td {
+	background-color: #F5F5F5;
+    color:black;
 }
 
 /* info windows */

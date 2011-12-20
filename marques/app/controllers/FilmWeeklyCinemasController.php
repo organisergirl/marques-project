@@ -41,16 +41,6 @@ class FilmWeeklyCinemasController extends \lithium\action\Controller {
         $data = FilmWeeklyCinemas::all(compact('order', 'limit', 'page', 'with'));
         
         return compact('data', 'total', 'page', 'limit');
-/*
-        
-		 // get the list of categories
-        $data = FilmWeeklyCinemas::all(
-        	array(
-        		'with' => array('AustralianStates')
-        	)
-        );
-        return compact('data');
-*/
 
     }
     

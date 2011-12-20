@@ -16,27 +16,7 @@
  * exactly what you're doing
  */
 ?>
-<h1>Map Legend</h1>
+<h1>Information on how to contribute</h1>
 <p>
 More content to go here
 </p>
-<!-- do not edit -->
-<table>
-	<thead>
-		<tr>
-			<th>
-				Cinema Type
-			</th>
-			<th>
-				Locality Type
-			</th>
-			<th>
-				Marker Icon
-			</th>
-		</tr>
-	</thead>
-	<tbody id="legend_marker_icons">
-	</tbody>
-	</tbody>
-</table>
-<!-- do not edit -->

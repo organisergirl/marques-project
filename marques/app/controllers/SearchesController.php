@@ -20,7 +20,7 @@ use app\models\ActivityLogs;
 class SearchesController extends \lithium\action\Controller {
 
 	// list actions that can be undertaken without authentication
-	public $publicActions = array('index', 'advanced', 'bysuburb', 'bylocality', 'bycinematype', 'bystate');
+	public $publicActions = array('index', 'advanced', 'bysuburb', 'bylocality', 'bycinematype', 'bystate', 'byid');
 	
 	// enable content negotiation so AJAX data can be returned
 	protected function _init() {
@@ -365,9 +365,44 @@ class SearchesController extends \lithium\action\Controller {
     
     }
     
-     /*
-     * private function to get film weekly cinemas by locality
+    /*
+     * get cinemas by id
      */
+    function byid() {
+    
+    	if ($this->request->data) {
+        	
+        	// get the search terms from the post data
+        	$id = $this->request->data['id'];
+        	
+        	// get a connection to the database
+        	$db = Connections::get('default');
+        	
+        	$results = array();
+        	
+        	$cinemas = array();
+        	
+        	$cinemas[] = $id;
+        	
+        	$results = array_merge($results, $this->getFilmWeeklyCinemas($cinemas, $this->getFilmWeeklyMarkers()));
+        	
+        	// save an activity log entry
+        	$log = array(
+        		'type'  => 'search-by-cinema-id',
+        		'notes' => $this->request->data['id'],
+        		'timestamp' => date('Y-m-d H:i:s')
+        	);
+        	
+        	$activity = ActivityLogs::create($log);
+        	$activity->save();
+  	
+     		return compact('results');
+        }
+    }    
+    
+	/*
+	 * private function to get film weekly cinemas by locality
+	 */
     private function getFilmWeeklyByCinemaType($type, $state, $db) {
     
     	$markers = $this->getFilmWeeklyMarkers();
