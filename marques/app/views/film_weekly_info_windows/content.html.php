@@ -46,7 +46,7 @@
 <?php } ?>
 </ul>
 <h3>Resources</h3>
-<p>
+<p style="padding-bottom: 1.0em">
 	You are invited to <?=$this->html->link('Contribute', $contribute_url . $cinema->id); ?> resources and information.
 </p>
 <ul>
