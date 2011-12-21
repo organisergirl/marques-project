@@ -20,6 +20,13 @@ var mapData = {
 	markers: []
 };
 
+// flag to indicate that the OverlappingMarkerSpiderfier plugin should be used
+// disable the plugin if it doesn't work due to change in the Google Maps API
+// more information on the plugin here: https://github.com/jawj/OverlappingMarkerSpiderfier
+var useOverlappingMarkerSpiderfier = true;
+var oms = null;
+
+
 //populate the page
 $(document).ready(function() {
 		
@@ -41,6 +48,10 @@ $(document).ready(function() {
 	};
 	
 	map = new google.maps.Map(document.getElementById('map'), myOptions);
+	
+	if(useOverlappingMarkerSpiderfier == true) {
+		oms = new OverlappingMarkerSpiderfier(map);
+	}
 	
 	// finalise the page by removing the js class
 	$('.js').removeClass('js');
@@ -518,12 +529,19 @@ function initUI() {
 	// reset the map
 	$('#btn_map_reset').click(function (event) {
 	
+		// check to see if the spiderfy plugin is being used
+		if(useOverlappingMarkerSpiderfier == true) {
+			oms.clearMarkers(); // remove all of the markers
+		}
+	
 		marques.deleteMarker(map, mapData.markers);
 		
 		// empty the other arrays
 		mapData.hashes  = new Array();
 		mapData.data    = new Array();
 		mapData.markers = new Array();
+		
+		
 
 		//reset any other UI elements
 		prepareMapControls(true);
@@ -533,6 +551,13 @@ function initUI() {
 	// initialise the delete to map links
 	$('.delete-from-map').live('click', function() {
 		var marker = $(this).data('result');
+		
+		
+		// check to see if the spiderfy plugin is being used
+		if(useOverlappingMarkerSpiderfier == true) {
+			oms.removeMarker(marker); // remove all of the markers
+		}
+		
 		marques.deleteMarker(map, marker);
 		
 		var index = $(this).data('index');
@@ -1402,60 +1427,123 @@ function addToMap(item) {
 		icon: data.icon
 	});
 	
-	// add a click event to the marker
-	google.maps.event.addListener(marker, 'click', function() {
-		
-		// close any existing open infoWindow
-		if(infoWindow != null) {
-			infoWindow.close();
-		}
-		
-		// create a new infoWindow
-		infoWindow = new google.maps.InfoWindow({
-        	content: '<div class="info-window info-window-' + marques.computeLatLngHash(data.coords) + '"><p class="search-progress">Loading Cinema Data.</p><p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Search Underway"/></p></div>'
-    	});
-    	
-    	// open the new infoWindow
-    	infoWindow.open(map, marker);
-    	
-    	// add a dom ready event to dynamically load the infoWindow content
-		google.maps.event.addListener(infoWindow, 'domready', function() {
-		
-			// get reference to the infoWindow
-			var infoWindow = this;
+	marker.data = data;
+	
+	if(useOverlappingMarkerSpiderfier != true) {
+	
+		// add a click event to the marker
+		google.maps.event.addListener(marker, 'click', function() {
 			
-			// get reference to the container div
-			var infoWindowContent = $('.info-window');
-			
-			// get a list of classes
-			var classes = infoWindowContent.attr('class').split(' ');
-			
-			// find the right class for the hash
-			var hash = classes[1].split('-');
-			
-			if(hash.length == 3) {
-				hash = hash[2];
-			} else {
-				hash = classes[0].split('-');
-				hash = hash[2];
+			// close any existing open infoWindow
+			if(infoWindow != null) {
+				infoWindow.close();
 			}
 			
-			// get the data object
-			var data = mapData.data[$.inArray(hash, mapData.hashes)];
+			// create a new infoWindow
+			infoWindow = new google.maps.InfoWindow({
+	        	content: '<div class="info-window info-window-' + marques.computeLatLngHash(data.coords) + '"><p class="search-progress">Loading Cinema Data.</p><p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Search Underway"/></p></div>'
+	    	});
+	    	
+	    	// open the new infoWindow
+	    	infoWindow.open(map, marker);
+	    	
+	    	// add a dom ready event to dynamically load the infoWindow content
+			google.maps.event.addListener(infoWindow, 'domready', function() {
 			
-			var url = '/marques/film_weekly_info_windows/content/' + data.id;
-			
-			$.get(url, function(data){
-			
-				infoWindow.close();
-				infoWindow = new google.maps.InfoWindow({
-					content: data
+				// get reference to the infoWindow
+				var infoWindow = this;
+				
+				// get reference to the container div
+				var infoWindowContent = $('.info-window');
+				
+				// get a list of classes
+				var classes = infoWindowContent.attr('class').split(' ');
+				
+				// find the right class for the hash
+				var hash = classes[1].split('-');
+				
+				if(hash.length == 3) {
+					hash = hash[2];
+				} else {
+					hash = classes[0].split('-');
+					hash = hash[2];
+				}
+				
+				// get the data object
+				var data = mapData.data[$.inArray(hash, mapData.hashes)];
+				
+				var url = '/marques/film_weekly_info_windows/content/' + data.id;
+				
+				$.get(url, function(data){
+				
+					infoWindow.close();
+					infoWindow = new google.maps.InfoWindow({
+						content: data
+					});
+					infoWindow.open(map, marker);
 				});
-				infoWindow.open(map, marker);
+			});
+			
+		});
+		
+	} else {
+	
+		oms.addListener('click', function(marker) {
+		
+			// close any existing open infoWindow
+			if(infoWindow != null) {
+				infoWindow.close();
+			}
+			
+			// create a new infoWindow
+			infoWindow = new google.maps.InfoWindow({
+	        	content: '<div class="info-window info-window-' + marques.computeLatLngHash(marker.data.coords) + '"><p class="search-progress">Loading Cinema Data.</p><p class="search-progress"><img src="/assets/images/search-progress.gif" height="19" width="220" alt="Search Underway"/></p></div>'
+	    	});
+	    	
+	    	// open the new infoWindow
+	    	infoWindow.open(map, marker);
+	    	
+	    	// add a dom ready event to dynamically load the infoWindow content
+			google.maps.event.addListener(infoWindow, 'domready', function() {
+			
+				// get reference to the infoWindow
+				var infoWindow = this;
+				
+				// get reference to the container div
+				var infoWindowContent = $('.info-window');
+				
+				// get a list of classes
+				var classes = infoWindowContent.attr('class').split(' ');
+				
+				// find the right class for the hash
+				var hash = classes[1].split('-');
+				
+				if(hash.length == 3) {
+					hash = hash[2];
+				} else {
+					hash = classes[0].split('-');
+					hash = hash[2];
+				}
+				
+				// get the data object
+				var data = mapData.data[$.inArray(hash, mapData.hashes)];
+				
+				var url = '/marques/film_weekly_info_windows/content/' + data.id;
+				
+				$.get(url, function(data){
+				
+					infoWindow.close();
+					infoWindow = new google.maps.InfoWindow({
+						content: data
+					});
+					infoWindow.open(map, marker);
+				});
 			});
 		});
 		
-	});
+		// add the marker so it is tracked by the OMS plugin
+		oms.addMarker(marker);
+	}
 
 	// add to the list of what is on the map
 	mapData.hashes.push(marques.computeLatLngHash(data.coords));

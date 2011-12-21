@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-validate-1.8.1.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery-form-2.85.js"></script>
 	<script type="text/javascript" src="assets/javascript/libraries/jquery.scrollTo-1.4.2.min.js"></script>
+	<script type="text/javascript" src="assets/javascript/libraries/oms.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/main.js"></script>
 	<!-- enable the use of these tags in IE8 and below -->
 	<!--[if lt IE 9]>
