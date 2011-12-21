@@ -361,6 +361,11 @@ footer a:visited:hover {
 	margin-top: 0.5em;
 }
 
+.fw-info-window-help-link {
+	float: right;
+	padding-right: 3em;
+}
+
 /* help dialog */
 .help-top-link {
 	font-weight: normal;

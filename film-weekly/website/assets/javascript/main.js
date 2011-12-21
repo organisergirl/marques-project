@@ -649,7 +649,12 @@ function initUI() {
 		$('#ajax_error_msg').empty().append()
 		$('#ajax_error_dialog').dialog('open');
 		$('#ajax_error_dialog').dialog('moveToTop');
-	});		
+	});	
+	
+	// setup the infowindow help link
+	$('.fw-info-window-help-link').live('click', function(event){
+		showHelp('info_windows');
+	});	
 }
 
 /**

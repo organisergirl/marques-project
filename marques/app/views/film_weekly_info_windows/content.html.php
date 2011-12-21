@@ -26,6 +26,7 @@
 
 ?>
 <div class="fw-info-window-content">
+<span class="clickable fw-info-window-help-link">Help</span>
 <h1><?=$details['cinema_name']; ?> <img style="float: left" src="<?=$markers[$cinema->film_weekly_cinema_types_id][$cinema->locality_types_id]; ?>"/></h1>
 <h2><?=$details['address'];?></h2>
 <p>Film Weekly Listings: <?=$listings; ?></p>
