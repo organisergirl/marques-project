@@ -250,6 +250,7 @@
 	</div>
 	<div id="time_slider_dialog" class="fw-dialog js" title="Time Slider">
 		<h1>Select Time Period</h1>
+		<p>Please Note: You must add markers to the map before using the time slider.</p>
 		<p>Use the slider below to select a time period, any cinemas with film weekly listings outside the selected time period will be hidden.</p>
 		<div style="padding-top: 0.5em;">
 			<table style="width: 100%">
