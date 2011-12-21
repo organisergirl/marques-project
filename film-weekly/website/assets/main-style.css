@@ -353,7 +353,23 @@ footer a:visited:hover {
 	white-space:nowrap;
 }
 
-.fw-info-window-content h2, h3, h4 {
+.fw-info-window-content h2 {
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-color: #002f60;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+}
+
+.fw-info-window-content h3 {
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-color: #002f60;
+	margin-bottom: 0.5em;
+	margin-top: 0.5em;
+}
+
+.fw-info-window-content h4 {
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 	border-color: #002f60;

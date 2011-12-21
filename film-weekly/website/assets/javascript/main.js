@@ -1023,7 +1023,7 @@ function initDialogs() {
 	$('#help_dialog').dialog({
 		autoOpen: false,
 		height: 400,
-		width: 600,
+		width: 920,
 		modal: false,
 		position: 'right',
 		buttons: [			
